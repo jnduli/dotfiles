@@ -56,6 +56,9 @@ Plugin 'vimwiki/vimwiki'
 "Plugin for ctlrp fuzzy finder
 Plugin 'ctrlpvim/ctrlp.vim'
 
+"Plugin for solarized vim
+Plugin 'altercation/vim-colors-solarized'
+
 
 call vundle#end()       "required
 filetype plugin indent on   "required 
@@ -69,13 +72,15 @@ set autoindent
 "set textwidth=66
 "autocomplete pattern when searching
 set incsearch 
-autocmd BufRead,BufNewFile *.txt,*.md,*.latex,*.wiki setlocal textwidth=66
+autocmd BufRead,BufNewFile *.txt,*.md,*.rst,*.latex,*.wiki setlocal textwidth=66
 "set smartindent
 
 set nocompatible
 filetype plugin indent on
 syntax enable
 
+set background=dark
+colorscheme solarized
 "ultisnips trigger configs
 " Trigger configuration. Do not use <tab> if you use
 " https://github.com/Valloric/YouCompleteMe.

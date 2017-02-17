@@ -112,3 +112,16 @@ let g:ledger_align_at = 50
 
 "options for vim org mode
 let g:org_agenda_files = ['~/org/index.org','~/org/projects.org']
+
+"options for syntastic as recommended on github
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+"some trial of folding fix
+set foldlevelstart=99

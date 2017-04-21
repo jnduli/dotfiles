@@ -1,3 +1,8 @@
+"
+"setting localleader
+let mapleader=";"
+let localmapleader=";"
+
 "added for vundle support
 
 set nocompatible              " be iMproved, required
@@ -12,6 +17,9 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 "plugins to be added here
 
+" Git support for vim
+Plugin 'tpope/vim-fugitive'
+
 " Track the engine.
 Plugin 'SirVer/ultisnips'
 
@@ -21,7 +29,7 @@ Plugin 'honza/vim-snippets'
 "plugin to help edit xml and html documents Plugin 'othree/xml.vim'
 
 "plugin vim org mode
-Plugin 'jceb/vim-orgmode'
+"Plugin 'jceb/vim-orgmode'
 
 "Plugin for repeat of non vim commands
 Plugin 'tpope/vim-repeat'
@@ -30,7 +38,7 @@ Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-speeddating'
 
 "plugin for autocomplete help
-Plugin 'valloric/youcompleteme'
+"Plugin 'valloric/youcompleteme'
 
 "Plugin for nerdcommenter
 Plugin 'scrooloose/nerdcommenter'
@@ -58,6 +66,9 @@ Plugin 'ctrlpvim/ctrlp.vim'
 
 "Plugin for solarized vim
 Plugin 'altercation/vim-colors-solarized'
+
+"Plugin for status line
+Plugin 'vim-airline/vim-airline'
 
 
 call vundle#end()       "required
@@ -125,3 +136,59 @@ let g:syntastic_check_on_wq = 0
 
 "some trial of folding fix
 set foldlevelstart=99
+
+"eclim and youcompleteme
+let g:EclimCompletionMethod='omnifunc'
+
+"added for vimthehardway
+set relativenumber
+set numberwidth=3
+set showmatch
+"mapping for cu to uppercase word
+imap <leader><c-u> <esc>bveUea
+nmap <leader><c-u> bveUe
+
+"setting localleader
+let mapleader=";"
+let localmapleader=";"
+
+"added for bash like completion
+set wildmode=longest,list,full
+set wildmenu
+
+"enable editting and sourcing vimrc
+nnoremap  <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap  <leader>sv :source $MYVIMRC<cr>
+
+"abbrev for commong things
+iabbrev @@ yohanaizraeli@gmail.com
+iabbrev @@s johnduli@yahoo.com
+
+"mappings from learnvimscipt
+"maps H to start of line
+nnoremap H ^
+"maps L to end of lin
+nnoremap L $
+"map for html specific formatting I want
+autocmd FileType html setlocal tabstop=2 
+autocmd FileType html setlocal shiftwidth=2
+set spell
+
+
+"map tds in insert mode to current date
+iabbrev <expr> tds strftime("[%a %d %b %Y]")
+
+
+let g:vimwiki_list = [{},
+            \ {"path":"~/todo"}]
+let g:vimwiki_folding = 'expr'
+
+"for airline plugin
+set t_Co=256
+set laststatus=2
+let g:airline_powerline_fonts=1
+let g:airline_section_z= '%3p%% %l:%c'
+"TODO figure out org tasks and pelican additions
+"
+"Syntastic c checkers
+let g:syntastic_cpp_checkers = ['avrgcc','gcc']

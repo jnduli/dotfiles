@@ -160,6 +160,9 @@ set wildmenu
 nnoremap  <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap  <leader>sv :source $MYVIMRC<cr>
 
+"enable editing of ledger file
+nnoremap <leader>e$ :vsplit ~/Documents/ledger/blackbook.ledger<cr>
+
 "abbrev for commong things
 iabbrev @@ yohanaizraeli@gmail.com
 iabbrev @@s johnduli@yahoo.com
@@ -170,13 +173,13 @@ nnoremap H ^
 "maps L to end of lin
 nnoremap L $
 "map for html specific formatting I want
-autocmd FileType html setlocal tabstop=2 
-autocmd FileType html setlocal shiftwidth=2
+autocmd FileType html,javascript setlocal tabstop=2 
+autocmd FileType html,javascript setlocal shiftwidth=2
 set spell
 
 
 "map tds in insert mode to current date
-iabbrev <expr> tds strftime("[%a %d %b %Y]")
+autocmd FileType vimwiki :iabbrev <expr> tds strftime("[%a %d %b %Y]")
 
 
 let g:vimwiki_list = [{},

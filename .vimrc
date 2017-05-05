@@ -72,7 +72,7 @@ Plugin 'vim-airline/vim-airline'
 
 
 call vundle#end()       "required
-filetype plugin indent on   "required 
+filetype plugin indent on   "required
 
 "End of added for vundle support
 set number
@@ -82,7 +82,7 @@ set shiftwidth =4
 set autoindent
 "set textwidth=66
 "autocomplete pattern when searching
-set incsearch 
+set incsearch
 autocmd BufRead,BufNewFile *.txt,*.md,*.rst,*.latex,*.wiki setlocal textwidth=66
 "set smartindent
 
@@ -157,7 +157,7 @@ set wildmode=longest,list,full
 set wildmenu
 
 "enable editting and sourcing vimrc
-nnoremap  <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap  <leader>ev :vsplit <C-r>=resolve(expand($MYVIMRC))<cr><cr>
 nnoremap  <leader>sv :source $MYVIMRC<cr>
 
 "enable editing of ledger file
@@ -177,6 +177,8 @@ autocmd FileType html,javascript setlocal tabstop=2
 autocmd FileType html,javascript setlocal shiftwidth=2
 set spell
 
+autocmd FileType python :iabbrev <buffer> iff if:<left>
+autocmd FileType javascript :iabbrev <buffer> iff if ()<left>
 
 "map tds in insert mode to current date
 autocmd FileType vimwiki :iabbrev <expr> tds strftime("[%a %d %b %Y]")

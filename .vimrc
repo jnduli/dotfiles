@@ -173,8 +173,8 @@ nnoremap H ^
 "maps L to end of lin
 nnoremap L $
 "map for html specific formatting I want
-autocmd FileType html,javascript setlocal tabstop=2 
-autocmd FileType html,javascript setlocal shiftwidth=2
+autocmd FileType html,javascript,arduino setlocal tabstop=2 
+autocmd FileType html,javascript,arduino setlocal shiftwidth=2
 set spell
 
 autocmd FileType python :iabbrev <buffer> iff if:<left>
@@ -182,7 +182,8 @@ autocmd FileType javascript :iabbrev <buffer> iff if ()<left>
 
 "map tds in insert mode to current date
 autocmd FileType vimwiki :iabbrev <expr> tds strftime("[%a %d %b %Y]")
-
+"delete times in vimwiki todo list
+vnoremap dt :s/\[\d\d:\d\d\s-\s\d\d:\d\d\]//g <Cr>
 
 let g:vimwiki_list = [{},
             \ {"path":"~/todo"}]

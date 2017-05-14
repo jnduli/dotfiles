@@ -185,7 +185,8 @@ autocmd FileType javascript :iabbrev <buffer> iff if ()<left>
 "map tds in insert mode to current date
 autocmd FileType vimwiki :iabbrev <expr> tds strftime("[%a %d %b %Y]")
 "delete times in vimwiki todo list
-vnoremap dt :s/\[\d\d:\d\d\s-\s\d\d:\d\d\]//g <Cr>
+autocmd FileType vimwiki vnoremap dt :s/\[\d\d:\d\d\s-\s\d\d:\d\d\]//g <Cr>
+autocmd FileType vimwiki nnoremap dt :s/\[\d\d:\d\d\s-\s\d\d:\d\d\]//g <Cr>
 
 let g:vimwiki_list = [{},
             \ {"path":"~/todo"}]

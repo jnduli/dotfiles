@@ -166,6 +166,8 @@ nnoremap <leader>e$ :vsplit ~/Documents/ledger/blackbook.ledger<cr>
 "abbrev for commong things
 iabbrev @@ yohanaizraeli@gmail.com
 iabbrev @@s johnduli@yahoo.com
+iabbrev desing design
+iabbrev Desing Design
 
 "mappings from learnvimscipt
 "maps H to start of line

@@ -168,6 +168,7 @@ iabbrev @@ yohanaizraeli@gmail.com
 iabbrev @@s johnduli@yahoo.com
 iabbrev desing design
 iabbrev Desing Design
+iabbrev funtion function
 
 "mappings from learnvimscipt
 "maps H to start of line

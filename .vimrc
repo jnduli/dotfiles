@@ -101,7 +101,7 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
-
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
 
 " Options for vim-ledger files help
 "
@@ -161,7 +161,7 @@ nnoremap  <leader>ev :vsplit <C-r>=resolve(expand($MYVIMRC))<cr><cr>
 nnoremap  <leader>sv :source $MYVIMRC<cr>
 
 "enable editing of ledger file
-nnoremap <leader>e$ :vsplit ~/Documents/ledger/blackbook.ledger<cr>
+nnoremap <leader>e$ :vsplit ~/documents/ledger/blackbook.ledger<cr>
 
 "abbrev for commong things
 iabbrev @@ yohanaizraeli@gmail.com

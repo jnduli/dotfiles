@@ -179,10 +179,10 @@ bar {
 #redshift
 exec --no-startup-id redshift-gtk
 #background image
-exec feh --bg-scale ~/Pictures/i3_solarized.png
+exec feh --bg-scale ~/images/i3_wallpaper.jpg
 
 #scrot screen shot
-bindsym $mod+p exec "scrot ~/Downloads/Screenshot%Y-%m-%d%H:%M:%S.png"
+bindsym $mod+p exec "scrot ~/images/Screenshot%Y-%m-%d%H:%M:%S.png"
 
 #setting up i3lock
-exec --no-startup-id xautolock -time 5 -locker 'i3lock -i ~/Desktop/i3lock_image.png -p win -n'
+exec --no-startup-id xautolock -time 5 -locker 'i3lock -i ~/images/i3_lock.png -p win -n'

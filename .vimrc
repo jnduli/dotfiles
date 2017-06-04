@@ -183,6 +183,8 @@ set spell
 autocmd FileType python :iabbrev <buffer> iff if:<left>
 autocmd FileType javascript :iabbrev <buffer> iff if ()<left>
 
+"Speeddating suport for the dates I use in todo lists
+"SpeedDatingFormat %i %d %b %Y
 "map tds in insert mode to current date
 autocmd FileType vimwiki :iabbrev <expr> tds strftime("[%a %d %b %Y]")
 "delete times in vimwiki todo list

@@ -197,6 +197,23 @@ let g:vimwiki_list = [{},
             \ {"path":"~/todo"}]
 let g:vimwiki_folding = 'expr'
 
+"vimwiki % of tasks done in table
+"formatting of table should be
+"| 12 | 13 | 15 | % |
+"the place with the % should be left blank and will be filled by
+"the function
+function! TodoPercentage()
+    normal ^3wviw"py
+    let total = str2float(getreg("p"))
+    normal ^5wviw"py
+    let achieved = str2float(getreg("p"))
+    let percentage = (achieved / total) * 100
+    let per = printf("%.2f", percentage)
+    execute "normal! ^6wa ".per."\<esc>"
+endfunction
+
+autocmd FileType vimwiki nnoremap <leader>cp :call TodoPercentage() <Cr>
+
 "for airline plugin
 set t_Co=256
 set laststatus=2

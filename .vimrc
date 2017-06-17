@@ -175,9 +175,15 @@ iabbrev funtion function
 nnoremap H ^
 "maps L to end of lin
 nnoremap L $
+"ononremap
+onoremap in[ :<c-u>normal! f[vi[<cr>
+onoremap il[ :<c-u>normal! F[vi[<cr>
 "map for html specific formatting I want
-autocmd FileType html,javascript,arduino setlocal tabstop=2 
-autocmd FileType html,javascript,arduino setlocal shiftwidth=2
+augroup indent_2_spaces
+    autocmd!
+    autocmd FileType html,javascript,arduino setlocal tabstop=2 
+    autocmd FileType html,javascript,arduino setlocal shiftwidth=2
+augroup END
 set spell
 
 autocmd FileType python :iabbrev <buffer> iff if:<left>
@@ -186,12 +192,17 @@ autocmd FileType javascript :iabbrev <buffer> iff if ()<left>
 "Speeddating suport for the dates I use in todo lists
 "SpeedDatingFormat %i %d %b %Y
 "map tds in insert mode to current date
-autocmd FileType vimwiki :iabbrev <expr> tds strftime("[%a %d %b %Y]")
-"delete times in vimwiki todo list
-autocmd FileType vimwiki vnoremap dt :s/\[\d\d:\d\d\s-\s\d\d:\d\d\]//g <Cr>
-autocmd FileType vimwiki nnoremap dt :s/\[\d\d:\d\d\s-\s\d\d:\d\d\]//g <Cr>
-autocmd FileType vimwiki nnoremap <leader>tl :let g:vimwiki_folding='list' <Cr> :edit <Cr>
-autocmd FileType vimwiki nnoremap <leader>tn :let g:vimwiki_folding='expr' <Cr> :edit <Cr>
+augroup filetype_vimwiki
+    autocmd!
+    autocmd FileType vimwiki :iabbrev <expr> tds strftime("[%a %d %b %Y]")
+    "delete times in vimwiki todo list
+    autocmd FileType vimwiki vnoremap dt :s/\[\d\d:\d\d\s-\s\d\d:\d\d\]//g <Cr>
+    autocmd FileType vimwiki nnoremap dt :s/\[\d\d:\d\d\s-\s\d\d:\d\d\]//g <Cr>
+    autocmd FileType vimwiki nnoremap <leader>tl :let g:vimwiki_folding='list' <Cr> :edit <Cr>
+    autocmd FileType vimwiki nnoremap <leader>tn :let g:vimwiki_folding='expr' <Cr> :edit <Cr>
+
+    autocmd FileType vimwiki nnoremap <leader>cp :call TodoPercentage() <Cr>
+augroup END
 
 let g:vimwiki_list = [{},
             \ {"path":"~/todo"}]
@@ -212,8 +223,6 @@ function! TodoPercentage()
     execute "normal! ^6wa ".per."\<esc>"
 endfunction
 
-autocmd FileType vimwiki nnoremap <leader>cp :call TodoPercentage() <Cr>
-
 "for airline plugin
 set t_Co=256
 set laststatus=2
@@ -222,4 +231,4 @@ let g:airline_section_z= '%3p%% %l:%c'
 "TODO figure out org tasks and pelican additions
 "
 "Syntastic c checkers
-let g:syntastic_cpp_checkers = ['avrgcc','gcc']
+"let g:syntastic_cpp_checkers = ['avrgcc','gcc']

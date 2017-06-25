@@ -70,6 +70,9 @@ Plugin 'altercation/vim-colors-solarized'
 "Plugin for status line
 Plugin 'vim-airline/vim-airline'
 
+"Plugin for rst support
+Plugin 'rykka/riv.vim'
+
 
 call vundle#end()       "required
 filetype plugin indent on   "required
@@ -231,4 +234,4 @@ let g:airline_section_z= '%3p%% %l:%c'
 "TODO figure out org tasks and pelican additions
 "
 "Syntastic c checkers
-"let g:syntastic_cpp_checkers = ['avrgcc','gcc']
+let g:syntastic_cpp_checkers = ['avrgcc','gcc']

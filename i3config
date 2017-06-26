@@ -186,3 +186,17 @@ bindsym $mod+p exec "scrot ~/images/Screenshot%Y-%m-%d%H:%M:%S.png"
 
 #setting up i3lock
 exec --no-startup-id xautolock -time 5 -locker 'i3lock -i ~/images/i3_lock.png -p win -n'
+
+#increase and decrease keyboard brightness
+bindsym XF86KbdBrightnessUp exec python /usr/local/bin/kb-light.py +
+bindsym XF86KbdBrightnessDown exec python /usr/local/bin/kb-light.py - 
+# Sreen brightness controls
+bindsym XF86MonBrightnessUp exec xbacklight -inc 10 # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightness
+# Pulse Audio controls
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+
+#start gnome-polkit
+exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &

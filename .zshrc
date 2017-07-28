@@ -9,7 +9,8 @@
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 #ZSH_THEME="robbyrussell"
 #ZSH_THEME="random"
-ZSH_THEME="agnoster"
+ZSH_THEME="agnoster-light"
+PRIMARY_FG="white"
 DEFAULT_USER="rookie"
 
 # Uncomment the following line to use case-sensitive completion.

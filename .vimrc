@@ -71,6 +71,9 @@ Plugin 'altercation/vim-colors-solarized'
 "Plugin for status line
 Plugin 'vim-airline/vim-airline'
 
+"Plugin for vim airline themes
+Plugin 'vim-airline/vim-airline-themes'
+
 "Plugin for rst support
 Plugin 'rykka/riv.vim'
 
@@ -98,7 +101,7 @@ set nocompatible
 filetype plugin indent on
 syntax enable
 
-set background=dark
+set background=light
 colorscheme solarized
 
 "added for vimthehardway
@@ -258,6 +261,7 @@ set t_Co=256
 set laststatus=2
 let g:airline_powerline_fonts=1
 let g:airline_section_z= '%3p%% %l:%c'
+let g:airline_solarized_bg='light'
 " }}}
 "TODO figure out org tasks and pelican additions
 "

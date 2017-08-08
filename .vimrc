@@ -123,6 +123,9 @@ set wildmenu
 nnoremap H ^
 "maps L to end of lin
 nnoremap L $
+
+"editting files in same directory
+cabbr <expr> %% expand('%:p:h')
 " }}}
 
 "Ultisnips configurations ------------ {{{

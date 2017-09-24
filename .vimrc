@@ -80,6 +80,10 @@ Plugin 'rykka/riv.vim'
 "Plugin for vue support
 Plugin 'posva/vim-vue'
 
+"Plugin for ansible yaml support
+Plugin 'avakhov/vim-yaml'
+"Plugin 'pearofducks/ansible-vim'
+
 
 call vundle#end()       "required
 filetype plugin indent on   "required
@@ -95,13 +99,14 @@ set autoindent
 "autocomplete pattern when searching
 set incsearch
 autocmd BufRead,BufNewFile *.txt,*.md,*.rst,*.tex,*.wiki setlocal textwidth=66
-"set smartindent
+set smartindent
 
 set nocompatible
 filetype plugin indent on
 syntax enable
 
-set background=light
+" set background to light for light theme
+set background=dark
 colorscheme solarized
 
 "added for vimthehardway
@@ -264,7 +269,8 @@ set t_Co=256
 set laststatus=2
 let g:airline_powerline_fonts=1
 let g:airline_section_z= '%3p%% %l:%c'
-let g:airline_solarized_bg='light'
+" set to dark / light to change this theme
+let g:airline_solarized_bg='dark'
 " }}}
 "TODO figure out org tasks and pelican additions
 "
@@ -276,5 +282,18 @@ augroup filetype_vim
     autocmd!
     autocmd FileType vim setlocal foldmethod=marker
     autocmd FileType vim setlocal foldlevelstart=0
+augroup END
+" }}}
+
+" NerdCommenter OPtions ---------------------- {{{
+augroup nerd_commenter
+    " Add spaces after comment delimiters by default
+    let g:NERDSpaceDelims = 1
+    " Use compact syntax for prettified multi-line comments
+    let g:NERDCompactSexyComs = 1
+    " Allow commenting and inverting empty lines (useful when commenting a region)
+    let g:NERDCommentEmptyLines = 1
+    " Enable trimming of trailing whitespace when uncommenting
+    let g:NERDTrimTrailingWhitespace = 1
 augroup END
 " }}}

@@ -1,7 +1,7 @@
 "
 "setting localleader
 let mapleader=";"
-let localmapleader=";"
+let maplocalleader=","
 
 " Vundle and plugins -------{{{
 "
@@ -29,17 +29,11 @@ Plugin 'honza/vim-snippets'
 
 "plugin to help edit xml and html documents Plugin 'othree/xml.vim'
 
-"plugin vim org mode
-"Plugin 'jceb/vim-orgmode'
-
 "Plugin for repeat of non vim commands
 Plugin 'tpope/vim-repeat'
 
 "Plugin to help in dates
 Plugin 'tpope/vim-speeddating'
-
-"plugin for autocomplete help
-"Plugin 'valloric/youcompleteme'
 
 "Plugin for nerdcommenter
 Plugin 'scrooloose/nerdcommenter'
@@ -82,8 +76,10 @@ Plugin 'posva/vim-vue'
 
 "Plugin for ansible yaml support
 Plugin 'avakhov/vim-yaml'
-"Plugin 'pearofducks/ansible-vim'
 
+"Plug in for distraction free writing
+Plugin 'junegunn/goyo.vim'
+Plugin 'junegunn/limelight.vim'
 
 call vundle#end()       "required
 filetype plugin indent on   "required
@@ -119,7 +115,7 @@ nmap <leader><c-u> bveUe
 
 "setting localleader
 let mapleader=";"
-let localmapleader=";"
+let maplocalleader=","
 
 "added for bash like completion
 set wildmode=longest,list,full
@@ -210,6 +206,7 @@ iabbrev funtion function
 onoremap in[ :<c-u>normal! f[vi[<cr>
 onoremap il[ :<c-u>normal! F[vi[<cr>
 onoremap in@ :execute "normal! /@\r:nohlsearch\rhviw"<cr> 
+nnoremap <leader>pb :execute "leftabove vsplit " . bufname("#") <cr>
 " Setting default tab space for some files ----- {{{
 "map for html specific formatting I want
 augroup indent_2_spaces
@@ -296,4 +293,34 @@ augroup nerd_commenter
     " Enable trimming of trailing whitespace when uncommenting
     let g:NERDTrimTrailingWhitespace = 1
 augroup END
+" }}}
+
+" Distraction Free Writing methods and modes ---------------- {{{
+function! s:goyo_enter()
+  silent !tmux set status off
+  silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
+  set noshowmode
+  set noshowcmd
+  set scrolloff=999
+  Limelight
+  " ...
+endfunction
+
+function! s:goyo_leave()
+  silent !tmux set status on
+  silent !tmux list-panes -F '\#F' | grep -q Z && tmux resize-pane -Z
+  set showmode
+  set showcmd
+  set scrolloff=5
+  Limelight!
+  " ...
+endfunction
+
+" Color name (:help cterm-colors) or ANSI code
+let g:limelight_conceal_ctermfg = 'gray'
+let g:limelight_conceal_ctermfg = 240
+
+autocmd! User GoyoEnter nested call <SID>goyo_enter()
+autocmd! User GoyoLeave nested call <SID>goyo_leave()
+nnoremap <buffer> <LocalLeader>g :Goyo<cr>
 " }}}

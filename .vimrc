@@ -20,6 +20,7 @@ Plugin 'VundleVim/Vundle.vim'
 
 " Git support for vim
 Plugin 'tpope/vim-fugitive'
+" TODO Look into vim-gitgutter
 
 " Track the engine.
 Plugin 'SirVer/ultisnips'
@@ -42,7 +43,8 @@ Plugin 'scrooloose/nerdcommenter'
 Plugin 'tpope/vim-surround'
 
 "Plugin for syntax checkers
-Plugin 'scrooloose/syntastic'
+" Plugin 'scrooloose/syntastic'
+Plugin 'w0rp/ale'
 
 "Plugin for nerdtree
 Plugin 'scrooloose/nerdtree'
@@ -167,14 +169,14 @@ let g:org_agenda_files = ['~/org/index.org','~/org/projects.org']
 
 "Syntastic configurations --- {{{
 "options for syntastic as recommended on github
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 0
 " }}}
 
 "some trial of folding fix
@@ -272,7 +274,7 @@ let g:airline_solarized_bg='dark'
 "TODO figure out org tasks and pelican additions
 "
 "Syntastic c checkers
-let g:syntastic_cpp_checkers = ['avrgcc','gcc']
+" let g:syntastic_cpp_checkers = ['avrgcc','gcc']
 
 " Vimscript file settings ---------------------- {{{
 augroup filetype_vim

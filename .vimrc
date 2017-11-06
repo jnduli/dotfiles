@@ -324,5 +324,5 @@ let g:limelight_conceal_ctermfg = 240
 
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
-nnoremap <buffer> <LocalLeader>g :Goyo<cr>
+" nnoremap <buffer> <leader>w :Goyo<cr>
 " }}}

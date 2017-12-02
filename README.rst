@@ -30,3 +30,12 @@ Then run prefix + I , which in my case is C-b I
 
 You're good to go with tmux
 
+Others
+------
+To set up toggletouchpad in i3:
+
+ln -s /path/to/clone/scripts/toggletouchpad.sh
+/usr/local/bin/toggletouchpad
+
+
+

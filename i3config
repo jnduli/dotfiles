@@ -221,3 +221,7 @@ bindsym XF86AudioPlay exec clementine --play-pause
 bindsym XF86AudioStop exec clementine --stop
 bindsym XF86AudioPrev exec clementine --previous
 bindsym XF86AudioNext exec clementine --next
+
+# disable the touchpad
+# make sure the script in scripts/toggletouchpad is set up propertly
+bindsym $mod+Mod1+d exec toggletouchpad

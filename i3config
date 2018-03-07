@@ -205,7 +205,7 @@ exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agen
 exec --no-startup-id xfce4-power-manager
 
 # Enables the other output window
-bindsym $mod+m exec xrandr --output HDMI1 --auto --left-of eDP1
+bindsym $mod+m exec xrandr --output HDMI1 --auto --right-of eDP1
 # Move the current workspace to the next output
 # (effectively toggles when you only have two outputs)
 bindsym $mod+x move workspace to output left

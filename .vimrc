@@ -59,10 +59,12 @@ Plugin 'ledger/vim-ledger'
 Plugin 'vimwiki/vimwiki'
 
 "Plugin for ctlrp fuzzy finder
-Plugin 'ctrlpvim/ctrlp.vim'
+" Plugin 'ctrlpvim/ctrlp.vim'
 
 "Plugin for solarized vim
 Plugin 'altercation/vim-colors-solarized'
+
+Plugin 'morhetz/gruvbox'
 
 "Plugin for status line
 Plugin 'vim-airline/vim-airline'
@@ -82,6 +84,9 @@ Plugin 'avakhov/vim-yaml'
 "Plug in for distraction free writing
 Plugin 'junegunn/goyo.vim'
 Plugin 'junegunn/limelight.vim'
+
+" Plugin for using fzf finder
+Plugin 'junegunn/fzf.vim'
 
 call vundle#end()       "required
 filetype plugin indent on   "required

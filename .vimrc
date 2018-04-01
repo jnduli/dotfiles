@@ -63,10 +63,10 @@ Plugin 'vimwiki/vimwiki'
 
 "Colorschemes
 Plugin 'altercation/vim-colors-solarized'
-
 Plugin 'morhetz/gruvbox'
 Plugin 'arcticicestudio/nord-vim'
 Plugin 'nlknguyen/papercolor-theme'
+Plugin 'romainl/flattened'
 
 "Plugin for status line
 Plugin 'vim-airline/vim-airline'

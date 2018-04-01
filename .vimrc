@@ -61,10 +61,12 @@ Plugin 'vimwiki/vimwiki'
 "Plugin for ctlrp fuzzy finder
 " Plugin 'ctrlpvim/ctrlp.vim'
 
-"Plugin for solarized vim
+"Colorschemes
 Plugin 'altercation/vim-colors-solarized'
 
 Plugin 'morhetz/gruvbox'
+Plugin 'arcticicestudio/nord-vim'
+Plugin 'nlknguyen/papercolor-theme'
 
 "Plugin for status line
 Plugin 'vim-airline/vim-airline'
@@ -109,8 +111,10 @@ filetype plugin indent on
 syntax enable
 
 " set background to light for light theme
-set background=dark
-colorscheme solarized
+" set background=dark
+set termguicolors
+let g:nord_comment_brightness = 20
+colorscheme nord
 
 "added for vimthehardway
 set relativenumber

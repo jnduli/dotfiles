@@ -156,10 +156,6 @@ let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
 " Ledger config options ----- {{{
 " Options for vim-ledger files help
 "
-" Reomves leger from youcompleteme as recommended by vim-ledger
-if exists('g:ycm_filetype_blacklist')
-    call extend(g:ycm_filetype_blacklist, { 'ledger': 1 })
-endif
 "added to catch the most potential problems in file
 let g:ledger_extra_options = '--pedantic --explicit --check-payees'
 
@@ -172,28 +168,6 @@ let g:ledger_default_commodity = 'Ksh '
 let g:ledger_commodity_before = 1
 let g:ledger_align_at = 50
 " }}}
-
-"options for vim org mode
-let g:org_agenda_files = ['~/org/index.org','~/org/projects.org']
-
-"Syntastic configurations --- {{{
-"options for syntastic as recommended on github
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 0
-" }}}
-
-"some trial of folding fix
-"set foldlevelstart=99
-
-"eclim and youcompleteme
-let g:EclimCompletionMethod='omnifunc'
-
 
 " Editting of commonly used files -------- {{{
 "enable editting and sourcing vimrc
@@ -273,17 +247,13 @@ endfunction
 
 "airline configs ----- {{{
 "for airline plugin
-set t_Co=256
+" set t_Co=256
 set laststatus=2
 let g:airline_powerline_fonts=1
 let g:airline_section_z= '%3p%% %l:%c'
 " set to dark / light to change this theme
 let g:airline_solarized_bg='dark'
 " }}}
-"TODO figure out org tasks and pelican additions
-"
-"Syntastic c checkers
-" let g:syntastic_cpp_checkers = ['avrgcc','gcc']
 
 " Vimscript file settings ---------------------- {{{
 augroup filetype_vim

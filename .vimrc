@@ -46,9 +46,6 @@ Plugin 'tpope/vim-surround'
 " Plugin 'scrooloose/syntastic'
 Plugin 'w0rp/ale'
 
-"Plugin for nerdtree
-Plugin 'scrooloose/nerdtree'
-
 "Plugin calendar to help vimorg
 Plugin 'mattn/calendar-vim'
 
@@ -57,9 +54,6 @@ Plugin 'ledger/vim-ledger'
 
 "Plugin for vimwiki
 Plugin 'vimwiki/vimwiki'
-
-"Plugin for ctlrp fuzzy finder
-" Plugin 'ctrlpvim/ctrlp.vim'
 
 "Colorschemes
 Plugin 'altercation/vim-colors-solarized'
@@ -79,9 +73,6 @@ Plugin 'rykka/riv.vim'
 
 "Plugin for vue support
 Plugin 'posva/vim-vue'
-
-"Plugin for ansible yaml support
-Plugin 'avakhov/vim-yaml'
 
 "Plug in for distraction free writing
 Plugin 'junegunn/goyo.vim'

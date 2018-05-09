@@ -179,7 +179,7 @@ bar {
 #redshift
 exec --no-startup-id redshift-gtk
 #background image
-exec feh --bg-scale ~/images/i3_wallpaper.jpg
+exec feh --bg-fill ~/images/i3_wallpaper.jpg
 
 #scrot screen shot
 bindsym $mod+p exec "scrot ~/images/Screenshot%Y-%m-%d%H:%M:%S.png"

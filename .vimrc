@@ -68,28 +68,28 @@ Plugin 'junegunn/fzf.vim'
 call vundle#end()       "required
 filetype plugin indent on   "required
 "End of added for vundle support
-"}}}
+"-------}}}
 " Options for most files ----------- {{{
 set number
 set tabstop =4
 set expandtab
 set shiftwidth =4
 set autoindent
-"set textwidth=66
 "autocomplete pattern when searching
 set incsearch
-autocmd BufRead,BufNewFile *.txt,*.md,*.rst,*.tex,*.wiki setlocal textwidth=66
+autocmd BufRead,BufNewFile *.txt,*.md,*.rst,*.tex,*.wiki setlocal textwidth=72
 set smartindent
+set spell
 
 set nocompatible
 filetype plugin indent on
-syntax enable
+syntax on
 
 " set background to light for light theme
 " set background=dark
 set termguicolors
 let g:nord_comment_brightness = 20
-colorscheme nord
+colorscheme flattened_light
 
 "added for vimthehardway
 set relativenumber

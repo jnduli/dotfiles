@@ -180,24 +180,28 @@ augroup END
 " }}}
 
 " Vimwiki configuration ----- {{{
-"Speeddating suport for the dates I use in todo lists
-"SpeedDatingFormat %i %d %b %Y
-"map tds in insert mode to current date
+" Speeddating suport for the dates I use in todo lists
+" SpeedDatingFormat %i %d %b %Y
+" map tds in insert mode to current date
 augroup filetype_vimwiki
     autocmd!
     autocmd FileType vimwiki :iabbrev <expr> tds strftime("[%a %d %b %Y]")
     "delete times in vimwiki todo list
     autocmd FileType vimwiki vnoremap dt :s/\s\[\d\d:\d\d\s-\s\d\d:\d\d\]//g <Cr>
     autocmd FileType vimwiki nnoremap dt :s/\s\[\d\d:\d\d\s-\s\d\d:\d\d\]//g <Cr>
-    autocmd FileType vimwiki nnoremap <leader>tl :let g:vimwiki_folding='list' <Cr> :edit <Cr>
-    autocmd FileType vimwiki nnoremap <leader>tn :let g:vimwiki_folding='expr' <Cr> :edit <Cr>
-
+    autocmd FileType vimwiki setlocal foldmethod=indent
+    " calling let g:vimwiki_folding does not reset these variables, so set
+    " local has been used instead
+    autocmd FileType vimwiki nnoremap <leader>tl :setlocal foldmethod=expr <Cr> :setlocal foldexpr=VimwikiFoldListLevel(v:lnum) <Cr> :setlocal foldtext=VimwikiFoldText() <Cr>
+    autocmd FileType vimwiki nnoremap <leader>tn :setlocal foldmethod=expr <Cr> :setlocal foldexpr=VimwikiFoldLevel(v:lnum) <Cr> :setlocal foldtext=VimwikiFoldText() <Cr>
     autocmd FileType vimwiki nnoremap <leader>cp :call TodoPercentage() <Cr>
 augroup END
 
 let g:vimwiki_list = [{},
             \ {"path":"~/todo"}]
-let g:vimwiki_folding = 'expr'
+
+" setting this to list makes diary generation very very slow
+let g:vimwiki_folding = 'custom'
 
 "vimwiki % of tasks done in table
 "formatting of table should be

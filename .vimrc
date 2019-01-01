@@ -1,8 +1,3 @@
-"
-"setting localleader
-let mapleader=";"
-let maplocalleader=","
-
 " Vundle and plugins -------{{{
 "
 "added for vundle support
@@ -11,9 +6,6 @@ filetype off                  "required
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 "plugins to be added here
@@ -28,11 +20,6 @@ Plugin 'SirVer/ultisnips'
 " Snippets are separated from the engine. Add this if you want them:
 Plugin 'honza/vim-snippets'
 
-"plugin to help edit xml and html documents Plugin 'othree/xml.vim'
-
-"Plugin for repeat of non vim commands
-Plugin 'tpope/vim-repeat'
-
 "Plugin to help in dates
 Plugin 'tpope/vim-speeddating'
 
@@ -46,14 +33,14 @@ Plugin 'tpope/vim-surround'
 " Plugin 'scrooloose/syntastic'
 Plugin 'w0rp/ale'
 
+"Plugin for vimwiki
+Plugin 'vimwiki/vimwiki'
+
 "Plugin calendar to help vimorg
 Plugin 'mattn/calendar-vim'
 
 "Plugin for vim ledger .. trying out finance management
 Plugin 'ledger/vim-ledger'
-
-"Plugin for vimwiki
-Plugin 'vimwiki/vimwiki'
 
 "Colorschemes
 Plugin 'altercation/vim-colors-solarized'
@@ -67,9 +54,6 @@ Plugin 'vim-airline/vim-airline'
 
 "Plugin for vim airline themes
 Plugin 'vim-airline/vim-airline-themes'
-
-"Plugin for rst support
-Plugin 'rykka/riv.vim'
 
 "Plugin for vue support
 Plugin 'posva/vim-vue'
@@ -122,10 +106,6 @@ let maplocalleader=","
 "added for bash like completion
 set wildmode=longest,list,full
 set wildmenu
-"maps H to start of line
-nnoremap H ^
-"maps L to end of lin
-nnoremap L $
 
 "editting files in same directory
 cabbr <expr> %% expand('%:p:h')
@@ -161,11 +141,11 @@ let g:ledger_align_at = 50
 " }}}
 
 " Editting of commonly used files -------- {{{
-"enable editting and sourcing vimrc
+" enable editting and sourcing vimrc
 nnoremap  <leader>ev :vsplit <C-r>=resolve(expand($MYVIMRC))<cr><cr>
 nnoremap  <leader>sv :source $MYVIMRC<cr>
 
-"enable editing of ledger file
+" enable editing of ledger file
 nnoremap <leader>e$ :vsplit ~/documents/ledger/blackbook.ledger<cr>
 " }}}
 
@@ -177,8 +157,8 @@ iabbrev Desing Design
 iabbrev funtion function
 " }}}
 
-"mappings from learnvimscipt
-"ononremap
+" mappings from learnvimscipt
+" ononremap
 onoremap in[ :<c-u>normal! f[vi[<cr>
 onoremap il[ :<c-u>normal! F[vi[<cr>
 onoremap in@ :execute "normal! /@\r:nohlsearch\rhviw"<cr> 
@@ -191,7 +171,6 @@ augroup indent_2_spaces
     autocmd FileType html,javascript,arduino,vue setlocal shiftwidth=2
 augroup END
 "}}}
-set spell
 
 " some programs if statements ---------- {{{
 augroup ifs

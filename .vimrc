@@ -222,7 +222,7 @@ set laststatus=2
 let g:airline_powerline_fonts=1
 let g:airline_section_z= '%3p%% %l:%c'
 " set to dark / light to change this theme
-let g:airline_solarized_bg='dark'
+let g:airline_solarized_bg='light'
 " }}}
 
 " Vimscript file settings ---------------------- {{{

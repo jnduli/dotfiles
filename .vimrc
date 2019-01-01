@@ -282,3 +282,9 @@ let g:calendar_options='nornu'
 " ----}}}
 "
 
+
+" Shortcuts to use ALE checkers
+"----{{{
+nmap <silent> <leader>aj :ALENext<cr>
+nmap <silent> <leader>ak :ALEPrevious<cr>
+"----}}}

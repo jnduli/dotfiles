@@ -30,6 +30,16 @@ Then run prefix + I , which in my case is C-b I
 
 You're good to go with tmux
 
+Window Managers
+---------------
+The repository contains my config files for i3 and swaywm. To set this
+up:
+
+```
+ln -s /path/to/dotfiles/swayconfig ~/.config/sway/config
+ln -s /path/to/dotfiles/i3config  ~/.config/i3/config
+```
+
 Others
 ------
 To set up toggletouchpad in i3:

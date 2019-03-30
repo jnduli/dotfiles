@@ -88,8 +88,7 @@ syntax on
 " set background to light for light theme
 " set background=dark
 set termguicolors
-let g:nord_comment_brightness = 20
-colorscheme flattened_light
+colorscheme gruvbox
 
 "added for vimthehardway
 set relativenumber
@@ -292,3 +291,5 @@ let g:calendar_options='nornu'
 nmap <silent> <leader>aj :ALENext<cr>
 nmap <silent> <leader>ak :ALEPrevious<cr>
 "----}}}
+"
+packadd! matchit

@@ -47,11 +47,31 @@ let maplocalleader=","
 " added for bash like completion
 set wildmode=longest,list,full
 set wildmenu
+
+packadd! matchit " allows matching xml tags and ifs
 " ------}}}
 
 " Options for document files------{{{ 
 autocmd BufRead,BufNewFile *.txt,*.md,*.rst,*.tex,*.wiki setlocal textwidth=72
 autocmd BufRead,BufNewFile *.txt,*.md,*.rst,*.tex,*.wiki setlocal spell spelllang=en_gb " enable spell check
+"------}}}
+
+" Editting of commonly used files ------{{{
+
+" enable editting and sourcing vimrc
+nnoremap  <leader>ev :vsplit <C-r>=resolve(expand($MYVIMRC))<cr><cr>
+nnoremap  <leader>sv :source $MYVIMRC<cr>
+
+" enable editing of ledger file
+nnoremap <leader>e$ :vsplit ~/documents/ledger/blackbook.ledger<cr>
+" ------}}}
+
+" Setting default tab space to 2 for some files ------{{{
+augroup indent_2_spaces
+    autocmd!
+    autocmd FileType html,javascript,arduino,vue setlocal tabstop=2 
+    autocmd FileType html,javascript,arduino,vue setlocal shiftwidth=2
+augroup END
 "------}}}
 
 " Configs for gruvbox colorscheme ------{{{
@@ -75,6 +95,16 @@ let g:UltiSnipsSnippetsDir="~/.vim/mysnippets"
 
 " ------}}}
 
+" Vimscript file settings ------{{{
+augroup filetype_vim
+    autocmd!
+    autocmd FileType vim setlocal foldmethod=marker " allows folding in vim files
+    autocmd FileType vim setlocal foldlevelstart=0
+augroup END
+" ------}}}
+
+"
+"
 "
 "
 "
@@ -96,14 +126,6 @@ let g:ledger_commodity_before = 1
 let g:ledger_align_at = 50
 " }}}
 
-" Editting of commonly used files -------- {{{
-" enable editting and sourcing vimrc
-nnoremap  <leader>ev :vsplit <C-r>=resolve(expand($MYVIMRC))<cr><cr>
-nnoremap  <leader>sv :source $MYVIMRC<cr>
-
-" enable editing of ledger file
-nnoremap <leader>e$ :vsplit ~/documents/ledger/blackbook.ledger<cr>
-" }}}
 
 "abbrev for common things --------- {{{
 iabbrev @@ yohanaizraeli@gmail.com
@@ -119,24 +141,9 @@ onoremap in[ :<c-u>normal! f[vi[<cr>
 onoremap il[ :<c-u>normal! F[vi[<cr>
 onoremap in@ :execute "normal! /@\r:nohlsearch\rhviw"<cr> 
 nnoremap <leader>pb :execute "leftabove vsplit " . bufname("#") <cr>
-" Setting default tab space for some files ----- {{{
-"map for html specific formatting I want
-augroup indent_2_spaces
-    autocmd!
-    autocmd FileType html,javascript,arduino,vue setlocal tabstop=2 
-    autocmd FileType html,javascript,arduino,vue setlocal shiftwidth=2
-augroup END
-"}}}
-
-" some programs if statements ---------- {{{
-augroup ifs
-    autocmd FileType python :iabbrev <buffer> iff if:<left>
-    autocmd FileType javascript :iabbrev <buffer> iff if ()<left>
-augroup END
-" }}}
 
 " Vimwiki configuration ----- {{{
-" Speeddating suport for the dates I use in todo lists
+" Speeddating support for the dates I use in todo lists
 " SpeedDatingFormat %i %d %b %Y
 " map tds in insert mode to current date
 augroup filetype_vimwiki
@@ -185,13 +192,6 @@ let g:airline_section_z= '%3p%% %l:%c'
 let g:airline_solarized_bg='light'
 " }}}
 
-" Vimscript file settings ---------------------- {{{
-augroup filetype_vim
-    autocmd!
-    autocmd FileType vim setlocal foldmethod=marker
-    autocmd FileType vim setlocal foldlevelstart=0
-augroup END
-" }}}
 
 " NerdCommenter OPtions ---------------------- {{{
 augroup nerd_commenter
@@ -249,4 +249,3 @@ nmap <silent> <leader>aj :ALENext<cr>
 nmap <silent> <leader>ak :ALEPrevious<cr>
 "----}}}
 "
-packadd! matchit

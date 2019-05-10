@@ -1,127 +1,84 @@
-" Vundle and plugins -------{{{
-"
-"added for vundle support
-set nocompatible              " be iMproved, required
-filetype off                  "required
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-"plugins to be added here
+" vim-plug settings ----------{{{
+call plug#begin('~/.vim/plugged')
 
-" Git support for vim
-Plugin 'tpope/vim-fugitive'
-" TODO Look into vim-gitgutter
+Plug 'tpope/vim-fugitive' " git support
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' " Snippet support
+Plug 'vimwiki/vimwiki' | Plug 'mattn/calendar-vim' " Calendar, Diary and wiki management
+Plug 'w0rp/ale' " Linting support (syntax and semantics)
+Plug 'scrooloose/nerdcommenter' " commenting support
+Plug 'morhetz/gruvbox' "Gruvbox color scheme
+Plug 'nlknguyen/papercolor-theme'
+Plug 'junegunn/goyo.vim' | Plug 'junegunn/limelight.vim' " Distraction free writing
+Plug 'ledger/vim-ledger' " ledger-cli support
+Plug 'vim-airline/vim-airline' " Using airline for status line
+Plug 'tpope/vim-surround' " Helps in surrounding text e.g. replace \" with '
 
-" Track the engine.
-Plugin 'SirVer/ultisnips'
+" Need to confirm if these are really required
+" Plugin 'tpope/vim-speeddating'
+" Plugin 'posva/vim-vue' " Vue support
+" Plugin 'junegunn/fzf.vim' " FZF finder
 
-" Snippets are separated from the engine. Add this if you want them:
-Plugin 'honza/vim-snippets'
+call plug#end()
+" ----------}}}
 
-"Plugin to help in dates
-Plugin 'tpope/vim-speeddating'
+" General options for most files ------{{{
 
-"Plugin for nerdcommenter
-Plugin 'scrooloose/nerdcommenter'
-
-"Plugin for surround
-Plugin 'tpope/vim-surround'
-
-"Plugin for syntax checkers
-" Plugin 'scrooloose/syntastic'
-Plugin 'w0rp/ale'
-
-"Plugin for vimwiki
-Plugin 'vimwiki/vimwiki'
-
-"Plugin calendar to help vimorg
-Plugin 'mattn/calendar-vim'
-
-"Plugin for vim ledger .. trying out finance management
-Plugin 'ledger/vim-ledger'
-
-"Colorschemes
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'morhetz/gruvbox'
-Plugin 'arcticicestudio/nord-vim'
-Plugin 'nlknguyen/papercolor-theme'
-Plugin 'romainl/flattened'
-
-"Plugin for status line
-Plugin 'vim-airline/vim-airline'
-
-"Plugin for vim airline themes
-Plugin 'vim-airline/vim-airline-themes'
-
-"Plugin for vue support
-Plugin 'posva/vim-vue'
-
-"Plug in for distraction free writing
-Plugin 'junegunn/goyo.vim'
-Plugin 'junegunn/limelight.vim'
-
-" Plugin for using fzf finder
-Plugin 'junegunn/fzf.vim'
-
-call vundle#end()       "required
-filetype plugin indent on   "required
-"End of added for vundle support
-"-------}}}
-" Options for most files ----------- {{{
-set number
-set tabstop =4
-set expandtab
-set shiftwidth =4
-set autoindent
-"autocomplete pattern when searching
-set incsearch
-autocmd BufRead,BufNewFile *.txt,*.md,*.rst,*.tex,*.wiki setlocal textwidth=72
-set smartindent
-set spell
-
+" Required for vimwiki to work properly and other things
 set nocompatible
-filetype plugin indent on
+filetype plugin indent on " enables both plugin and indents of files
 syntax on
 
-" set background to light for light theme
-" set background=dark
-set termguicolors
-colorscheme gruvbox
+set number " show line number where cursor is
+set relativenumber " other lines shown relative to current line
+set numberwidth=2 " Minimum space set for line nos
+set tabstop=4 " <Tab> = 4 spaces
+set shiftwidth =4 " Kinda similar to tabstop
+set expandtab " Repalce <Tab> with spaces when used.
+set autoindent " Copies current indent to next line
+set smartindent " Better indenting than autoindent e.g. line after {
+set incsearch " Show matching search pattern as you type
+set showmatch " Jump to matching bracket temporarily once typed
+cabbr <expr> %% expand('%:p:h') " Expands %% to directory in command
 
-"added for vimthehardway
-set relativenumber
-set numberwidth=3
-set showmatch
-"mapping for cu to uppercase word
-imap <leader><c-u> <esc>bveUea
-nmap <leader><c-u> bveUe
-
-"setting localleader
+" setting local leader and global leader
 let mapleader=";"
 let maplocalleader=","
 
-"added for bash like completion
+" added for bash like completion
 set wildmode=longest,list,full
 set wildmenu
+" ------}}}
 
-"editting files in same directory
-cabbr <expr> %% expand('%:p:h')
-" }}}
+" Options for document files------{{{ 
+autocmd BufRead,BufNewFile *.txt,*.md,*.rst,*.tex,*.wiki setlocal textwidth=72
+autocmd BufRead,BufNewFile *.txt,*.md,*.rst,*.tex,*.wiki setlocal spell spelllang=en_gb " enable spell check
+"------}}}
 
-"Ultisnips configurations ------------ {{{
-"ultisnips trigger configs
-" Trigger configuration. Do not use <tab> if you use
-" https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<c-e>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+" Configs for gruvbox colorscheme ------{{{
+set termguicolors " allow true color so that gruvbox looks good
+let g:gruvbox_italic=1
+let g:gruvbox_contrast_light="hard" " can be soft, medium(default) or hard
+colorscheme gruvbox
+" ------}}}
+
+" Ultisnips configurations ------{{{
+
+" ultisnips trigger configs
+" let g:UltiSnipsExpandTrigger="<c-e>" Default is <tab>
+" let g:UltiSnipsJumpForwardTrigger="<c-b>" Default is <c-j>
+" let g:UltiSnipsJumpBackwardTrigger="<c-z>" Default is <c-k>
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
-" }}}
+let g:UltiSnipsSnippetsDir="~/.vim/mysnippets"
+
+" ------}}}
+
+"
+"
+"
+
 
 " Ledger config options ----- {{{
 " Options for vim-ledger files help

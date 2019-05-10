@@ -103,6 +103,43 @@ augroup filetype_vim
 augroup END
 " ------}}}
 
+" Vimwiki configuration ------{{{
+augroup filetype_vimwiki
+    autocmd!
+    autocmd FileType vimwiki :iabbrev <expr> tds strftime("[%a %d %b %Y]") " map tds in insert mode to current date
+    " delete times in vimwiki todo list [06:30 - 07:00]
+    autocmd FileType vimwiki vnoremap dt :s/\s\[\d\d:\d\d\s-\s\d\d:\d\d\]//g <Cr>
+    autocmd FileType vimwiki nnoremap dt :s/\s\[\d\d:\d\d\s-\s\d\d:\d\d\]//g <Cr>
+    autocmd FileType vimwiki setlocal foldmethod=indent
+    " calling let g:vimwiki_folding does not reset these variables, so setlocal has been used instead
+    autocmd FileType vimwiki nnoremap <leader>tl :setlocal foldmethod=expr <Cr> :setlocal foldexpr=VimwikiFoldListLevel(v:lnum) <Cr> :setlocal foldtext=VimwikiFoldText() <Cr>
+    autocmd FileType vimwiki nnoremap <leader>tn :setlocal foldmethod=expr <Cr> :setlocal foldexpr=VimwikiFoldLevel(v:lnum) <Cr> :setlocal foldtext=VimwikiFoldText() <Cr>
+    autocmd FileType vimwiki nnoremap <leader>cp :call TodoPercentage() <Cr>
+augroup END
+
+let g:vimwiki_list = [{},
+            \ {"path":"~/todo"}]
+
+" setting this to list makes diary generation very very slow
+let g:vimwiki_folding = 'custom'
+
+" vimwiki % of tasks done in table
+" Table should be formatted as
+" | 12 | 13 | 15 | % |
+" | day | total to do | total achieved | percent calculated |
+" the place with the % should be left blank and will be filled by the function
+function! TodoPercentage()
+    normal ^3wviw"py
+    let total = str2float(getreg("p")) " get number in p register from second column
+    normal ^5wviw"py
+    let achieved = str2float(getreg("p")) " get numer in p register from third column
+    let percentage = (achieved / total) * 100
+    let per = printf("%.2f", percentage)
+    " Print out percentage into the 4th column
+    execute "normal! ^6wa ".per."\<esc>"
+endfunction
+" ------}}}
+
 "
 "
 "
@@ -142,45 +179,6 @@ onoremap il[ :<c-u>normal! F[vi[<cr>
 onoremap in@ :execute "normal! /@\r:nohlsearch\rhviw"<cr> 
 nnoremap <leader>pb :execute "leftabove vsplit " . bufname("#") <cr>
 
-" Vimwiki configuration ----- {{{
-" Speeddating support for the dates I use in todo lists
-" SpeedDatingFormat %i %d %b %Y
-" map tds in insert mode to current date
-augroup filetype_vimwiki
-    autocmd!
-    autocmd FileType vimwiki :iabbrev <expr> tds strftime("[%a %d %b %Y]")
-    "delete times in vimwiki todo list
-    autocmd FileType vimwiki vnoremap dt :s/\s\[\d\d:\d\d\s-\s\d\d:\d\d\]//g <Cr>
-    autocmd FileType vimwiki nnoremap dt :s/\s\[\d\d:\d\d\s-\s\d\d:\d\d\]//g <Cr>
-    autocmd FileType vimwiki setlocal foldmethod=indent
-    " calling let g:vimwiki_folding does not reset these variables, so set
-    " local has been used instead
-    autocmd FileType vimwiki nnoremap <leader>tl :setlocal foldmethod=expr <Cr> :setlocal foldexpr=VimwikiFoldListLevel(v:lnum) <Cr> :setlocal foldtext=VimwikiFoldText() <Cr>
-    autocmd FileType vimwiki nnoremap <leader>tn :setlocal foldmethod=expr <Cr> :setlocal foldexpr=VimwikiFoldLevel(v:lnum) <Cr> :setlocal foldtext=VimwikiFoldText() <Cr>
-    autocmd FileType vimwiki nnoremap <leader>cp :call TodoPercentage() <Cr>
-augroup END
-
-let g:vimwiki_list = [{},
-            \ {"path":"~/todo"}]
-
-" setting this to list makes diary generation very very slow
-let g:vimwiki_folding = 'custom'
-
-"vimwiki % of tasks done in table
-"formatting of table should be
-"| 12 | 13 | 15 | % |
-"the place with the % should be left blank and will be filled by
-"the function
-function! TodoPercentage()
-    normal ^3wviw"py
-    let total = str2float(getreg("p"))
-    normal ^5wviw"py
-    let achieved = str2float(getreg("p"))
-    let percentage = (achieved / total) * 100
-    let per = printf("%.2f", percentage)
-    execute "normal! ^6wa ".per."\<esc>"
-endfunction
-" }}}
 
 "airline configs ----- {{{
 "for airline plugin

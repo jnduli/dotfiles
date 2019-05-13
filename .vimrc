@@ -39,6 +39,7 @@ set smartindent " Better indenting than autoindent e.g. line after {
 set incsearch " Show matching search pattern as you type
 set showmatch " Jump to matching bracket temporarily once typed
 cabbr <expr> %% expand('%:p:h') " Expands %% to directory in command
+set noshowmode " disables showing of mode coz this is already done by airline
 
 " setting local leader and global leader
 let mapleader=";"
@@ -49,6 +50,14 @@ set wildmode=longest,list,full
 set wildmenu
 
 packadd! matchit " allows matching xml tags and ifs
+
+" abbreviations for common things ------ {{{
+iabbrev @@ yohanaizraeli@gmail.com
+iabbrev @@s johnduli@yahoo.com
+iabbrev desing design
+iabbrev Desing Design
+iabbrev funtion function
+" ------}}}
 " ------}}}
 
 " Options for document files------{{{ 
@@ -140,89 +149,23 @@ function! TodoPercentage()
 endfunction
 " ------}}}
 
-"
-"
-"
-"
-"
-
-
-" Ledger config options ----- {{{
-" Options for vim-ledger files help
-"
-"added to catch the most potential problems in file
-let g:ledger_extra_options = '--pedantic --explicit --check-payees'
-
-"allows autocomplete and align in ledger files
-"au FileType ledger inoremap <Tab> \ <C-r>=ledger#autocomplete_and_align()<CR>
-au FileType ledger vnoremap <Tab> :LedgerAlign<CR>
-
-let g:ledger_default_commodity = 'Ksh '
-
-let g:ledger_commodity_before = 1
-let g:ledger_align_at = 50
-" }}}
-
-
-"abbrev for common things --------- {{{
-iabbrev @@ yohanaizraeli@gmail.com
-iabbrev @@s johnduli@yahoo.com
-iabbrev desing design
-iabbrev Desing Design
-iabbrev funtion function
-" }}}
-
-" mappings from learnvimscipt
-" ononremap
-onoremap in[ :<c-u>normal! f[vi[<cr>
-onoremap il[ :<c-u>normal! F[vi[<cr>
-onoremap in@ :execute "normal! /@\r:nohlsearch\rhviw"<cr> 
-nnoremap <leader>pb :execute "leftabove vsplit " . bufname("#") <cr>
-
-
-"airline configs ----- {{{
-"for airline plugin
-" set t_Co=256
-set laststatus=2
-let g:airline_powerline_fonts=1
+" airline configs ------{{{
+" set laststatus=2
+let g:airline_symbols_ascii = 1 " to use powerline symbols set g:airline_powerline_fonts=0
 let g:airline_section_z= '%3p%% %l:%c'
-" set to dark / light to change this theme
-let g:airline_solarized_bg='light'
-" }}}
+" ------}}}
 
-
-" NerdCommenter OPtions ---------------------- {{{
-augroup nerd_commenter
-    " Add spaces after comment delimiters by default
-    let g:NERDSpaceDelims = 1
-    " Use compact syntax for prettified multi-line comments
-    let g:NERDCompactSexyComs = 1
-    " Allow commenting and inverting empty lines (useful when commenting a region)
-    let g:NERDCommentEmptyLines = 1
-    " Enable trimming of trailing whitespace when uncommenting
-    let g:NERDTrimTrailingWhitespace = 1
-augroup END
-" }}}
-
-" Distraction Free Writing methods and modes ---------------- {{{
+" Distraction Free Writing (Goyo and limelight) ------{{{
 function! s:goyo_enter()
-  " silent !tmux set status off
-  " silent !tmux list-panes -F '\#F' | grep -q Z || tmux resize-pane -Z
-  set noshowmode
   set noshowcmd
   set scrolloff=999
   Limelight
-  " ...
 endfunction
 
 function! s:goyo_leave()
-  " silent !tmux set status on
-  " silent !tmux list-panes -F '\#F' | grep -q Z && tmux resize-pane -Z
-  set showmode
   set showcmd
   set scrolloff=5
   Limelight!
-  " ...
 endfunction
 
 " Color name (:help cterm-colors) or ANSI code
@@ -231,19 +174,48 @@ let g:limelight_conceal_ctermfg = 240
 
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
-" nnoremap <buffer> <leader>w :Goyo<cr>
-" }}}
-"
+" ------}}}
 
-" Fix width of calendar in vertical mode ----{{{
+" Shortcuts to use ALE checkers ------{{{
+nnoremap <silent> <leader>aj :ALENext<cr>
+nnoremap <silent> <leader>ak :ALEPrevious<cr>
+" ------}}}
+
+" Fix width of calendar in vertical mode ------{{{
+" Fix ensures last day of week is shown when relative number has been set
 let g:calendar_options='nornu'
-" ----}}}
-"
+" ------}}}
+
+" NerdCommenter Options ------{{{
+augroup nerd_commenter
+    let g:NERDSpaceDelims = 1 " Add spaces after comment delimiters by default
+    let g:NERDCompactSexyComs = 1 " Use compact syntax for prettified multi-line comments
+    let g:NERDCommentEmptyLines = 1 " Allow commenting and inverting empty lines (useful when commenting a region)
+    let g:NERDTrimTrailingWhitespace = 1 " Enable trimming of trailing whitespace when uncommenting
+augroup END
+" ------}}}
+
+" Ledger config options ------{{{
+" added to catch the most potential problems in file e.g. undefined accounts
+let g:ledger_extra_options = '--pedantic --explicit --check-payees'
+let g:ledger_default_commodity = 'Ksh'
+let g:ledger_commodity_sep = ' ' " Should be a space btn default commodity and amount
+let g:ledger_commodity_before = 1 " Default commodity prepended to amount
+let g:ledger_align_at = 50 " sets up the column of aligning decimal point
+
+" allows autocomplete and align in ledger files
+au FileType ledger inoremap <silent> <Tab> \<C-r>=ledger#autocomplete_and_align()<CR>
+au FileType ledger vnoremap <silent> <Tab> :LedgerAlign<CR>
+
+" ------}}}
 
 
-" Shortcuts to use ALE checkers
-"----{{{
-nmap <silent> <leader>aj :ALENext<cr>
-nmap <silent> <leader>ak :ALEPrevious<cr>
-"----}}}
-"
+
+" TODO: Clean up everything below this line
+
+" mappings from learnvimscipt
+" ononremap
+onoremap in[ :<c-u>normal! f[vi[<cr>
+onoremap il[ :<c-u>normal! F[vi[<cr>
+onoremap in@ :execute "normal! /@\r:nohlsearch\rhviw"<cr> 
+nnoremap <leader>pb :execute "leftabove vsplit " . bufname("#") <cr>

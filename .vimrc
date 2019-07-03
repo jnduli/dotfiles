@@ -12,10 +12,10 @@ Plug 'junegunn/goyo.vim' | Plug 'junegunn/limelight.vim' " Distraction free writ
 Plug 'ledger/vim-ledger' " ledger-cli support
 Plug 'vim-airline/vim-airline' " Using airline for status line
 Plug 'tpope/vim-surround' " Helps in surrounding text e.g. replace \" with '
+Plug 'posva/vim-vue' " Required for proper vue editting
 
 " Need to confirm if these are really required
 " Plugin 'tpope/vim-speeddating'
-" Plugin 'posva/vim-vue' " Vue support
 " Plugin 'junegunn/fzf.vim' " FZF finder
 
 call plug#end()
@@ -40,6 +40,7 @@ set incsearch " Show matching search pattern as you type
 set showmatch " Jump to matching bracket temporarily once typed
 cabbr <expr> %% expand('%:p:h') " Expands %% to directory in command
 set noshowmode " disables showing of mode coz this is already done by airline
+set foldmethod=syntax
 
 " setting local leader and global leader
 let mapleader=";"
@@ -93,9 +94,9 @@ colorscheme gruvbox
 " Ultisnips configurations ------{{{
 
 " ultisnips trigger configs
-" let g:UltiSnipsExpandTrigger="<c-e>" Default is <tab>
-" let g:UltiSnipsJumpForwardTrigger="<c-b>" Default is <c-j>
-" let g:UltiSnipsJumpBackwardTrigger="<c-z>" Default is <c-k>
+" let g:UltiSnipsExpandTrigger="<c-e>" " Default is <tab>
+" let g:UltiSnipsJumpForwardTrigger="<c-b>" " Default is <c-j>
+" let g:UltiSnipsJumpBackwardTrigger="<c-z>" " Default is <c-k>
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
@@ -126,8 +127,8 @@ augroup filetype_vimwiki
     autocmd FileType vimwiki nnoremap <leader>cp :call TodoPercentage() <Cr>
 augroup END
 
-let g:vimwiki_list = [{},
-            \ {"path":"~/todo"}]
+let g:vimwiki_list = [{"path": "~/vimwiki", "path_html": "~/vimwiki/public_html"},
+            \ {"path":"~/todo", "path_html": "~/todo/public_html"}]
 
 " setting this to list makes diary generation very very slow
 let g:vimwiki_folding = 'custom'
@@ -204,11 +205,15 @@ let g:ledger_commodity_before = 1 " Default commodity prepended to amount
 let g:ledger_align_at = 50 " sets up the column of aligning decimal point
 
 " allows autocomplete and align in ledger files
-au FileType ledger inoremap <silent> <Tab> \<C-r>=ledger#autocomplete_and_align()<CR>
-au FileType ledger vnoremap <silent> <Tab> :LedgerAlign<CR>
+augroup filetype_ledger
+    autocmd!
+    " autocmd FileType ledger inoremap <silent> <Tab> \<C-r>=ledger#autocomplete_and_align()<CR>
+    autocmd FileType ledger vnoremap <silent> <Tab> :LedgerAlign<CR>
+augroup END
 
 " ------}}}
 
+autocmd FileType vue syntax sync fromstart
 
 
 " TODO: Clean up everything below this line

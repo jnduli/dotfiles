@@ -14,10 +14,6 @@ Plug 'vim-airline/vim-airline' " Using airline for status line
 Plug 'tpope/vim-surround' " Helps in surrounding text e.g. replace \" with '
 Plug 'posva/vim-vue' " Required for proper vue editting
 
-" Need to confirm if these are really required
-" Plugin 'tpope/vim-speeddating'
-" Plugin 'junegunn/fzf.vim' " FZF finder
-
 call plug#end()
 " ----------}}}
 
@@ -47,7 +43,7 @@ let mapleader=";"
 let maplocalleader=","
 
 " added for bash like completion
-set wildmode=longest,list,full
+set wildmode=list:longest
 set wildmenu
 
 packadd! matchit " allows matching xml tags and ifs
@@ -245,3 +241,7 @@ function! LargeFile()
  autocmd VimEnter *  echo "The file is larger than " . (g:LargeFile / 1024 / 1024) . " MB, so some options are changed (see .vimrc for details)."
 endfunction
 " ------}}}
+"
+"
+" Mapping to make it easier to find last command in commandmode
+cnoremap <C-p> <UP>

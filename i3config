@@ -210,18 +210,6 @@ bindsym $mod+m exec xrandr --output HDMI-1 --auto --right-of eDP-1
 # (effectively toggles when you only have two outputs)
 bindsym $mod+x move workspace to output left
 
-# I use clementine a lot but my laptop does not have media keys
-# So these settings enable me to control clementine with my keyboard
-bindsym Mod1+p exec clementine --play-pause
-bindsym Mod1+s exec clementine --stop
-bindsym Mod1+h exec clementine --previous
-bindsym Mod1+l exec clementine --next
-# Normal media keys
-bindsym XF86AudioPlay exec clementine --play-pause
-bindsym XF86AudioStop exec clementine --stop
-bindsym XF86AudioPrev exec clementine --previous
-bindsym XF86AudioNext exec clementine --next
-
 # disable the touchpad
 # make sure the script in scripts/toggletouchpad is set up propertly
 bindsym $mod+Mod1+d exec toggletouchpad

@@ -5,7 +5,7 @@ Plug 'tpope/vim-fugitive' " git support
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' " Snippet support
 Plug 'vimwiki/vimwiki' | Plug 'mattn/calendar-vim' " Calendar, Diary and wiki management
 Plug 'w0rp/ale' " Linting support (syntax and semantics)
-Plug 'scrooloose/nerdcommenter' " commenting support
+Plug 'tpope/vim-commentary' " commenting support
 Plug 'morhetz/gruvbox' "Gruvbox color scheme
 Plug 'nlknguyen/papercolor-theme'
 Plug 'junegunn/goyo.vim' | Plug 'junegunn/limelight.vim' " Distraction free writing
@@ -13,6 +13,9 @@ Plug 'ledger/vim-ledger' " ledger-cli support
 Plug 'vim-airline/vim-airline' " Using airline for status line
 Plug 'tpope/vim-surround' " Helps in surrounding text e.g. replace \" with '
 Plug 'posva/vim-vue' " Required for proper vue editting
+Plug 'ElmCast/elm-vim' " Elm support
+Plug 'alx741/vim-hindent' " Haskell indenting
+
 
 call plug#end()
 " ----------}}}
@@ -75,8 +78,8 @@ nnoremap <leader>e$ :vsplit ~/documents/ledger/blackbook.ledger<cr>
 " Setting default tab space to 2 for some files ------{{{
 augroup indent_2_spaces
     autocmd!
-    autocmd FileType html,javascript,arduino,vue setlocal tabstop=2 
-    autocmd FileType html,javascript,arduino,vue setlocal shiftwidth=2
+    autocmd FileType html,javascript,arduino,vue,elm setlocal tabstop=2 
+    autocmd FileType html,javascript,arduino,vue,elm setlocal shiftwidth=2
 augroup END
 "------}}}
 
@@ -123,7 +126,10 @@ augroup filetype_vimwiki
     autocmd FileType vimwiki nnoremap <leader>cp :call TodoPercentage() <Cr>
 augroup END
 
-let g:vimwiki_list = [{"path": "~/vimwiki", "path_html": "~/vimwiki/public_html"},
+let g:vimwiki_list = [{ "path": "~/vimwiki",
+                      \ "path_html": "~/vimwiki/public_html",
+                      \ "auto_tags": 1,
+                      \ "auto_diary_index": 1 },
             \ {"path":"~/todo", "path_html": "~/todo/public_html"}]
 
 " setting this to list makes diary generation very very slow
@@ -245,3 +251,8 @@ endfunction
 "
 " Mapping to make it easier to find last command in commandmode
 cnoremap <C-p> <UP>
+
+
+let g:ale_linters = {
+    \   'haskell': ['stack-ghc', 'ghc-mod', 'hlint', 'hdevtools', 'hfmt'],
+    \}

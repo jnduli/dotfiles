@@ -112,7 +112,7 @@ augroup END
 " Vimwiki configuration ------{{{
 augroup filetype_vimwiki
     autocmd!
-    autocmd FileType vimwiki :iabbrev <expr> tds strftime("[%a %d %b %Y]") " map tds in insert mode to current date
+    autocmd FileType vimwiki :iabbrev <expr> td strftime("[%a %d %b %Y]") " map tds in insert mode to current date
     " delete times in vimwiki todo list [06:30 - 07:00]
     autocmd FileType vimwiki vnoremap dt :s/\s\[\d\d:\d\d\s-\s\d\d:\d\d\]//g <Cr>
     autocmd FileType vimwiki nnoremap dt :s/\s\[\d\d:\d\d\s-\s\d\d:\d\d\]//g <Cr>
@@ -121,6 +121,8 @@ augroup filetype_vimwiki
     autocmd FileType vimwiki nnoremap <leader>tl :setlocal foldmethod=expr <Cr> :setlocal foldexpr=VimwikiFoldListLevel(v:lnum) <Cr> :setlocal foldtext=VimwikiFoldText() <Cr>
     autocmd FileType vimwiki nnoremap <leader>tn :setlocal foldmethod=expr <Cr> :setlocal foldexpr=VimwikiFoldLevel(v:lnum) <Cr> :setlocal foldtext=VimwikiFoldText() <Cr>
     autocmd FileType vimwiki nnoremap <leader>cp :call TodoPercentage() <Cr>
+    " experiments for list reordering
+    autocmd FileType vimwiki nnoremap <leader>r :call ReorderTasks() <Cr>
 augroup END
 
 let g:vimwiki_list = [{"path": "~/vimwiki", "path_html": "~/vimwiki/public_html"},
@@ -143,6 +145,20 @@ function! TodoPercentage()
     let per = printf("%.2f", percentage)
     " Print out percentage into the 4th column
     execute "normal! ^6wa ".per."\<esc>"
+endfunction
+
+" orders taskj listing done tasks first
+function! ReorderTasks()
+    normal gg/\[ \]
+    let lastChecked = search('^- \[ \]', "W")
+    execute "normal! ".lastChecked."gg"
+    let completedTask = search('^- \[X\]', "W")
+    while completedTask != 0
+        execute "normal ".completedTask."ggvalx".lastChecked."ggP"
+        normal gg/\[ \]
+        let lastChecked = search('^- \[ \]', "W")
+        let completedTask = search('^- \[X\]', "W")
+    endwhile
 endfunction
 " ------}}}
 

@@ -272,3 +272,6 @@ cnoremap <C-p> <UP>
 let g:ale_linters = {
     \   'haskell': ['stack-ghc', 'ghc-mod', 'hlint', 'hdevtools', 'hfmt'],
     \}
+
+" keep cursor 3 lines from bottom or top
+set scrolloff=3

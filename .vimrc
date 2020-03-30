@@ -16,7 +16,6 @@ Plug 'posva/vim-vue' " Required for proper vue editting
 Plug 'ElmCast/elm-vim' " Elm support
 Plug 'alx741/vim-hindent' " Haskell indenting
 
-
 call plug#end()
 " ----------}}}
 

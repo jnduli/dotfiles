@@ -49,7 +49,9 @@ vim_setup(){
     local vimrc_path="$HOME/.vimrc"
     local dotfile_vimrc="${DOTFILES_DIR}/editors/vimrc"
     replace_symlinks_or_move_files_to_old "$vimrc_path" "$dotfile_vimrc"
-    local neovim_init_path="$HOME/.config/nvim/init.vim"
+    local neovim_folder="$HOME/.config/nvim"
+    mkdir -p "$neovim_folder"
+    local neovim_init_path="${neovim_folder}/init.vim"
     local dotfile_neovim="${DOTFILES_DIR}/editors/nvim-init.vim"
     replace_symlinks_or_move_files_to_old "$neovim_init_path" "$dotfile_neovim"
     # set up Plug (plugin manager)
@@ -59,8 +61,24 @@ vim_setup(){
     vim -c ':PlugInstall' -c 'qa!'
 }
 
+# TODO: ensure .config folder is setup
+
 i3_setup() {
-    packages+='i3 feh scrot'
+    # set up i3wm configs
+    local i3wm_folder="${HOME}/.config/i3"
+    local i3status_folder="${HOME}/.config/i3status"
+    mkdir -p "$i3wm_folder"
+    mkdir -p "$i3status_folder"
+
+    local i3wm_config="${i3wm_folder}/config"
+    local dotfiles_i3wm="${DOTFILES_DIR}/i3/i3wm_config"
+    replace_symlinks_or_move_files_to_old "$i3wm_config" "$dotfiles_i3wm"
+
+    local i3status_config="${i3status_folder}/config"
+    local dotfiles_i3status="${DOTFILES_DIR}/i3/i3status_config"
+    replace_symlinks_or_move_files_to_old "$i3status_config" "$dotfiles_i3status"
+
+    # try to download random images for wallpaper and screen lock
 }
 
 show_help() {
@@ -76,6 +94,7 @@ EOF
 # Tested functions that are ok
 # install_packages
 # vim_setup
+i3_setup
 
 # For i3, the following need to be installed in archlinux
 #redshift-gtk

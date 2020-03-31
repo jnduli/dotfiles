@@ -64,6 +64,18 @@ vim_setup(){
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     # install vim plugins
     vim -c ':PlugInstall' -c 'qa!'
+
+    # personal snippets setup
+    local snippets_dest="${HOME}/.vim/mysnippets"
+    mkdir -p "$snippets_dest"
+    local snippets_src="${DOTFILES_DIR}/editors/vimsnippets"
+    for dotfile in "${snippets_src}"/*
+    do
+        local filename
+        filename=$(basename "$dotfile")
+        local dest_file="${snippets_dest}/${filename}"
+        replace_symlinks_or_move_files_to_old "$dest_file" "$dotfile" 
+    done
 }
 
 
@@ -151,9 +163,11 @@ main () {
     vim_setup
     i3_setup
     X_setup
+    shell_setup
 }
 
-shell_setup
+vim_setup
+
 
 # For i3, the following need to be installed in archlinux
 #redshift-gtk

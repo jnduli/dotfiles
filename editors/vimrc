@@ -92,7 +92,7 @@ colorscheme gruvbox
 " Ultisnips configurations ------{{{
 
 " ultisnips trigger configs
-" let g:UltiSnipsExpandTrigger="<c-e>" " Default is <tab>
+let g:UltiSnipsExpandTrigger="<c-e>" " Default is <tab>
 " let g:UltiSnipsJumpForwardTrigger="<c-b>" " Default is <c-j>
 " let g:UltiSnipsJumpBackwardTrigger="<c-z>" " Default is <c-k>
 

@@ -1,0 +1,7 @@
+priority -50
+
+snippet tk "Transaction" b
+${1:`!v strftime("%Y")`}-${2:`!v strftime("%m")`}-${3:`!v strftime("%d")`} ${4:*} ${5:Transport}
+	Expenses:${6:transport}  		Ksh ${7:0}.00
+	Assets:${8:cash}$0
+endsnippet

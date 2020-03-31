@@ -1,7 +1,7 @@
 # dotfiles folder
 DOTFILES_DIR=$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")
 
-# check that os is archlinux
+# check that os is archlinux and exits otherwise
 is_archlinux_or_exit() {
     if [ -f "/etc/arch-release" ]; then
         return 0
@@ -10,6 +10,7 @@ is_archlinux_or_exit() {
     fi
 }
 
+# installs packages using pacman required for dotfiles to work well
 install_packages() {
     is_archlinux_or_exit
     local packages=''
@@ -44,6 +45,7 @@ replace_symlinks_or_move_files_to_old(){
     ln --force --symbolic "${2}" "${1}"
 }
 
+# Sets up vim and vim and all plugins in use
 vim_setup(){
     # set up .vimrc and init.vim
     local vimrc_path="$HOME/.vimrc"
@@ -61,8 +63,8 @@ vim_setup(){
     vim -c ':PlugInstall' -c 'qa!'
 }
 
-# TODO: ensure .config folder is setup
 
+# sets up i3 and i3 status configs and wallpaper/lock images
 i3_setup() {
     # set up i3wm configs
     local i3wm_folder="${HOME}/.config/i3"
@@ -91,6 +93,18 @@ i3_setup() {
     fi
 }
 
+
+# sets up X files to help launch i3 and xfce4
+X_setup() {
+    local xinitrc="${HOME}/.xinitrc"
+    local dotfile_xinitrc="${DOTFILES_DIR}/X11/xinitrc"
+    replace_symlinks_or_move_files_to_old "$xinitrc" "$dotfile_xinitrc"
+
+    local xserverrc="${HOME}/.xserverrc"
+    local dotfile_xserver="${DOTFILES_DIR}/X11/xserverrc"
+    replace_symlinks_or_move_files_to_old "$xserverrc" "$dotfile_xserver"
+}
+
 show_help() {
     cat <<EOF
 This installs dependencies for various files in the dotfiles.
@@ -101,10 +115,18 @@ The following are setup:
 EOF
 }
 
-# Tested functions that are ok
-# install_packages
-# vim_setup
-i3_setup
+
+# TODO: set up shells and tmux
+# TODO: set up applications e.g. ledgerrc
+# TODO: download repositories required for use e.g. pomodoro, ledger, vimwiki
+
+
+main () {
+    install_packages
+    vim_setup
+    i3_setup
+    X_setup
+}
 
 # For i3, the following need to be installed in archlinux
 #redshift-gtk

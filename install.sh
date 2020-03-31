@@ -26,7 +26,7 @@ install_packages() {
     packages+=' gvim neovim python-pynvim git curl'
 
     # other packages
-    packages+=' powerline-fonts tmux'
+    packages+=' powerline-fonts tmux xdg-user-dirs'
 
     pacman -Sy --noconfirm "$packages"
 }
@@ -118,6 +118,15 @@ X_setup() {
     local xserverrc="${HOME}/.xserverrc"
     local dotfile_xserver="${DOTFILES_DIR}/X11/xserverrc"
     replace_symlinks_or_move_files_to_old "$xserverrc" "$dotfile_xserver"
+
+    # xdg-dirs setup
+    local user_dirs_conf="${HOME}/.config/users-dirs.conf"
+    local dotfile_user_dirs_conf="${HOME}/X11/user-dirs.conf"
+    replace_symlinks_or_move_files_to_old "$user_dirs_conf" "$dotfile_user_dirs_conf"
+
+    local user_dirs_dirs="${HOME}/.config/users-dirs.dirs"
+    local dotfile_user_dirs_dirs="${HOME}/X11/user-dirs.dirs"
+    replace_symlinks_or_move_files_to_old "$user_dirs_dirs" "$dotfile_user_dirs_dirs"
 }
 
 

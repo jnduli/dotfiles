@@ -78,7 +78,17 @@ i3_setup() {
     local dotfiles_i3status="${DOTFILES_DIR}/i3/i3status_config"
     replace_symlinks_or_move_files_to_old "$i3status_config" "$dotfiles_i3status"
 
-    # try to download random images for wallpaper and screen lock
+    # set up wallpaper image
+    local i3_wallpaper="${HOME}/images/i3_wallpaper.png"
+    if [ ! -f "$i3_wallpaper" ]; then
+        curl --fail --location --output "$i3_wallpaper" --create-dirs https://imgs.xkcd.com/comics/real_programmers.png
+    fi
+
+    # set up lock screen image
+    local i3_lock="${HOME}/images/i3_lock.png"
+    if [ ! -f "$i3_lock" ]; then
+        curl --fail --location --output "$i3_lock" --create-dirs https://imgs.xkcd.com/comics/standards.png 
+    fi
 }
 
 show_help() {

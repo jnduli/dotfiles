@@ -177,7 +177,7 @@ client.unfocused #859900 #1d2021 #fbf1c7 #6c71c4
 client.urgent #d33682 #ff0000 #ffffff #dc322f
 
 #background image
-exec feh --bg-fill ~/images/i3_wallpaper.jpg
+exec feh --bg-fill ~/images/i3_wallpaper.png
 
 #scrot screen shot
 bindsym $mod+p exec "scrot ~/images/Screenshot%Y-%m-%d%H:%M:%S.png"

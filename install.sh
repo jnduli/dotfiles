@@ -25,6 +25,9 @@ install_packages() {
     # editors I use
     packages+=' gvim neovim python-pynvim git curl'
 
+    # other packages
+    packages+=' powerline-fonts tmux'
+
     pacman -Sy --noconfirm "$packages"
 }
 
@@ -105,6 +108,29 @@ X_setup() {
     replace_symlinks_or_move_files_to_old "$xserverrc" "$dotfile_xserver"
 }
 
+
+# Install ohmyzsh, tpm and set up configs
+shell_setup() {
+    # installing oh-my-zsh
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+    # set up .zshrc
+    local zshrc_path="$HOME/.zshrc"
+    local dotfile_zshrc="${DOTFILES_DIR}/shells/zshrc"
+    replace_symlinks_or_move_files_to_old "$zshrc_path" "$dotfile_zshrc"
+
+    # set up tmux
+    local tmux_conf="${HOME}/.tmux.conf"
+    local dotfiles_tmux="${DOTFILES_DIR}/shells/tmux-conf"
+    replace_symlinks_or_move_files_to_old "$tmux_conf" "$dotfiles_tmux"
+
+    # tpm setup and tpm plugins
+    git clone https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
+    sh -c "${HOME}/.tmux/plugins/tpm/bin/install_plugins"
+}
+
+
+
 show_help() {
     cat <<EOF
 This installs dependencies for various files in the dotfiles.
@@ -116,7 +142,6 @@ EOF
 }
 
 
-# TODO: set up shells and tmux
 # TODO: set up applications e.g. ledgerrc
 # TODO: download repositories required for use e.g. pomodoro, ledger, vimwiki
 
@@ -127,6 +152,8 @@ main () {
     i3_setup
     X_setup
 }
+
+shell_setup
 
 # For i3, the following need to be installed in archlinux
 #redshift-gtk

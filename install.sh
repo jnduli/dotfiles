@@ -26,7 +26,7 @@ install_packages() {
     packages+=' gvim neovim python-pynvim git curl'
 
     # other packages
-    packages+=' powerline-fonts tmux xdg-user-dirs'
+    packages+=' powerline-fonts tmux xdg-user-dirs ledger'
 
     pacman -Sy --noconfirm "$packages"
 }
@@ -150,6 +150,16 @@ shell_setup() {
     sh -c "${HOME}/.tmux/plugins/tpm/bin/install_plugins"
 }
 
+other_applications_setup(){
+    # set up .ledgerrc
+    local ledgerrc="$HOME/.ledgerrc"
+    local dotfile_ledgerrc="$HOME/apps/ledgerrc"
+    replace_symlinks_or_move_files_to_old "$ledgerrc" "$dotfile_ledgerrc"
+
+    # clone ledger repo
+    git clone ssh://rookie@jnduli.co.ke:/home/rookie/git/ledger.git $HOME/docs/ledger
+
+}
 
 
 show_help() {
@@ -157,13 +167,11 @@ show_help() {
 This installs dependencies for various files in the dotfiles.
 It also sets up symlinks to the various dotfiles in this repository.
 
-The following are setup:
-    vim, neovim, and their respective plugins
+The following are setup: vim, neovim, i3, X, zsh, tmux
 EOF
 }
 
 
-# TODO: set up applications e.g. ledgerrc
 # TODO: download repositories required for use e.g. pomodoro, ledger, vimwiki
 
 
@@ -175,22 +183,10 @@ main () {
     shell_setup
 }
 
-vim_setup
-
 
 # For i3, the following need to be installed in archlinux
-#redshift-gtk
 #pactl
-
 #polkit-gnome-authentication-agent?
 #xfce4-power-manager?
-#xrandr?
 
 #should I set up toggle-touchpad?
-
-##nvim and vim things
-#install vim plugins
-
-## install thing for XDG things
-
-## install xfce4 and xinitrc and xserverrc

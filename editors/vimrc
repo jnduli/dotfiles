@@ -36,7 +36,8 @@ set autoindent " Copies current indent to next line
 set smartindent " Better indenting than autoindent e.g. line after {
 set incsearch " Show matching search pattern as you type
 set showmatch " Jump to matching bracket temporarily once typed
-cabbr <expr> %% expand('%:p:h') " Expands %% to directory in command
+cabbr <expr> %f expand('%:p:h') " Expands %f to directory in command
+cabbr <expr> %% expand('%:h') " Expands %% to directory in command
 set noshowmode " disables showing of mode coz this is already done by airline
 set foldmethod=syntax
 
@@ -45,7 +46,7 @@ let mapleader=";"
 let maplocalleader=","
 
 " added for bash like completion
-set wildmode=list:longest
+set wildmode=longest:full
 set wildmenu
 
 packadd! matchit " allows matching xml tags and ifs
@@ -125,6 +126,7 @@ augroup filetype_vimwiki
     autocmd FileType vimwiki nnoremap <leader>cp :call TodoPercentage() <Cr>
     " experiments for list reordering
     autocmd FileType vimwiki nnoremap <leader>r :call ReorderTasks() <Cr>
+    autocmd FileType vimwiki nnoremap <leader>tr :execute "normal dalgg/\\[\\s\\]\<lt>cr>P:nohlsearch\<lt>cr>" <Cr>
 augroup END
 
 let g:vimwiki_list = [{ "path": "~/vimwiki",
@@ -152,7 +154,7 @@ function! TodoPercentage()
     execute "normal! ^6wa ".per."\<esc>"
 endfunction
 
-" orders taskj listing done tasks first
+" orders tasks listing done tasks first
 function! ReorderTasks()
     normal gg/\[ \]
     let lastChecked = search('^- \[ \]', "W")

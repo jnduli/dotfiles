@@ -1,5 +1,9 @@
+# TODO: should I set up toggle-touchpad?
+
 # dotfiles folder
 DOTFILES_DIR=$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")
+
+IGNORE_INSTALL=0
 
 # check that os is archlinux and exits otherwise
 is_archlinux_or_exit() {
@@ -159,34 +163,66 @@ other_applications_setup(){
     # clone ledger repo
     git clone ssh://rookie@jnduli.co.ke:/home/rookie/git/ledger.git $HOME/docs/ledger
 
+    # clone personal vimwiki
+    git clone ssh://rookie@jnduli.co.ke:/home/rookie/git/vimwiki.git $HOME/vimwiki
+
+    mkdir -p $HOME/projects
+    # clone blog site
+    git clone https://github.com/jnduli/blog_jnduli.co.ke.git $HOME/projects/blog
+
+    # pomodoro repo and setup
+    git clone https://github.com/jnduli/pomodoro.git $HOME/projects/pomodoro
+
+# TODO: download repositories required for use e.g. pomodoro, ledger, vimwiki
 }
 
 
 show_help() {
     cat <<EOF
-This installs dependencies for various files in the dotfiles.
-It also sets up symlinks to the various dotfiles in this repository.
+Copyright (C) 2019: John Nduli K.                                                                                                      
+install.sh
+ This installs dependencies for various files in the dotfiles.
+ It also sets up symlinks to the various dotfiles in this repository.
 
-The following are setup: vim, neovim, i3, X, zsh, tmux
+ The following are setup: vim, neovim, i3, X, zsh, tmux, ledger
+ It also sets up some useful repositories I regularly use
+
+ -h: Show help file
+ -i : Ignores package installations
 EOF
 }
 
 
-# TODO: download repositories required for use e.g. pomodoro, ledger, vimwiki
+options () {
+    while getopts "hi" OPTION; do
+        case $OPTION in
+            h)
+                show_help
+                exit 1
+                ;;
+            i)
+                echo "Ignoring packages install"
+                IGNORE_INSTALL=1
+                ;;
+            \?)
+                echo "Invalid option: -$OPTARG" >&2
+                exit 1
+                ;;
+        esac
+    done
+}
 
 
 main () {
-    install_packages
+    options "$@"
+    if [[ "$IGNORE_INSTALL" != 1 ]]; then
+        install_packages
+    fi
     vim_setup
     i3_setup
     X_setup
     shell_setup
+    other_applications_setup
 }
 
-
-# For i3, the following need to be installed in archlinux
-#pactl
-#polkit-gnome-authentication-agent?
-#xfce4-power-manager?
-
-#should I set up toggle-touchpad?
+main "$@"

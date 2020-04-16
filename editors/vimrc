@@ -15,6 +15,7 @@ Plug 'tpope/vim-surround' " Helps in surrounding text e.g. replace \" with '
 Plug 'posva/vim-vue' " Required for proper vue editting
 Plug 'ElmCast/elm-vim' " Elm support
 Plug 'alx741/vim-hindent' " Haskell indenting
+Plug 'rrethy/vim-hexokinase' " Showing colors in vim
 
 call plug#end()
 " ----------}}}
@@ -276,3 +277,7 @@ let g:ale_linters = {
 
 " keep cursor 3 lines from bottom or top
 set scrolloff=3
+
+" hexokinase configs
+let g:Hexokinase_highlighters = ['backgroundfull']
+

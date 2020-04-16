@@ -171,10 +171,19 @@ bar {
   }
 }
 
-client.focused #859900 #f9f5d7 #3c3836 #6c71c4
-client.focused_inactive #859900 #ddded8 #1d0029 #6c71c4
-client.unfocused #859900 #1d2021 #fbf1c7 #6c71c4
-client.urgent #d33682 #ff0000 #ffffff #dc322f
+client.focused #859900 #f9f5d7 #3c3836 #6c71c4 #fb4934
+client.focused_inactive #859900 #ddded8 #1d0029 #6c71c4 #1d0029
+client.unfocused #859900 #1d2021 #fbf1c7 #6c71c4 #1d0029
+client.urgent #d33682 #ff0000 #ffffff #dc322f #ff0000
+
+
+# Gaps things
+# You can also use any non-zero value if you'd like to have a border
+for_window [class=".*"] border pixel 2
+gaps inner 5
+# gaps outer 5
+# gaps [inner|outer|horizontal|vertical|top|left|bottom|right] 10
+# workspace <ws> gaps [inner|outer|horizontal|vertical|top|left|bottom|right] 10
 
 #background image
 exec feh --bg-fill ~/images/i3_wallpaper.png

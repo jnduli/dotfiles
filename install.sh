@@ -161,19 +161,28 @@ other_applications_setup(){
     replace_symlinks_or_move_files_to_old "$ledgerrc" "$dotfile_ledgerrc"
 
     # clone ledger repo
-    git clone ssh://rookie@jnduli.co.ke:/home/rookie/git/ledger.git $HOME/docs/ledger
+    git_clone_with_failure_message ssh://rookie@jnduli.co.ke:/home/rookie/git/ledger.git "$HOME/docs/ledger"
 
     # clone personal vimwiki
-    git clone ssh://rookie@jnduli.co.ke:/home/rookie/git/vimwiki.git $HOME/vimwiki
+    git clone ssh://rookie@jnduli.co.ke:/home/rookie/git/vimwiki.git "$HOME/vimwiki"
 
-    mkdir -p $HOME/projects
+    mkdir -p "$HOME/projects"
     # clone blog site
-    git clone https://github.com/jnduli/blog_jnduli.co.ke.git $HOME/projects/blog
+    git_clone_with_failure_message https://github.com/jnduli/blog_jnduli.co.ke.git "$HOME/projects/blog"
 
     # pomodoro repo and setup
-    git clone https://github.com/jnduli/pomodoro.git $HOME/projects/pomodoro
+    git_clone_with_failure_message https://github.com/jnduli/pomodoro.git "$HOME/projects/pomodoro"
 
 # TODO: download repositories required for use e.g. pomodoro, ledger, vimwiki
+}
+
+git_clone_with_failure_message() {
+    local giturl="$1"
+    local folder="$2"
+    if [ -d "$folder" ]; then
+        echo "Cannot clone ${giturl} because folder ${folder} exists"
+    fi
+    git clone "$giturl" "$folder"
 }
 
 

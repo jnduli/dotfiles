@@ -91,6 +91,7 @@ export EDITOR=nvim
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+# alias tmux="TERM=screen-256color-bce tmux"
 
 # prompt dir for agnoster theme
 # Check docs here: http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html

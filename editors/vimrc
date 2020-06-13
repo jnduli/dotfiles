@@ -14,8 +14,9 @@ Plug 'vim-airline/vim-airline' " Using airline for status line
 Plug 'tpope/vim-surround' " Helps in surrounding text e.g. replace \" with '
 Plug 'posva/vim-vue' " Required for proper vue editting
 Plug 'ElmCast/elm-vim' " Elm support
-Plug 'alx741/vim-hindent' " Haskell indenting
+" Plug 'alx741/vim-hindent' " Haskell indenting
 Plug 'rrethy/vim-hexokinase' " Showing colors in vim
+Plug 'chrisbra/csv.vim'
 
 call plug#end()
 " ----------}}}
@@ -84,11 +85,16 @@ augroup indent_2_spaces
 augroup END
 "------}}}
 
-" Configs for gruvbox colorscheme ------{{{
-set termguicolors " allow true color so that gruvbox looks good
+" Color configs, set colorscheme here ------{{{
 let g:gruvbox_italic=1
 let g:gruvbox_contrast_light="hard" " can be soft, medium(default) or hard
+" set background=dark
 colorscheme gruvbox
+
+" Color name (:help cterm-colors) or ANSI code
+let g:limelight_conceal_ctermfg = 'gray'
+let g:limelight_conceal_ctermfg = 240
+
 " ------}}}
 
 " Ultisnips configurations ------{{{
@@ -189,10 +195,6 @@ function! s:goyo_leave()
   Limelight!
 endfunction
 
-" Color name (:help cterm-colors) or ANSI code
-let g:limelight_conceal_ctermfg = 'gray'
-let g:limelight_conceal_ctermfg = 240
-
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
 " ------}}}
@@ -271,13 +273,23 @@ endfunction
 cnoremap <C-p> <UP>
 
 
+" Commands to help with haskell coding ----------{{{
+" commands run for haskell linters
+" stack install hlint
+" stack install hfmt
+" stack install brittany
+
 let g:ale_linters = {
-    \   'haskell': ['stack-ghc', 'ghc-mod', 'hlint', 'hdevtools', 'hfmt'],
+    \   'haskell': ['brittany', 'stack-ghc', 'ghc-mod', 'hlint', 'hdevtools', 'hfmt'],
     \}
+
+let g:ale_fixers = {
+    \   'haskell': ['brittany', 'hlint'],
+    \}
+" ----------}}}
 
 " keep cursor 3 lines from bottom or top
 set scrolloff=3
 
 " hexokinase configs
 let g:Hexokinase_highlighters = ['backgroundfull']
-

@@ -89,8 +89,9 @@ augroup END
 
 " Color configs, set colorscheme here ------{{{
 let g:gruvbox_italic=1
-let g:gruvbox_contrast_light="hard" " can be soft, medium(default) or hard
-" set background=dark
+" let g:gruvbox_contrast_light="hard" " can be soft, medium(default) or hard
+let g:gruvbox_contrast_dark="hard" " can be soft, medium(default) or hard
+set background=dark
 colorscheme gruvbox
 
 " Color name (:help cterm-colors) or ANSI code

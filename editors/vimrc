@@ -51,6 +51,9 @@ let maplocalleader=","
 set wildmode=longest:full
 set wildmenu
 
+set spell
+set spelllang=en_us,en_gb
+
 packadd! matchit " allows matching xml tags and ifs
 
 " abbreviations for common things ------ {{{
@@ -64,7 +67,6 @@ iabbrev funtion function
 
 " Options for document files------{{{ 
 autocmd BufRead,BufNewFile *.txt,*.md,*.rst,*.tex,*.wiki setlocal textwidth=72
-autocmd BufRead,BufNewFile *.txt,*.md,*.rst,*.tex,*.wiki setlocal spell spelllang=en_gb " enable spell check
 "------}}}
 
 " Editting of commonly used files ------{{{

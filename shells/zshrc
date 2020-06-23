@@ -98,3 +98,4 @@ export EDITOR=nvim
 prompt_dir () {
     prompt_segment blue black "%C"
 }
+source /usr/share/nvm/init-nvm.sh

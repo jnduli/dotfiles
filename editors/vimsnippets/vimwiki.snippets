@@ -4,32 +4,7 @@ global !p
 import datetime 
 endglobal
 
-# weekend basic day
-context "datetime.date.today().isoweekday()>5"
-snippet bd "Trial for context" b
-= Tasks =
-- [ ] Wake up
-- [ ] Make bed
-- [ ] Basic clean up: ${1:utensils, desk, room}
-- [ ] Meditation
-- [ ] Write story: ${2:content}
-- [ ] ${3:Book} read
-- [ ] Draw 3 pictures
-- [ ] Exercise
-- [ ] Review daily tasks
-- [ ] Emails cleanup
-- [ ] Weekly email
-- [ ] Weekly entry
-- [ ] Weekly retrospection
-- [ ] Balance ledger
-- [ ] Retrospection
-- [ ] Gratitude journal
-- [ ] Plan for tomorrow
-- [ ] Stop work
-endsnippet
 
-# weekday basic day
-context "datetime.date.today().isoweekday()<=5"
 snippet bd "Basic Day" b
 = Tasks =
 - [ ] Wake up
@@ -41,10 +16,10 @@ snippet bd "Basic Day" b
 - [ ] Draw 3 pictures
 - [ ] Exercise
 - [ ] Review daily tasks
-- [ ] Work log achievements
-- [ ] Emails cleanup
-- [ ] Weekly entry
-- [ ] Balance ledger
+- [ ] Midday task review
+`!p snip.rv = "- [ ] Take out trash\n" if datetime.date.today().isoweekday() == 3 else ""`- [ ] Emails cleanup
+`!p snip.rv = "- [ ] Work log achievements\n" if datetime.date.today().isoweekday() < 6 else ""`- [ ] Weekly entry
+`!p snip.rv = "- [ ] Weekly email\n- [ ] Weekly retrospection\n" if datetime.date.today().isoweekday() > 5 else ""`- [ ] Balance ledger
 - [ ] Retrospection
 - [ ] Gratitude journal
 - [ ] Plan for tomorrow

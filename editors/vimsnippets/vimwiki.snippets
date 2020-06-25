@@ -2,6 +2,14 @@ priority -50
 
 global !p
 import datetime 
+
+def is_day_of_week(days_abbrev):
+	days_abbrev = [x.lower() for x in days_abbrev]
+	try:
+		date = datetime.datetime.strptime(fn.split('.')[0], "%Y-%m-%d")
+	except ValueError:
+		date = datetime.date.today()
+	return date.strftime("%a").lower() in days_abbrev
 endglobal
 
 
@@ -17,9 +25,9 @@ snippet bd "Basic Day" b
 - [ ] Exercise
 - [ ] Review daily tasks
 - [ ] Midday task review
-`!p snip.rv = "- [ ] Take out trash\n" if datetime.date.today().isoweekday() == 3 else ""`- [ ] Emails cleanup
-`!p snip.rv = "- [ ] Work log achievements\n" if datetime.date.today().isoweekday() < 6 else ""`- [ ] Weekly entry
-`!p snip.rv = "- [ ] Weekly email\n- [ ] Weekly retrospection\n" if datetime.date.today().isoweekday() > 5 else ""`- [ ] Balance ledger
+`!p snip.rv = "- [ ] Take out trash\n" if is_day_of_week(["wed"]) else ""`- [ ] Emails cleanup
+`!p snip.rv = "- [ ] Work log achievements\n" if not is_day_of_week(["sat", "sun"]) else ""`- [ ] Weekly entry
+`!p snip.rv = "- [ ] Weekly email\n- [ ] Weekly retrospection\n" if is_day_of_week(["sat"]) else ""`- [ ] Balance ledger
 - [ ] Retrospection
 - [ ] Gratitude journal
 - [ ] Plan for tomorrow

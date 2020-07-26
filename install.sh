@@ -157,7 +157,7 @@ shell_setup() {
 other_applications_setup(){
     # set up .ledgerrc
     local ledgerrc="$HOME/.ledgerrc"
-    local dotfile_ledgerrc="$HOME/apps/ledgerrc"
+    local dotfile_ledgerrc="${DOTFILES_DIR}/apps/ledgerrc"
     replace_symlinks_or_move_files_to_old "$ledgerrc" "$dotfile_ledgerrc"
 
     # clone ledger repo

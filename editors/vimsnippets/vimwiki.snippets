@@ -19,16 +19,17 @@ snippet bd "Basic Day" b
 - [ ] Make bed
 - [ ] Basic clean up: ${1:utensils, desk, room}
 - [ ] Meditation
-- [ ] Write story: ${2:content}
+`!p snip.rv = "- [ ] algorithm:" if is_day_of_week(["mon", "wed", "fri"]) else "- [ ] Write story:"` ${2:content/link}
 - [ ] ${3:Book} read
 - [ ] Draw 3 pictures
 - [ ] Exercise
 - [ ] Review daily tasks
-- [ ] Midday task review
+`!p snip.rv = "- [ ] Wash house\n- [ ] Wash clothes\n" if is_day_of_week(["sat"]) else ""`- [ ] Midday task review
 `!p snip.rv = "- [ ] Take out trash\n" if is_day_of_week(["wed"]) else ""`- [ ] Emails cleanup
 `!p snip.rv = "- [ ] Work log achievements\n" if not is_day_of_week(["sat", "sun"]) else ""`- [ ] Weekly entry
 `!p snip.rv = "- [ ] Weekly email\n- [ ] Weekly retrospection\n" if is_day_of_week(["sat"]) else ""`- [ ] Balance ledger
-- [ ] Retrospection
+`!p snip.rv = "- [ ] Algorithms to try and solve for week\n- [ ] Knowledge debt to clear for week\n- [ ] What knowledge to recall for week\n" if is_day_of_week(["sun"]) else ""`- [ ] Retrospection
+- [ ] Microphone audio recording
 - [ ] Gratitude journal
 - [ ] Plan for tomorrow
 - [ ] Stop work

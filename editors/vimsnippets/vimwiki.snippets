@@ -3,13 +3,41 @@ priority -50
 global !p
 import datetime 
 
-def is_day_of_week(days_abbrev):
-	days_abbrev = [x.lower() for x in days_abbrev]
+def get_date_for_schedule():
 	try:
 		date = datetime.datetime.strptime(fn.split('.')[0], "%Y-%m-%d")
 	except ValueError:
 		date = datetime.date.today()
+	return date
+
+
+def is_day_of_week(days_abbrev):
+	days_abbrev = [x.lower() for x in days_abbrev]
+	date = get_date_for_schedule()
 	return date.strftime("%a").lower() in days_abbrev
+
+
+def who_s_day():
+	# differentiates work between me, Bonz, Purity
+	date = get_date_for_schedule()
+	workers = ["Purity", "me", "Boni"]
+	return workers[int(date.strftime('%j')) % 3]
+
+
+def is_my_day():
+	# I do some tasks on alternating days, with my room mate for others
+	# if day from start of year is even, I do the work
+	date = get_date_for_schedule()
+	return int(date.strftime('%j')) % 2 == 0
+
+
+def is_my_week():
+	# Some tasks alternate weekly
+	date = get_date_for_schedule()
+	return int(date.strftime('%U')) % 2 != 0
+
+
+
 endglobal
 
 
@@ -17,6 +45,8 @@ snippet bd "Basic Day" b
 = Tasks =
 - [ ] Wake up
 - [ ] Make bed
+- [ ] Water plants
+- [ ] `!p snip.rv = who_s_day()` to clean dishes
 - [ ] Basic clean up: ${1:utensils, desk, room}
 - [ ] Meditation
 `!p snip.rv = "- [ ] algorithm:" if is_day_of_week(["mon", "wed", "fri"]) else "- [ ] Write story:"` ${2:content/link}
@@ -24,12 +54,12 @@ snippet bd "Basic Day" b
 - [ ] Draw 3 pictures
 - [ ] Exercise
 - [ ] Review daily tasks
-`!p snip.rv = "- [ ] Wash house\n- [ ] Wash clothes\n" if is_day_of_week(["sat"]) else ""`- [ ] Midday task review
-`!p snip.rv = "- [ ] Take out trash\n" if is_day_of_week(["wed"]) else ""`- [ ] Emails cleanup
+`!p snip.rv = "- [ ] Wash house\n" if is_day_of_week(["sat"]) and is_my_week() else "- [ ] Remind roommate to wash house\n" if is_day_of_week(["sat"]) else ""`- [ ] Microphone audio recording
+`!p snip.rv = "- [ ] Wash clothes\n" if is_day_of_week(["tue"]) else ""`- [ ] Midday task review
+`!p snip.rv = "- [ ] Take out trash\n" if is_day_of_week(["tue"]) else ""`- [ ] Emails cleanup
 `!p snip.rv = "- [ ] Work log achievements\n" if not is_day_of_week(["sat", "sun"]) else ""`- [ ] Weekly entry
 `!p snip.rv = "- [ ] Weekly email\n- [ ] Weekly retrospection\n" if is_day_of_week(["sat"]) else ""`- [ ] Balance ledger
 `!p snip.rv = "- [ ] Algorithms to try and solve for week\n- [ ] Knowledge debt to clear for week\n- [ ] What knowledge to recall for week\n" if is_day_of_week(["sun"]) else ""`- [ ] Retrospection
-- [ ] Microphone audio recording
 - [ ] Gratitude journal
 - [ ] Plan for tomorrow
 - [ ] Stop work

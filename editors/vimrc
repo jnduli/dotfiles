@@ -17,6 +17,7 @@ Plug 'ElmCast/elm-vim' " Elm support
 " Plug 'alx741/vim-hindent' " Haskell indenting
 Plug 'rrethy/vim-hexokinase' " Showing colors in vim
 Plug 'chrisbra/csv.vim'
+Plug 'editorconfig/editorconfig-vim' " support for editor config
 
 call plug#end()
 " ----------}}}
@@ -186,6 +187,8 @@ let g:airline_section_z= '%3p%% %l:%c'
 " ------}}}
 
 " Distraction Free Writing (Goyo and limelight) ------{{{
+:command WriteMode set background=light | colorscheme PaperColor | setlocal spell | Goyo
+:command WriteCode set background=dark | colorscheme gruvbox
 function! s:goyo_enter()
   set noshowcmd
   set scrolloff=999
@@ -300,3 +303,6 @@ set scrolloff=3
 
 " hexokinase configs
 let g:Hexokinase_highlighters = ['backgroundfull']
+
+" Editorconfig options
+let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']

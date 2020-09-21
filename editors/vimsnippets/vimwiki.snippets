@@ -43,6 +43,7 @@ endglobal
 
 snippet bd "Basic Day" b
 = Tasks =
+When planning limit this to 27 for weekdays, 18 for weekends
 - [ ] Wake up
 - [ ] Make bed
 - [ ] Water plants
@@ -54,6 +55,7 @@ snippet bd "Basic Day" b
 - [ ] Draw 3 pictures
 - [ ] Exercise
 - [ ] Review daily tasks
+`!p snip.rv = "- [ ] Work communications slack, jira, email\n- [ ] Work daily stand up [09:45 - 10:00]" if not is_day_of_week(["sat", "sun"]) else "- [ ] Thoughts"`
 `!p snip.rv = "- [ ] Wash house\n" if is_day_of_week(["sat"]) and is_my_week() else "- [ ] Remind roommate to wash house\n" if is_day_of_week(["sat"]) else ""`- [ ] Microphone audio recording
 `!p snip.rv = "- [ ] Wash clothes\n" if is_day_of_week(["tue"]) else ""`- [ ] Midday task review
 `!p snip.rv = "- [ ] Take out trash\n" if is_day_of_week(["tue"]) else ""`- [ ] Emails cleanup

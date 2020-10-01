@@ -137,7 +137,7 @@ augroup filetype_vimwiki
     autocmd FileType vimwiki nnoremap <leader>cp :call TodoPercentage() <Cr>
     " experiments for list reordering
     autocmd FileType vimwiki nnoremap <leader>r :call ReorderTasks() <Cr>
-    autocmd FileType vimwiki nnoremap <leader>tr :execute "normal dalgg/\\[\\s\\]\<lt>cr>P:nohlsearch\<lt>cr>" <Cr>
+    autocmd FileType vimwiki nnoremap <leader>tr :execute "normal dalgg/\\[\\s\\]\<lt>cr>Pzt:\<lt>cr>:nohlsearch\<lt>cr>" <Cr>
 augroup END
 
 let g:vimwiki_list = [{ "path": "~/vimwiki",

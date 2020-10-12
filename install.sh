@@ -173,6 +173,11 @@ other_applications_setup(){
     # pomodoro repo and setup
     git_clone_with_failure_message https://github.com/jnduli/pomodoro.git "$HOME/projects/pomodoro"
 
+    # set up dishes script
+    local dotfile_dishes="${DOTFILES_DIR}/scripts/dishes.sh"
+    local dest_dishes="$HOME/.local/bin"
+    replace_symlinks_or_move_files_to_old "$dest_dishes" "$dotfile_dishes"
+
 # TODO: download repositories required for use e.g. pomodoro, ledger, vimwiki
 }
 

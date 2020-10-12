@@ -35,6 +35,7 @@ set numberwidth=2 " Minimum space set for line nos
 set tabstop=4 " <Tab> = 4 spaces
 set shiftwidth =4 " Kinda similar to tabstop
 set expandtab " Repalce <Tab> with spaces when used.
+set copyindent " Use same indentation as found in files
 set autoindent " Copies current indent to next line
 set smartindent " Better indenting than autoindent e.g. line after {
 set incsearch " Show matching search pattern as you type

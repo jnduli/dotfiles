@@ -93,6 +93,30 @@ export EDITOR=nvim
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 # alias tmux="TERM=screen-256color-bce tmux"
+#
+alias tl="tasklite"
+alias tl_review="sqlite3 -header -column ~/.local/share/tasklite/main.db \"
+    SELECT p.due_date, c.total_done, p.planned, d.planned_done, m.missed_deadlines from 
+    -- all tasks that had been planned
+    (SELECT DATE(due_utc) AS due_date, count(*) AS planned FROM tasks_view WHERE due_utc IS NOT NULL GROUP BY DATE(due_utc)) p
+    LEFT JOIN
+    -- all tasks that were done in that day
+    (SELECT DATE(closed_utc) AS closed_date, count(*) AS total_done FROM tasks_view WHERE closed_utc IS NOT NULL GROUP BY DATE(closed_utc)) c
+    ON c.closed_date = p.due_date
+    LEFT JOIN
+    -- all planned tasks that got completed on this day
+    (SELECT DATE(closed_utc) AS closed_date, DATE(due_utc) AS planned_due, count(*) AS planned_done FROM tasks_view WHERE closed_utc IS NOT NULL AND due_utc IS NOT NULL GROUP BY DATE(closed_utc)) d
+    ON d.planned_due = p.due_date
+    LEFT OUTER JOIN 
+    -- all planned tasks that were done after the due date and time
+    (SELECT DATE(due_utc) as missed_date, count(*) AS missed_deadlines FROM tasks_view WHERE due_utc < closed_utc OR  (due_utc IS NOT NULL AND closed_utc IS NULL) GROUP BY DATE(due_utc)) m
+    ON  m.missed_date = p.due_date 
+    WHERE p.due_date < DATETIME('now')
+    ORDER BY p.due_date ASC\"
+"
+alias tl_today="tl query \"closed_utc IS NULL AND DATE(due_utc) <= DATE('now') order by due_utc ASC\""
+alias tl_tomorrow="tl query \"closed_utc IS NULL AND DATE(due_utc) <= DATE('now', '+1 day') order by due_utc ASC\""
+
 
 # prompt dir for agnoster theme
 # Check docs here: http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html

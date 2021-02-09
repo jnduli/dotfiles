@@ -1,5 +1,6 @@
 # If you come from bash you might have to change your $PATH.
 export PATH=$PATH:~/.local/bin
+export PATH=${PATH}:/home/rookie/edirect
 
 # Path to your oh-my-zsh installation.
 export ZSH=/home/rookie/.oh-my-zsh
@@ -95,7 +96,7 @@ export EDITOR=nvim
 # alias tmux="TERM=screen-256color-bce tmux"
 #
 alias tl="tasklite"
-alias tl_review="sqlite3 -header -column ~/.local/share/tasklite/main.db \"
+alias tl-review="sqlite3 -header -column ~/gdrive_rclone/tasklite/main.db \"
     SELECT p.due_date, c.total_done, p.planned, d.planned_done, m.missed_deadlines from 
     -- all tasks that had been planned
     (SELECT DATE(due_utc) AS due_date, count(*) AS planned FROM tasks_view WHERE due_utc IS NOT NULL GROUP BY DATE(due_utc)) p
@@ -108,14 +109,16 @@ alias tl_review="sqlite3 -header -column ~/.local/share/tasklite/main.db \"
     (SELECT DATE(closed_utc) AS closed_date, DATE(due_utc) AS planned_due, count(*) AS planned_done FROM tasks_view WHERE closed_utc IS NOT NULL AND due_utc IS NOT NULL GROUP BY DATE(closed_utc)) d
     ON d.planned_due = p.due_date
     LEFT OUTER JOIN 
-    -- all planned tasks that were done after the due date and time
-    (SELECT DATE(due_utc) as missed_date, count(*) AS missed_deadlines FROM tasks_view WHERE due_utc < closed_utc OR  (due_utc IS NOT NULL AND closed_utc IS NULL) GROUP BY DATE(due_utc)) m
+    -- all planned tasks that were done after the due date (ignoring time)
+    (SELECT DATE(due_utc) as missed_date, count(*) AS missed_deadlines FROM tasks_view WHERE DATE(due_utc) < DATE(closed_utc) OR  (due_utc IS NOT NULL AND closed_utc IS NULL) GROUP BY DATE(due_utc)) m
     ON  m.missed_date = p.due_date 
     WHERE p.due_date < DATETIME('now')
-    ORDER BY p.due_date ASC\"
+    ORDER BY p.due_date DESC LIMIT 10\"
 "
-alias tl_today="tl query \"closed_utc IS NULL AND DATE(due_utc) <= DATE('now') order by due_utc ASC\""
-alias tl_tomorrow="tl query \"closed_utc IS NULL AND DATE(due_utc) <= DATE('now', '+1 day') order by due_utc ASC\""
+alias tl-leo="tl query \"closed_utc IS NULL AND DATE(due_utc) <= DATE('now') AND (ready_utc IS NULL OR DATETIME(ready_utc) <= DATETIME('now')) order by due_utc ASC, ready_utc ASC, priority DESC\""
+alias tl-leo-all="tl query \"closed_utc IS NULL AND DATE(due_utc) <= DATE('now') order by due_utc ASC\""
+alias tl-kesho="tl query \"closed_utc IS NULL AND DATE(due_utc) <= DATE('now', '+1 day') order by due_utc ASC\""
+alias tl-unscheduled="tl query \"closed_utc IS NULL AND due_utc IS NULL order by priority DESC\""
 
 
 # prompt dir for agnoster theme

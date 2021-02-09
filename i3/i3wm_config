@@ -35,7 +35,7 @@ floating_modifier $mod
 bindsym $mod+Return exec xfce4-terminal
 
 #xfce4 dropdown terminal
-bindsym $mod+F12 exec xfce4-terminal --drop-down 
+bindsym $mod+F12 exec xfce4-terminal --drop-down  --title=dropdown
 #bindsym F12 exec xfce4-terminal --drop-down -AURS console
 for_window [class="xfce4-terminal"] floating enable
 

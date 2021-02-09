@@ -14,18 +14,18 @@ set $down j
 set $up k
 set $right l
 # Your preferred terminal emulator
-set $term st
+set $term xfce4-terminal
 # Your preferred application launcher
-set $menu dmenu_run
+set $menu dmenu_run -fn 'DejaVu Sans Mono-13' -nb "#3c3836" -nf "#f9f5d7"
 
 # Setting font and font size
-font pango:DejaVu Sans Mono 12
+font pango:DejaVu Sans Mono 13 
 
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 # output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
-output * bg ~/images/i3_wallpaper.jpg fill
+output * bg ~/images/i3_wallpaper.png fill
 #
 # Example configuration:
 #
@@ -64,7 +64,7 @@ exec swayidle \
 #
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
-input "1:1:AT_Translated_Set_2_keyboard" {
+input "type:keyboard" {
     xkb_options caps:swapescape
 }
 
@@ -232,19 +232,16 @@ bindsym $mod+r mode "resize"
 bar {
     position bottom
     colors {
-        statusline #ffffff
-        background #323232
-        inactive_workspace #32323200 #32323200 #5c5c5c
+    separator #dc322f
+    background #1d2021
+# statusline #268bd2
+    focused_workspace #fdf6e3 #f9f5d7 #3c3836
+    active_workspace #fdf6e3 #ddded8 #1d0029
+    inactive_workspace #586e75 #1d2021 #fbf1c7
+    urgent_workspace #d33682 #d33682 #fdf6e3
     }
     status_command i3status
 }
-
-# I use clementine a lot but my laptop does not have media keys
-# So these settings enable me to control clementine with my keyboard
-bindsym Mod1+p exec clementine --play-pause
-bindsym Mod1+s exec clementine --stop
-bindsym Mod1+h exec clementine --previous
-bindsym Mod1+l exec clementine --next
 
 # Screen shot using grim
 bindsym $mod+p exec "grim ~/images/Screenshot%Y-%m-%d%H:%M:%S.png"

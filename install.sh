@@ -64,8 +64,8 @@ vim_setup(){
     local dotfile_neovim="${DOTFILES_DIR}/editors/nvim-init.vim"
     replace_symlinks_or_move_files_to_old "$neovim_init_path" "$dotfile_neovim"
     # set up Plug (plugin manager)
-    curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     # install vim plugins
     vim -c ':PlugInstall' -c 'qa!'
 
@@ -112,6 +112,16 @@ i3_setup() {
     fi
 }
 
+# sets up i3 and i3 status configs and wallpaper/lock images
+sway_setup() {
+    # set up sway configs
+    local sway_folder="${HOME}/.config/sway"
+    mkdir -p "$sway_folder"
+
+    local dotfiles_sway="${DOTFILES_DIR}/swayconfig"
+    local sway_config="${sway_folder}/config"
+    replace_symlinks_or_move_files_to_old "$sway_config" "$dotfiles_sway"
+}
 
 # sets up X files to help launch i3 and xfce4
 X_setup() {

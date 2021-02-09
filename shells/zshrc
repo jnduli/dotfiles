@@ -126,4 +126,4 @@ alias tl-unscheduled="tl query \"closed_utc IS NULL AND due_utc IS NULL order by
 prompt_dir () {
     prompt_segment blue black "%C"
 }
-source /usr/share/nvm/init-nvm.sh
+# source /usr/share/nvm/init-nvm.sh

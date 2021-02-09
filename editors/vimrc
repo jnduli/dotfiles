@@ -18,6 +18,7 @@ Plug 'ElmCast/elm-vim' " Elm support
 Plug 'rrethy/vim-hexokinase' " Showing colors in vim
 Plug 'chrisbra/csv.vim'
 Plug 'editorconfig/editorconfig-vim' " support for editor config
+Plug 'fatih/vim-go'
 
 call plug#end()
 " ----------}}}

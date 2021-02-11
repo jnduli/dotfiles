@@ -185,7 +185,8 @@ other_applications_setup(){
 
     # set up dishes script
     local dotfile_dishes="${DOTFILES_DIR}/scripts/dishes.sh"
-    local dest_dishes="$HOME/.local/bin"
+    local dest_dishes="$HOME/.local/bin/dishes.sh"
+    mkdir -p "$HOME/.local/bin"
     replace_symlinks_or_move_files_to_old "$dest_dishes" "$dotfile_dishes"
 
 # TODO: download repositories required for use e.g. pomodoro, ledger, vimwiki

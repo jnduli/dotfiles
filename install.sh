@@ -160,7 +160,7 @@ shell_setup() {
     replace_symlinks_or_move_files_to_old "$tmux_conf" "$dotfiles_tmux"
 
     # tpm setup and tpm plugins
-    git clone https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
+    git_clone_with_failure_message https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
     sh -c "${HOME}/.tmux/plugins/tpm/bin/install_plugins"
 }
 
@@ -174,7 +174,7 @@ other_applications_setup(){
     git_clone_with_failure_message ssh://rookie@jnduli.co.ke:/home/rookie/git/ledger.git "$HOME/docs/ledger"
 
     # clone personal vimwiki
-    git clone ssh://rookie@jnduli.co.ke:/home/rookie/git/vimwiki.git "$HOME/vimwiki"
+    git_clone_with_failure_message ssh://rookie@jnduli.co.ke:/home/rookie/git/vimwiki.git "$HOME/vimwiki"
 
     mkdir -p "$HOME/projects"
     # clone blog site
@@ -183,11 +183,13 @@ other_applications_setup(){
     # pomodoro repo and setup
     git_clone_with_failure_message https://github.com/jnduli/pomodoro.git "$HOME/projects/pomodoro"
 
-    # set up dishes script
-    local dotfile_dishes="${DOTFILES_DIR}/scripts/dishes.sh"
-    local dest_dishes="$HOME/.local/bin/dishes.sh"
     mkdir -p "$HOME/.local/bin"
-    replace_symlinks_or_move_files_to_old "$dest_dishes" "$dotfile_dishes"
+    # set up custom scripts
+    local local_bin="$HOME/.local/bin"
+    # pomodoro
+    replace_symlinks_or_move_files_to_old "$local_bin/pomodoro.sh" "$HOME/projects/pomodoro/pomodoro.sh"
+    # dishes.sh
+    replace_symlinks_or_move_files_to_old "$local_bin/dishes.sh" "$DOTFILES_DIR/scripts/dishes.sh"
 
 # TODO: download repositories required for use e.g. pomodoro, ledger, vimwiki
 }

@@ -211,6 +211,9 @@ exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agen
 #for notifications on battery dead
 exec --no-startup-id xfce4-power-manager
 
+#for dunst notifications on battery dead
+exec --no-startup-id dunst
+
 # Enables the other output window
 bindsym $mod+m exec xrandr --output HDMI-1 --auto --right-of eDP-1
 # Move the current workspace to the next output

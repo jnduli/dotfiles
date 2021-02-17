@@ -20,7 +20,8 @@ install_packages() {
     local packages=''
     # i3 dependent packages
     # i3 group contains i3-wm, i3blocks, i3lock, i3status
-    packages+='i3 feh scrot'
+    # dunst installed for notifications
+    packages+='i3 feh scrot dunst'
 
     # I'm still dependent on xfce4 for somethings so I install the group
     # dmenu for openning apps, xautolock to lock screen
@@ -191,6 +192,9 @@ other_applications_setup(){
     # dishes.sh
     replace_symlinks_or_move_files_to_old "$local_bin/dishes.sh" "$DOTFILES_DIR/scripts/dishes.sh"
 
+    # set up dunstrc
+    mkdir -p "$HOME/.config/dunst"
+    replace_symlinks_or_move_files_to_old "$HOME/.config/dunst/dunstrc" "$DOTFILES_DIR/apps/dunstrc"
 # TODO: download repositories required for use e.g. pomodoro, ledger, vimwiki
 }
 

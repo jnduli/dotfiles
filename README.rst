@@ -1,6 +1,11 @@
 DOTFILES
 ========
 
+TODO:
+- [ ] add gruvbox theme to set up processes
+- [ ] update docs
+
+
 Setting up vim
 --------------
 

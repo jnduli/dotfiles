@@ -191,6 +191,8 @@ other_applications_setup(){
     replace_symlinks_or_move_files_to_old "$local_bin/pomodoro.sh" "$HOME/projects/pomodoro/pomodoro.sh"
     # dishes.sh
     replace_symlinks_or_move_files_to_old "$local_bin/dishes.sh" "$DOTFILES_DIR/scripts/dishes.sh"
+    # communication_prompt
+    replace_symlinks_or_move_files_to_old "$local_bin/communication_prompt.sh" "$DOTFILES_DIR/scripts/communication_prompt.sh"
 
     # set up dunstrc
     mkdir -p "$HOME/.config/dunst"

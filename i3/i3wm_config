@@ -209,7 +209,9 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute s
 exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1 &
 
 #for notifications on battery dead
-exec --no-startup-id xfce4-power-manager
+# spammy notifications on thinkpad t440, disabling for now
+# see: https://superuser.com/questions/1433936/power-manager-notifications-repeating-incessantly-power-problems
+# exec --no-startup-id xfce4-power-manager
 
 #for dunst notifications on battery dead
 exec --no-startup-id dunst

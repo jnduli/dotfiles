@@ -151,14 +151,15 @@ shell_setup() {
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
     # set up .zshrc
-    local zshrc_path="$HOME/.zshrc"
-    local dotfile_zshrc="${DOTFILES_DIR}/shells/zshrc"
-    replace_symlinks_or_move_files_to_old "$zshrc_path" "$dotfile_zshrc"
+    replace_symlinks_or_move_files_to_old "$HOME/.zshrc" "${DOTFILES_DIR}/shells/zshrc"
+    # set up bash files
+    replace_symlinks_or_move_files_to_old "${HOME}/.bashrc" "${DOTFILES_DIR}/shells/.bashrc"
+    replace_symlinks_or_move_files_to_old "${HOME}/.bash_profile" "${DOTFILES_DIR}/shells/.bash_profile"
 
     # set up tmux
-    local tmux_conf="${HOME}/.tmux.conf"
-    local dotfiles_tmux="${DOTFILES_DIR}/shells/tmux-conf"
-    replace_symlinks_or_move_files_to_old "$tmux_conf" "$dotfiles_tmux"
+    replace_symlinks_or_move_files_to_old "${HOME}/.tmux.conf" "${DOTFILES_DIR}/shells/tmux-conf"
+
+
 
     # tpm setup and tpm plugins
     git_clone_with_failure_message https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"

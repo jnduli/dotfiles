@@ -197,7 +197,9 @@ other_applications_setup(){
     # set up dunstrc
     mkdir -p "$HOME/.config/dunst"
     replace_symlinks_or_move_files_to_old "$HOME/.config/dunst/dunstrc" "$DOTFILES_DIR/apps/dunstrc"
-# TODO: download repositories required for use e.g. pomodoro, ledger, vimwiki
+    # set up gruvbox hard theme for xfce4 terminal
+    mkdir -p "$HOME/.local/share/xfce4/terminal/colorschemes"
+    replace_symlinks_or_move_files_to_old "$HOME/.local/share/xfce4/terminal/colorschemes/gruvbox-dark-hard.theme" "$DOTFILES_DIR/apps/xfce4_terminal_gruvbox-dark-hard.theme"
 }
 
 git_clone_with_failure_message() {

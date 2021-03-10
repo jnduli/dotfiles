@@ -297,6 +297,7 @@ let g:ale_python_prospector_options = '--no-external-config'
 let g:ale_fixers = {
     \   'haskell': ['brittany', 'hlint'],
     \ 'python': ['isort', 'yapf', 'remove_trailing_lines', 'trim_whitespace'],
+    \ 'ledger': ['trim_whitespace'],
     \}
 " ----------}}}
 

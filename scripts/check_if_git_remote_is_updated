@@ -3,6 +3,7 @@
 folders_to_check=(
     '/home/rookie/projects/pomodoro'
     '/home/rookie/docs/ledger'
+    '/home/rookie/docs/weekly'
     '/home/rookie/dotfiles'
     '/home/rookie/projects/blog'
     '/home/rookie/vimwiki'

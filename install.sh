@@ -194,6 +194,8 @@ other_applications_setup(){
     replace_symlinks_or_move_files_to_old "$local_bin/dishes.sh" "$DOTFILES_DIR/scripts/dishes.sh"
     # communication_prompt
     replace_symlinks_or_move_files_to_old "$local_bin/communication_prompt.sh" "$DOTFILES_DIR/scripts/communication_prompt.sh"
+    # check git remotes
+    replace_symlinks_or_move_files_to_old "$local_bin/check_if_git_remote_is_updated" "$DOTFILES_DIR/scripts/check_if_git_remote_is_updated"
 
     # set up dunstrc
     mkdir -p "$HOME/.config/dunst"

@@ -20,10 +20,11 @@ done
 
 
 if [[ ${#folders_not_in_sync[@]} -gt 0 ]]; then
-    echo "The following folders are not in sync"
+    echo -e "The following folders are not in sync" "\033[31m"
     for folder in "${folders_not_in_sync[@]}"; do
         echo -e "\t"$folder
     done
+    echo -e "\033[39;49m"
 else
     echo "All folders are in sync"
 fi

@@ -16,6 +16,11 @@ for folder in "${folders_to_check[@]}"; do
     files_not_commited=$(git status -s)
     if [[ -n $branches_info || -n $files_not_commited ]]; then
         folders_not_in_sync=("${folders_not_in_sync[@]}" $folder)
+    else
+        pull_result=$(git pull)
+        if [[ $pull_result != "Already up to date." ]]; then
+            echo $pull_result
+        fi
     fi
 done
 

@@ -35,7 +35,7 @@ set relativenumber " other lines shown relative to current line
 set numberwidth=2 " Minimum space set for line nos
 set tabstop=4 " <Tab> = 4 spaces
 set shiftwidth =4 " Kinda similar to tabstop
-set expandtab " Repalce <Tab> with spaces when used.
+set expandtab " Replace <Tab> with spaces when used.
 set copyindent " Use same indentation as found in files
 set autoindent " Copies current indent to next line
 set smartindent " Better indenting than autoindent e.g. line after {
@@ -45,7 +45,8 @@ cabbr <expr> %f expand('%:p:h') " Expands %f to directory in command
 cabbr <expr> %% expand('%:h') " Expands %% to directory in command
 set noshowmode " disables showing of mode coz this is already done by airline
 set foldmethod=syntax
-
+cnoremap <C-p> <UP> " Mapping to make it easier to find last command in commandmode
+set scrolloff=3 " keep cursor 3 lines from bottom or top
 " setting local leader and global leader
 let mapleader=";"
 let maplocalleader=","
@@ -66,10 +67,18 @@ iabbrev desing design
 iabbrev Desing Design
 iabbrev funtion function
 " ------}}}
+
+" VTE termincal cursor options ----{{{
+let &t_SI = "\<Esc>[6 q"
+let &t_SR = "\<Esc>[4 q"
+let &t_EI = "\<Esc>[2 q"
+"----}}}
+
 " ------}}}
 
 " Options for document files------{{{ 
 autocmd BufRead,BufNewFile *.txt,*.md,*.rst,*.tex,*.wiki setlocal textwidth=72
+set paste
 "------}}}
 
 " Editting of commonly used files ------{{{
@@ -217,15 +226,6 @@ nnoremap <silent> <leader>ak :ALEPrevious<cr>
 let g:calendar_options='nornu'
 " ------}}}
 
-" NerdCommenter Options ------{{{
-augroup nerd_commenter
-    let g:NERDSpaceDelims = 1 " Add spaces after comment delimiters by default
-    let g:NERDCompactSexyComs = 1 " Use compact syntax for prettified multi-line comments
-    let g:NERDCommentEmptyLines = 1 " Allow commenting and inverting empty lines (useful when commenting a region)
-    let g:NERDTrimTrailingWhitespace = 1 " Enable trimming of trailing whitespace when uncommenting
-augroup END
-" ------}}}
-
 " Ledger config options ------{{{
 " added to catch the most potential problems in file e.g. undefined accounts
 let g:ledger_extra_options = '--pedantic --explicit --check-payees'
@@ -275,11 +275,6 @@ function! LargeFile()
  autocmd VimEnter *  echo "The file is larger than " . (g:LargeFile / 1024 / 1024) . " MB, so some options are changed (see .vimrc for details)."
 endfunction
 " ------}}}
-"
-"
-" Mapping to make it easier to find last command in commandmode
-cnoremap <C-p> <UP>
-
 
 " Commands to help with haskell coding ----------{{{
 " commands run for haskell linters
@@ -301,17 +296,9 @@ let g:ale_fixers = {
     \}
 " ----------}}}
 
-" keep cursor 3 lines from bottom or top
-set scrolloff=3
 
 " hexokinase configs
 let g:Hexokinase_highlighters = ['backgroundfull']
 
 " Editorconfig options
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
-
-" VTE termincal cursor options ----{{{
-let &t_SI = "\<Esc>[6 q"
-let &t_SR = "\<Esc>[4 q"
-let &t_EI = "\<Esc>[2 q"
-"----}}}

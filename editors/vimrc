@@ -309,3 +309,9 @@ let g:Hexokinase_highlighters = ['backgroundfull']
 
 " Editorconfig options
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
+
+" VTE termincal cursor options ----{{{
+let &t_SI = "\<Esc>[6 q"
+let &t_SR = "\<Esc>[4 q"
+let &t_EI = "\<Esc>[2 q"
+"----}}}

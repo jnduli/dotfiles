@@ -25,7 +25,8 @@ install_packages() {
 
     # I'm still dependent on xfce4 for somethings so I install the group
     # dmenu for openning apps, xautolock to lock screen
-    packages+=' xfce4 dmenu xautolock'
+	# install alacritty to replace xfce4-terminal
+    packages+=' xfce4 dmenu xautolock alacritty'
 
     # editors I use
     packages+=' gvim neovim python-pynvim git curl'
@@ -203,6 +204,10 @@ other_applications_setup(){
     # set up gruvbox hard theme for xfce4 terminal
     mkdir -p "$HOME/.local/share/xfce4/terminal/colorschemes"
     replace_symlinks_or_move_files_to_old "$HOME/.local/share/xfce4/terminal/colorschemes/gruvbox-dark-hard.theme" "$DOTFILES_DIR/apps/xfce4_terminal_gruvbox-dark-hard.theme"
+
+	# set up dunstrc
+    mkdir -p "$HOME/.config/alacritty"
+    replace_symlinks_or_move_files_to_old "$HOME/.config/alacritty/alacritty.yml" "$DOTFILES_DIR/apps/alacritty.yml"
 }
 
 git_clone_with_failure_message() {

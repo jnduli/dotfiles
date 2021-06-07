@@ -31,8 +31,7 @@ font pango:DejaVu Sans Mono 10
 floating_modifier $mod
 
 # start a terminal
-#bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Return exec xfce4-terminal
+bindsym $mod+Return exec alacritty
 
 #xfce4 dropdown terminal
 bindsym $mod+F12 exec xfce4-terminal --drop-down  --title=dropdown

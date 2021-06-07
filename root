@@ -1,0 +1,1 @@
+{"version":1,"ops":[{"type":1,"author":{"id":"3028d836a4f1d0fa28fae0d5f6a17eb776a12bb3"},"timestamp":1623047253,"title":"Figure out how to install packages without being root","message":"When I run `sudo ./install.sh` it installs packages but also enters root,\ninstalling vim and other things there instead of in the local home directory.","files":null}]}

@@ -41,11 +41,14 @@ set autoindent " Copies current indent to next line
 set smartindent " Better indenting than autoindent e.g. line after {
 set incsearch " Show matching search pattern as you type
 set showmatch " Jump to matching bracket temporarily once typed
-cabbr <expr> %f expand('%:p:h') " Expands %f to directory in command
-cabbr <expr> %% expand('%:h') " Expands %% to directory in command
+" Expands %f to directory in command
+cabbr <expr> %f expand('%:p:h')
+" Expands %% to directory in command
+cabbr <expr> %% expand('%:h')
 set noshowmode " disables showing of mode coz this is already done by airline
 set foldmethod=syntax
-cnoremap <C-p> <UP> " Mapping to make it easier to find last command in commandmode
+" Mapping to make it easier to find last command in commandmode
+cnoremap <C-p> <UP>
 set scrolloff=3 " keep cursor 3 lines from bottom or top
 " setting local leader and global leader
 let mapleader=";"
@@ -78,7 +81,7 @@ let &t_EI = "\<Esc>[2 q"
 
 " Options for document files------{{{ 
 autocmd BufRead,BufNewFile *.txt,*.md,*.rst,*.tex,*.wiki setlocal textwidth=72
-set paste
+" set paste "don't enable, messes up a lot of things
 "------}}}
 
 " Editting of commonly used files ------{{{

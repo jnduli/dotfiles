@@ -32,7 +32,7 @@ install_packages() {
     packages+=' gvim neovim python-pynvim git curl'
 
     # other packages
-    packages+=' powerline-fonts tmux xdg-user-dirs ledger'
+    packages+=' powerline-fonts tmux xdg-user-dirs ledger rsync'
 
     pacman -Sy --noconfirm "$packages"
 }

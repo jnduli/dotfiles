@@ -1,6 +1,5 @@
 # If you come from bash you might have to change your $PATH.
 export PATH=$PATH:~/.local/bin
-export PATH=${PATH}:/home/rookie/edirect
 
 # Path to your oh-my-zsh installation.
 export ZSH=/home/rookie/.oh-my-zsh
@@ -9,14 +8,14 @@ export ZSH=/home/rookie/.oh-my-zsh
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="random"
+ZSH_THEME="bira"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
 # If set to an empty array, this variable will have no effect.
 # kennethreitz, robbyrussell also good
-ZSH_THEME_RANDOM_CANDIDATES=( "bira" )
+# ZSH_THEME_RANDOM_CANDIDATES=( "bira" )
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -80,7 +79,7 @@ source $ZSH/oh-my-zsh.sh
 # else
 #   export EDITOR='mvim'
 # fi
-export EDITOR=nvim
+export EDITOR=vim
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -122,10 +121,8 @@ alias tl-unscheduled="tl query \"closed_utc IS NULL AND due_utc IS NULL order by
 alias tl-down="rclone copy gdrive:backups/work_xps ~/gdrive_rclone --update" 
 alias tl-up="rclone copy ~/gdrive_rclone gdrive:backups/work_xps --update"
 
-
 # prompt dir for agnoster theme
 # Check docs here: http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
-prompt_dir () {
-    prompt_segment blue black "%C"
-}
-# source /usr/share/nvm/init-nvm.sh
+# prompt_dir () {
+#     prompt_segment blue black "%C"
+# }

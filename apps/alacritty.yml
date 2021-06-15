@@ -105,20 +105,23 @@ env:
 # Font configuration
 font:
   normal:
-    family: Source Code Pro
+    # also JetBrains Mono is another good alternative
+    family: Fira Mono
     style: Regular
 
   bold:
     style: Bold
 
   italic:
+    family: JetBrains Mono
     style: Italic
 
   bold_italic:
+    family: JetBrains Mono
     style: Bold Italic
 
   # Point size
-  size: 9.0
+  size: 9.5
 
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter
@@ -142,65 +145,106 @@ font:
 
 # If `true`, bold text is drawn using the bright color variants.
 draw_bold_text_with_bright_colors: true
-# Colors (Gruvbox dark)
-colors:
-  primary:
-    # hard contrast background - '#1d2021'
-    background:        &gruvbox_dark_bg '#282828'
-    # soft contrast background - '#32302f'
-    foreground:        '#fbf1c7'
-    bright_foreground: '#f9f5d7'
-    dim_foreground:    '#f2e5bc'
-  cursor:
-    text:   CellBackground
-    cursor: CellForeground
-  vi_mode_cursor:
-    text:   CellBackground
-    cursor: CellForeground
-  # search:
-  #   matches:
-  #     foreground: '#000000'
-  #     background: '#ffffff'
-  #   focused_match:
-  #    foreground: CellBackground
-  #    background: CellForeground
-  #   bar:
-  #     background: ''
-  #     foreground: ''
-  # line_indicator:
-  #   foreground: None
-  #   background: None
-  selection:
-    text:       CellBackground
-    background: CellForeground
-  bright:
-    black:   '#928374'
-    red:     '#fb4934'
-    green:   '#b8bb26'
-    yellow:  '#fabd2f'
-    blue:    '#83a598'
-    magenta: '#d3869b'
-    cyan:    '#8ec07c'
-    white:   '#ebdbb2'
-  normal:
-    black:   *gruvbox_dark_bg
-    red:     '#cc241d'
-    green:   '#98971a'
-    yellow:  '#d79921'
-    blue:    '#458588'
-    magenta: '#b16286'
-    cyan:    '#689d6a'
-    white:   '#a89984'
-  dim:
-    black:   '#32302f'
-    red:     '#9d0006'
-    green:   '#79740e'
-    yellow:  '#b57614'
-    blue:    '#076678'
-    magenta: '#8f3f71'
-    cyan:    '#427b58'
-    white:   '#928374'
-  # indexed_colors: []
+schemes:
+  vscode: &vscode
+    colors:
+      # Default colors
+      primary:
+        background: '#1e1e1e' #Background from Dark Theme
+      # Normal colors
+      normal:
+        black:   '#000000'
+        red:     '#cd3131'
+        green:   '#0dbc79'
+        yellow:  '#e5e510'
+        blue:    '#2472c8'
+        magenta: '#bc3fbc'
+        cyan:    '#11a8cd'
+        white:   '#e5e5e5'
+      # Bright colors
+      bright:
+        black:   '#666666'
+        red:     '#f14c4c'
+        green:   '#23d18b'
+        yellow:  '#f5f543'
+        blue:    '#3b8eea'
+        magenta: '#d670d6'
+        cyan:    '#29b8db'
+        white:   '#e5e5e5'
+
+  dracula: &dracula
+    colors:
+      # Default colors
+      primary:
+        background: '#282a36'
+        foreground: '#f8f8f2'
+      # Normal colors
+      normal:
+        black:   '#000000'
+        red:     '#ff5555'
+        green:   '#50fa7b'
+        yellow:  '#f1fa8c'
+        blue:    '#caa9fa'
+        magenta: '#ff79c6'
+        cyan:    '#8be9fd'
+        white:   '#bfbfbf'
+      # Bright colors
+      bright:
+        black:   '#575b70'
+        red:     '#ff6e67'
+        green:   '#5af78e'
+        yellow:  '#f4f99d'
+        blue:    '#caa9fa'
+        magenta: '#ff92d0'
+        cyan:    '#9aedfe'
+        white:   '#e6e6e6'
+  gruvbox_dark: &gruvbox_dark
+    primary:
+      # hard contrast background - '#1d2021'
+      # normal contrast background:        &gruvbox_dark_bg '#282828'
+      background:        &gruvbox_dark_bg '#1d2021'
+      # soft contrast background - '#32302f'
+      foreground:        '#fbf1c7'
+      bright_foreground: '#f9f5d7'
+      dim_foreground:    '#f2e5bc'
+    cursor:
+      text:   CellBackground
+      cursor: CellForeground
+    vi_mode_cursor:
+      text:   CellBackground
+      cursor: CellForeground
+    selection:
+      text:       CellBackground
+      background: CellForeground
+    bright:
+      black:   '#928374'
+      red:     '#fb4934'
+      green:   '#b8bb26'
+      yellow:  '#fabd2f'
+      blue:    '#83a598'
+      magenta: '#d3869b'
+      cyan:    '#8ec07c'
+      white:   '#ebdbb2'
+    normal:
+      black:   *gruvbox_dark_bg
+      red:     '#cc241d'
+      green:   '#98971a'
+      yellow:  '#d79921'
+      blue:    '#458588'
+      magenta: '#b16286'
+      cyan:    '#689d6a'
+      white:   '#a89984'
+    dim:
+      black:   '#32302f'
+      red:     '#9d0006'
+      green:   '#79740e'
+      yellow:  '#b57614'
+      blue:    '#076678'
+      magenta: '#8f3f71'
+      cyan:    '#427b58'
+      white:   '#928374'
+    # indexed_colors: []
+colors: *gruvbox_dark
 
 # Bell
 #

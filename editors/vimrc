@@ -102,9 +102,9 @@ augroup indent_2_spaces
 augroup END
 "------}}}
 
-" Color configs, set colorscheme here ------{{{
+" " Color configs, set colorscheme here ------{{{
+set termguicolors " for more vibrant colors
 let g:gruvbox_italic=1
-" let g:gruvbox_contrast_light="hard" " can be soft, medium(default) or hard
 let g:gruvbox_contrast_dark="hard" " can be soft, medium(default) or hard
 set background=dark
 colorscheme gruvbox

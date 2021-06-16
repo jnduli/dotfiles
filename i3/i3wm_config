@@ -34,10 +34,11 @@ floating_modifier $mod
 # start a terminal
 bindsym $mod+Return exec $term
 
+# disabled for the sake of alacritty drop down. Left this here in case I need it in the future
 #xfce4 dropdown terminal
-bindsym $mod+F12 exec xfce4-terminal --drop-down  --title=dropdown
-#bindsym F12 exec xfce4-terminal --drop-down -AURS console
-for_window [class="xfce4-terminal"] floating enable
+#bindsym $mod+F12 exec xfce4-terminal --drop-down  --title=dropdown
+##bindsym F12 exec xfce4-terminal --drop-down -AURS console
+#for_window [class="xfce4-terminal"] floating enable
 
 # alacritty drop down menu
 exec --no-startup-id $term --title dropdown_term

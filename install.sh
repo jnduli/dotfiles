@@ -18,23 +18,20 @@ is_archlinux_or_exit() {
 install_packages() {
     is_archlinux_or_exit
     local packages=''
-    # i3 dependent packages
+    # window manager packages
     # i3 group contains i3-wm, i3blocks, i3lock, i3status
-    # dunst installed for notifications
-    packages+='i3 feh scrot dunst'
+    # dunst -> notifications
+    packages+='i3 feh scrot dunst dmenu xautolock alacritty'
 
     # I'm still dependent on xfce4 for somethings so I install the group
-    # dmenu for openning apps, xautolock to lock screen
-	# install alacritty to replace xfce4-terminal
-    packages+=' xfce4 dmenu xautolock alacritty'
+    packages+=' xfce4'
 
-    # editors I use
-    packages+=' gvim neovim python-pynvim git curl'
+    packages+=' gvim git curl tmux xdg-user-dirs ledger rsync ranger'
 
-    # other packages
-    packages+=' powerline-fonts tmux xdg-user-dirs ledger rsync'
-
-    pacman -Sy --noconfirm "$packages"
+    # fonts
+    # TODO: install with yay: fontpreview-ueberzug-git
+    packages+=' noto-fonts-emoji terminus-font-ttf ttf-fira-code ttf-fira-mono ttf-jetbrains-mono ttf-ubuntu-font-family adobe-source-code-pro-fonts'
+    sudo pacman -Sy --noconfirm $packages
 }
 
 # if a file is a symlink, replace this will new file
@@ -57,14 +54,13 @@ replace_symlinks_or_move_files_to_old(){
 # Sets up vim and vim and all plugins in use
 vim_setup(){
     # set up .vimrc and init.vim
+    replace_symlinks_or_move_files_to_old "$HOME/.vimrc" "${DOTFILES_DIR}/editors/vimrc"
     local vimrc_path="$HOME/.vimrc"
     local dotfile_vimrc="${DOTFILES_DIR}/editors/vimrc"
     replace_symlinks_or_move_files_to_old "$vimrc_path" "$dotfile_vimrc"
     local neovim_folder="$HOME/.config/nvim"
     mkdir -p "$neovim_folder"
-    local neovim_init_path="${neovim_folder}/init.vim"
-    local dotfile_neovim="${DOTFILES_DIR}/editors/nvim-init.vim"
-    replace_symlinks_or_move_files_to_old "$neovim_init_path" "$dotfile_neovim"
+    replace_symlinks_or_move_files_to_old "${neovim_folder}/init.vim" "${DOTFILES_DIR}/editors/nvim-init.vim"
     # set up Plug (plugin manager)
     curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -159,9 +155,6 @@ shell_setup() {
 
     # set up tmux
     replace_symlinks_or_move_files_to_old "${HOME}/.tmux.conf" "${DOTFILES_DIR}/shells/tmux-conf"
-
-
-
     # tpm setup and tpm plugins
     git_clone_with_failure_message https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
     sh -c "${HOME}/.tmux/plugins/tpm/bin/install_plugins"

@@ -29,8 +29,8 @@ install_packages() {
     packages+=' gvim git curl tmux xdg-user-dirs ledger rsync ranger'
 
     # fonts
-    # TODO: install with yay: fontpreview-ueberzug-git
-    packages+=' noto-fonts-emoji terminus-font-ttf ttf-fira-code ttf-fira-mono ttf-jetbrains-mono ttf-ubuntu-font-family adobe-source-code-pro-fonts'
+    # TODO: install with yay: fontpreview-ueberzug-git terminus-font-ttf
+    packages+=' noto-fonts-emoji ttf-fira-code ttf-fira-mono ttf-jetbrains-mono ttf-ubuntu-font-family adobe-source-code-pro-fonts'
     sudo pacman -Sy --noconfirm $packages
 }
 

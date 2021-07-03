@@ -106,7 +106,8 @@ env:
 font:
   normal:
     # also JetBrains Mono is another good alternative
-    family: Fira Mono
+    # family: Fira Mono
+    family: JetBrains Mono
     style: Regular
 
   bold:

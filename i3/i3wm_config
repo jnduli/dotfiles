@@ -224,7 +224,8 @@ exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agen
 exec --no-startup-id dunst
 
 # Enables the other output window
-bindsym $mod+m exec xrandr --output HDMI-1 --auto --right-of eDP-1
+# bindsym $mod+m exec xrandr --output HDMI-1 --auto --right-of eDP-1
+bindsym $mod+m exec xrandr --output DP3 --auto --right-of eDP1
 # Move the current workspace to the next output
 # (effectively toggles when you only have two outputs)
 bindsym $mod+x move workspace to output left

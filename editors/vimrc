@@ -19,6 +19,7 @@ Plug 'rrethy/vim-hexokinase' " Showing colors in vim
 Plug 'chrisbra/csv.vim'
 Plug 'editorconfig/editorconfig-vim' " support for editor config
 Plug 'fatih/vim-go'
+Plug 'https://github.com/adamheins/vim-highlight-match-under-cursor' " support different hightlights for search
 
 call plug#end()
 " ----------}}}
@@ -41,6 +42,7 @@ set autoindent " Copies current indent to next line
 set smartindent " Better indenting than autoindent e.g. line after {
 set incsearch " Show matching search pattern as you type
 set showmatch " Jump to matching bracket temporarily once typed
+set hlsearch "mark all matching things
 " Expands %f to directory in command
 cabbr <expr> %f expand('%:p:h')
 " Expands %% to directory in command

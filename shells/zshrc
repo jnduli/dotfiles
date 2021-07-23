@@ -120,6 +120,7 @@ alias tl-kesho="tl query \"closed_utc IS NULL AND DATE(due_utc) <= DATE('now', '
 alias tl-unscheduled="tl query \"closed_utc IS NULL AND due_utc IS NULL order by priority DESC\""
 alias tl-down="rclone copy gdrive:backups/work_xps ~/gdrive_rclone --update" 
 alias tl-up="rclone copy ~/gdrive_rclone gdrive:backups/work_xps --update"
+alias tl-remaining="sqlite3 -header -column ~/gdrive_rclone/tasklite/main.db \"SELECT count(*) AS remaining from tasks_view WHERE DATE(due_utc)<=DATE('now') AND closed_utc IS NULL\""
 
 # prompt dir for agnoster theme
 # Check docs here: http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html

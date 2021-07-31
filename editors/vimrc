@@ -108,7 +108,7 @@ augroup END
 set termguicolors " for more vibrant colors
 let g:gruvbox_italic=1
 let g:gruvbox_contrast_dark="hard" " can be soft, medium(default) or hard
-set background=light
+set background=dark
 colorscheme gruvbox
 
 " Color name (:help cterm-colors) or ANSI code

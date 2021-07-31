@@ -275,7 +275,7 @@ schemes:
       cyan:    '#427b58'
       white:   '#3c3836'
       # indexed_colors: []
-colors: *gruvbox_light
+colors: *gruvbox_dark
 
 # Bell
 #

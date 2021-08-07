@@ -196,7 +196,7 @@ gaps inner 5
 exec feh --bg-fill ~/images/i3_wallpaper.png
 
 #scrot screen shot
-bindsym $mod+p exec "scrot ~/images/Screenshot%Y-%m-%d%H:%M:%S.png"
+bindsym $mod+p exec "scrot ~/images/Screenshot%Y-%m-%d_at_%H-%M-%S.png"
 
 #setting up i3lock
 exec --no-startup-id xautolock -time 5 -locker 'i3lock -i ~/images/i3_lock.png -p win -n'

@@ -20,6 +20,7 @@ Plug 'chrisbra/csv.vim'
 Plug 'editorconfig/editorconfig-vim' " support for editor config
 Plug 'fatih/vim-go'
 Plug 'https://github.com/adamheins/vim-highlight-match-under-cursor' " support different hightlights for search
+Plug 'puremourning/vimspector'
 
 call plug#end()
 " ----------}}}
@@ -311,3 +312,7 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 " Copy a BitBucket link to the current file (and line) to the clipboard
 " adapted from https://paulherron.com/blog/copy_bitbucket_link_current_file_vim
 nnoremap <Leader>B :let bitbucketPath = split(split(system('git config --get remote.origin.url'), 'bitbucket.org')[1], '\.')[0] \| let @+ = 'https://bitbucket.org/' . bitbucketPath . '/' . '/src/development/' . expand("%") . '#lines-' . line(".")<CR><CR>
+
+
+" Being experimented on
+let g:vimspector_enable_mappings = 'HUMAN'

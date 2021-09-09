@@ -22,6 +22,10 @@ Plug 'fatih/vim-go'
 Plug 'https://github.com/adamheins/vim-highlight-match-under-cursor' " support different hightlights for search
 Plug 'puremourning/vimspector'
 
+if has("nvim")
+    Plug 'neovim/nvim-lspconfig'
+endif
+
 call plug#end()
 " ----------}}}
 
@@ -316,3 +320,7 @@ nnoremap <Leader>B :let bitbucketPath = split(split(system('git config --get rem
 
 " Being experimented on
 let g:vimspector_enable_mappings = 'HUMAN'
+" for normal mode - the word under the cursor
+nmap <Leader>di <Plug>VimspectorBalloonEval
+" for visual mode, the visually selected text
+xmap <Leader>di <Plug>VimspectorBalloonEval

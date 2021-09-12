@@ -19,11 +19,12 @@ Plug 'rrethy/vim-hexokinase' " Showing colors in vim
 Plug 'chrisbra/csv.vim'
 Plug 'editorconfig/editorconfig-vim' " support for editor config
 Plug 'fatih/vim-go'
-Plug 'https://github.com/adamheins/vim-highlight-match-under-cursor' " support different hightlights for search
+" Plug 'https://github.com/adamheins/vim-highlight-match-under-cursor' " support different hightlights for search
 Plug 'puremourning/vimspector'
 
 if has("nvim")
     Plug 'neovim/nvim-lspconfig'
+    Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 endif
 
 call plug#end()

@@ -2,6 +2,8 @@ set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
 source ~/.vimrc
 
+
+" Neovim lsp
 lua << EOF
 require'lspconfig'.pyright.setup{}
 EOF
@@ -50,5 +52,36 @@ for _, lsp in ipairs(servers) do
       debounce_text_changes = 150,    
     }    
   }    
+
+-- diagnostics
+vim.lsp.handlers["textDocument/publishDiagnostics"] =
+    vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+        -- Disable underline, it's very annoying
+        underline = false,
+        -- virtual_text = false,
+        -- Enable virtual text, override spacing to 4
+        -- virtual_text = {spacing = 4},
+        -- Use a function to dynamically turn signs off
+        -- and on, using buffer local variables
+        -- signs = true,
+        -- update_in_insert = false
+    })
 end    
+EOF
+
+
+" Neovim treesitter
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "maintained", -- one of "all", "maintained" (parsers with maintainers), or a list of languages
+  highlight = {
+    enable = true,              -- false will disable the whole extension
+    -- disable = { "c", "rust" },  -- list of language that will be disabled
+    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+    -- Instead of true it can also be a list of languages
+    additional_vim_regex_highlighting = false,
+  },
+}
 EOF

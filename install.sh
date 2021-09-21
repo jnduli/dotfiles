@@ -132,12 +132,12 @@ X_setup() {
     replace_symlinks_or_move_files_to_old "$xserverrc" "$dotfile_xserver"
 
     # xdg-dirs setup
-    local user_dirs_conf="${HOME}/.config/users-dirs.conf"
-    local dotfile_user_dirs_conf="${HOME}/X11/user-dirs.conf"
+    local user_dirs_conf="${HOME}/.config/user-dirs.conf"
+    local dotfile_user_dirs_conf="${DOTFILES_DIR}/X11/user-dirs.conf"
     replace_symlinks_or_move_files_to_old "$user_dirs_conf" "$dotfile_user_dirs_conf"
 
-    local user_dirs_dirs="${HOME}/.config/users-dirs.dirs"
-    local dotfile_user_dirs_dirs="${HOME}/X11/user-dirs.dirs"
+    local user_dirs_dirs="${HOME}/.config/user-dirs.dirs"
+    local dotfile_user_dirs_dirs="${DOTFILES_DIR}/X11/user-dirs.dirs"
     replace_symlinks_or_move_files_to_old "$user_dirs_dirs" "$dotfile_user_dirs_dirs"
 }
 
@@ -171,6 +171,8 @@ other_applications_setup(){
 
     # clone personal vimwiki
     git_clone_with_failure_message ssh://rookie@jnduli.co.ke:/home/rookie/git/vimwiki.git "$HOME/vimwiki"
+    # pass
+    git_clone_with_failure_message ssh://rookie@jnduli.co.ke:/home/rookie/git/password-store.git "$HOME/.password-store"
 
     mkdir -p "$HOME/projects"
     # clone blog site
@@ -227,7 +229,6 @@ install.sh
  -i : Ignores package installations
 EOF
 }
-
 
 options () {
     while getopts "hi" OPTION; do

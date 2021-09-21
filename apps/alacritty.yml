@@ -203,7 +203,7 @@ schemes:
     primary:
       # hard contrast background - '#1d2021'
       # normal contrast background:        &gruvbox_dark_bg '#282828'
-      background:        &gruvbox_dark_bg '#1d2021'
+      background:        &gruvbox_dark_bg '#282828'
       # soft contrast background - '#32302f'
       foreground:        '#fbf1c7'
       bright_foreground: '#f9f5d7'
@@ -275,7 +275,7 @@ schemes:
       cyan:    '#427b58'
       white:   '#3c3836'
       # indexed_colors: []
-colors: *gruvbox_dark
+colors: *dracula
 
 # Bell
 #

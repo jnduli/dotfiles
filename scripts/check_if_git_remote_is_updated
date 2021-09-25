@@ -9,6 +9,7 @@ folders_to_check=(
     '/home/rookie/dotfiles'
     '/home/rookie/projects/blog'
     '/home/rookie/vimwiki'
+    '/home/rookie/.password-store'
     ) 
 folders_not_in_sync=()
 

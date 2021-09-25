@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# TODO: may be add support for all folders in the projects folder
+
 folders_to_check=(
     '/home/rookie/projects/pomodoro'
     '/home/rookie/docs/ledger'

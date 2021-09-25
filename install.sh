@@ -39,7 +39,7 @@ install_packages() {
 # if it is an actual file, move this to path.old
 # symlink path with file in dotfiles
 # Arguments:
-#   filepath: the location of file
+#   sym_filepath: the location of symlink
 #   localpath: file in dotfiles folder to replace
 replace_symlinks_or_move_files_to_old(){
     if [ -L "$1" ]; then
@@ -66,7 +66,7 @@ vim_setup(){
     curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     # install vim plugins
-    vim -c ':PlugInstall' -c 'qa!'
+    nvim -c ':PlugInstall' -c 'qa!'
 
     # personal snippets setup
     local snippets_dest="${HOME}/.vim/mysnippets"
@@ -162,6 +162,12 @@ shell_setup() {
 }
 
 other_applications_setup(){
+    # set up location for custom scripts
+    mkdir -p "$HOME/.local/bin"
+    local local_bin="$HOME/.local/bin"
+    # set up projects folder
+    mkdir -p "$HOME/projects"
+
     # set up .ledgerrc
     local ledgerrc="$HOME/.ledgerrc"
     local dotfile_ledgerrc="${DOTFILES_DIR}/apps/ledgerrc"
@@ -170,23 +176,22 @@ other_applications_setup(){
     # clone ledger repo
     git_clone_with_failure_message ssh://rookie@jnduli.co.ke:/home/rookie/git/ledger.git "$HOME/docs/ledger"
 
+    # weekly entries
+    git_clone_with_failure_message ssh://rookie@jnduli.co.ke:/home/rookie/git/weekly.git "$HOME/docs/weekly"
+    replace_symlinks_or_move_files_to_old "$local_bin/week_entry" "$HOME/docs/weekly/week_entry.sh"
+
     # clone personal vimwiki
     git_clone_with_failure_message ssh://rookie@jnduli.co.ke:/home/rookie/git/vimwiki.git "$HOME/vimwiki"
     # pass
     git_clone_with_failure_message ssh://rookie@jnduli.co.ke:/home/rookie/git/password-store.git "$HOME/.password-store"
 
-    mkdir -p "$HOME/projects"
     # clone blog site
     git_clone_with_failure_message https://github.com/jnduli/blog_jnduli.co.ke.git "$HOME/projects/blog"
 
     # pomodoro repo and setup
     git_clone_with_failure_message https://github.com/jnduli/pomodoro.git "$HOME/projects/pomodoro"
+    replace_symlinks_or_move_files_to_old "$local_bin/pomodoro" "$HOME/projects/pomodoro/pomodoro.sh"
 
-    mkdir -p "$HOME/.local/bin"
-    # set up custom scripts
-    local local_bin="$HOME/.local/bin"
-    # pomodoro
-    replace_symlinks_or_move_files_to_old "$local_bin/pomodoro.sh" "$HOME/projects/pomodoro/pomodoro.sh"
     # dishes.sh
     replace_symlinks_or_move_files_to_old "$local_bin/dishes.sh" "$DOTFILES_DIR/scripts/dishes.sh"
     # communication_prompt

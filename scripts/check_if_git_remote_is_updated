@@ -1,4 +1,5 @@
 #!/bin/bash
+# I've parallelized the git checks so that I get faster results
 
 # TODO: may be add support for all folders in the projects folder
 
@@ -11,29 +12,23 @@ folders_to_check=(
     '/home/rookie/vimwiki'
     '/home/rookie/.password-store'
     ) 
-folders_not_in_sync=()
 
-for folder in "${folders_to_check[@]}"; do
-    cd $folder
-    branches_info=$(git branch -vv | grep -E -o 'ahead|behind')
-    files_not_commited=$(git status -s)
+check_folder_sync_status() {
+    local folder=$1
+    branches_info=$(git -C $folder branch -vv | grep -E -o 'ahead|behind')
+    files_not_commited=$(git -C $folder status -s)
     if [[ -n $branches_info || -n $files_not_commited ]]; then
-        folders_not_in_sync=("${folders_not_in_sync[@]}" $folder)
+        echo -e "\033[31m$folder\033[39;49m not in sync"
     else
-        pull_result=$(git pull)
+        pull_result=$(git -C $folder pull)
         if [[ $pull_result != "Already up to date." ]]; then
             echo $pull_result
         fi
     fi
+}
+
+for folder in "${folders_to_check[@]}"; do
+    check_folder_sync_status $folder &
 done
 
-
-if [[ ${#folders_not_in_sync[@]} -gt 0 ]]; then
-    echo -e "The following folders are not in sync" "\033[31m"
-    for folder in "${folders_not_in_sync[@]}"; do
-        echo -e "\t"$folder
-    done
-    echo -e "\033[39;49m"
-else
-    echo "All folders are in sync"
-fi
+wait

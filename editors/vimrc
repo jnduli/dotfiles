@@ -303,7 +303,7 @@ let g:ale_linters = {
     \   'python': ['prospector'],
     \}
 
-let g:ale_python_prospector_options = '--no-external-config'
+" let g:ale_python_prospector_options = '--no-external-config'
 
 let g:ale_fixers = {
     \   'haskell': ['brittany', 'hlint'],

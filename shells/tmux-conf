@@ -19,7 +19,7 @@ unbind ,
 bind-key , command-prompt -p (rename-window) "rename-window '%%'"
 
 #highlight active window
-# set-window-option -g window-status-current-bg red
+set-window-option -g window-status-current-style bg=white,fg=black
 # vim-like pane resizing  
 bind -r C-k resize-pane -U
 bind -r C-j resize-pane -D

@@ -197,7 +197,7 @@ other_applications_setup(){
     # communication_prompt
     replace_symlinks_or_move_files_to_old "$local_bin/communication_prompt.sh" "$DOTFILES_DIR/scripts/communication_prompt.sh"
     # check git remotes
-    replace_symlinks_or_move_files_to_old "$local_bin/check_if_git_remote_is_updated" "$DOTFILES_DIR/scripts/check_if_git_remote_is_updated"
+    replace_symlinks_or_move_files_to_old "$local_bin/sync_git_repos" "$DOTFILES_DIR/scripts/sync_git_repos"
 
     # tasklite
     mkdir -p "$HOME/.config/tasklite"

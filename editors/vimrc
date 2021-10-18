@@ -244,6 +244,7 @@ let g:calendar_options='nornu'
 
 " Ledger config options ------{{{
 " added to catch the most potential problems in file e.g. undefined accounts
+let g:ledger_bin = 'ledger'
 let g:ledger_extra_options = '--pedantic --explicit --check-payees'
 let g:ledger_default_commodity = 'Ksh'
 let g:ledger_commodity_sep = ' ' " Should be a space btn default commodity and amount

@@ -22,7 +22,8 @@ Plug 'editorconfig/editorconfig-vim' " support for editor config
 Plug 'fatih/vim-go'
 " Plug 'https://github.com/adamheins/vim-highlight-match-under-cursor' " support different hightlights for search
 Plug 'puremourning/vimspector'
-Plug 'vim-scripts/AnsiEsc.vim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 
 if has("nvim")
     Plug 'neovim/nvim-lspconfig'

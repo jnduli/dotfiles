@@ -323,8 +323,15 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 
 " Copy a BitBucket link to the current file (and line) to the clipboard
 " adapted from https://paulherron.com/blog/copy_bitbucket_link_current_file_vim
-nnoremap <Leader>B :let bitbucketPath = split(split(system('git config --get remote.origin.url'), 'bitbucket.org')[1], '\.')[0] \| let @+ = 'https://bitbucket.org/' . bitbucketPath . '/' . '/src/development/' . expand("%") . '#lines-' . line(".")<CR><CR>
-
+function! BitBucketPathLink()
+    " TODO: clean this up to return path
+    let originUrl = system('git config --get remote.origin.url')
+    let gitPathToFile = trim(system('git ls-files --full-name '. expand("%")))
+    let bitbucketPath = trim(split(split(system(originUrl), 'bitbucket.org:')[1], '\.')[0])
+    let path = 'https://bitbucket.org/' . bitbucketPath . '/src/development/' . gitPathToFile . '#lines-' . line(".")
+    let @+ = path
+endfunction
+nnoremap <Leader>B :call BitBucketPathLink() <CR><CR>
 
 " Being experimented on
 let g:vimspector_enable_mappings = 'HUMAN'

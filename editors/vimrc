@@ -327,7 +327,9 @@ function! BitBucketPathLink()
     " TODO: clean this up to return path
     let originUrl = system('git config --get remote.origin.url')
     let gitPathToFile = trim(system('git ls-files --full-name '. expand("%")))
-    let bitbucketPath = trim(split(split(system(originUrl), 'bitbucket.org:')[1], '\.')[0])
+    " echo originUrl
+    " echo split(originUrl, 'bitbucket.org:\?')
+    let bitbucketPath = trim(split(split(originUrl, 'bitbucket.org:\?')[1], '\.')[0])
     let path = 'https://bitbucket.org/' . bitbucketPath . '/src/development/' . gitPathToFile . '#lines-' . line(".")
     let @+ = path
 endfunction

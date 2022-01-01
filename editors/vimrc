@@ -8,19 +8,11 @@ Plug 'w0rp/ale' " Linting support (syntax and semantics)
 Plug 'tpope/vim-commentary' " commenting support
 " Plug 'morhetz/gruvbox' "Gruvbox color scheme
 Plug 'https://github.com/gruvbox-community/gruvbox.git'
-Plug 'nlknguyen/papercolor-theme'
-Plug 'junegunn/goyo.vim' | Plug 'junegunn/limelight.vim' " Distraction free writing
 Plug 'ledger/vim-ledger' " ledger-cli support
 Plug 'vim-airline/vim-airline' " Using airline for status line
 Plug 'tpope/vim-surround' " Helps in surrounding text e.g. replace \" with '
-Plug 'posva/vim-vue' " Required for proper vue editting
-Plug 'ElmCast/elm-vim' " Elm support
-" Plug 'alx741/vim-hindent' " Haskell indenting
-Plug 'rrethy/vim-hexokinase' " Showing colors in vim
-Plug 'chrisbra/csv.vim'
 Plug 'editorconfig/editorconfig-vim' " support for editor config
 Plug 'fatih/vim-go'
-" Plug 'https://github.com/adamheins/vim-highlight-match-under-cursor' " support different hightlights for search
 Plug 'puremourning/vimspector'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'

@@ -7,7 +7,7 @@ bodyStyle: white
 bodyClosedStyle: black
 closedStyle: dull grey
 dueStyle: yellow
-overdueStyle: red
+overdueStyle: light red
 tagStyle: blue
 utcFormat: YYYY-MM-DD H:MI:S
 

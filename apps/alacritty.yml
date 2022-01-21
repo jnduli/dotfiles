@@ -105,24 +105,32 @@ env:
 # Font configuration
 font:
   normal:
-    # also JetBrains Mono is another good alternative
-    # family: Fira Mono
-    family: JetBrains Mono
-    style: Regular 
+    family: Ubuntu Mono
+    # family: JetBrains Mono
+    style: Regular
 
-  bold:
-    style: Bold
+  size: 12
 
-  italic:
-    family: JetBrains Mono
-    style: Italic
+  # JetBrains things
+  # normal:
+  #   # also JetBrains Mono is another good alternative
+  #   # family: Fira Mono
+  #   family: JetBrains Mono
+  #   style: Regular 
 
-  bold_italic:
-    family: JetBrains Mono
-    style: Bold Italic
+  # bold:
+  #   style: Bold
 
-  # Point size
-  size: 11 
+  # italic:
+  #   family: JetBrains Mono
+  #   style: Italic
+
+  # bold_italic:
+  #   family: JetBrains Mono
+  #   style: Bold Italic
+
+  # # Point size
+  # size: 11 
 
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter

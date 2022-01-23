@@ -6,4 +6,4 @@ then
     exit
 fi
 
-$COMMAND -s 20 -b '#000000' -f '#ffffff' -t 'O098\n1lIi\n356\nz2\nnh\n\nabcdefghijklmnopqrstuvwxyz\nABCDEFGHIJKLMNOPQRSTUVWXYZ\nThe quick brown fox jumped over the lazy dogs\n\n== != -> >= <='
+$COMMAND -s 20 -b '#000000' -f '#ffffff' -t 'oO098B\n1lIi\n356\nz2\nrnh\n\nabcdefghijklmnopqrstuvwxyz\nABCDEFGHIJKLMNOPQRSTUVWXYZ\nThe quick brown fox jumped over the lazy dogs\n\n== != -> >= <='

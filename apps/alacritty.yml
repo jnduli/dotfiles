@@ -105,11 +105,13 @@ env:
 # Font configuration
 font:
   normal:
-    family: Ubuntu Mono
+
+    family: mononoki # use with size 12
+    # family: Ubuntu Mono # use with size 14
     # family: JetBrains Mono
     style: Regular
 
-  size: 14
+  size: 12
 
   # JetBrains things
   # normal:

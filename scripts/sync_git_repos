@@ -5,6 +5,7 @@
 
 folders_to_check=(
     '/home/rookie/projects/pomodoro'
+    '/home/rookie/projects/purity_maths_questions'
     '/home/rookie/docs/ledger'
     '/home/rookie/docs/weekly'
     '/home/rookie/dotfiles'

@@ -327,6 +327,22 @@ function! BitBucketPathLink()
 endfunction
 nnoremap <Leader>B :call BitBucketPathLink() <CR><CR>
 
+
+function! GitHubPathLink()
+    " Returns a path to github.com for the current line
+    " e.g. https://github.com/jnduli/dotfiles/blob/57ebd0145c85580a171285a4440b8d16e74c380c/i3/i3status_config#L14
+    let originUrl = system('git config --get remote.origin.url')
+    let mainBranch = system('git symbolic-ref --short refs/remotes/origin/HEAD')
+    let mainHash = trim(system('git rev-parse ' . mainBranch))
+    let gitPathToFile = trim(system('git ls-files --full-name '. expand("%")))
+    " echo originUrl
+    " echo split(originUrl, 'bitbucket.org:\?')
+    let relativeGithub = trim(split(split(originUrl, 'github.com:\?')[1], '\.')[0])
+    let path = 'https://github.com/' . relativeGithub . '/blob/'. mainHash . '/' . gitPathToFile . '#L' . line(".")
+    let @+ = path
+endfunction
+nnoremap <Leader>G :call GitHubPathLink() <CR><CR>
+
 " Being experimented on
 let g:vimspector_enable_mappings = 'HUMAN'
 " for normal mode - the word under the cursor

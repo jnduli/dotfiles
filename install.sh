@@ -22,7 +22,7 @@ install_packages() {
     # window manager packages
     # i3 group contains i3-wm, i3blocks, i3lock, i3status
     # dunst -> notifications
-    packages+='i3 feh scrot dunst dmenu xautolock alacritty'
+    packages+='i3 feh maim scrot dunst dmenu xautolock alacritty'
 
     # I'm still dependent on xfce4 for somethings so I install the group
     packages+=' xfce4'

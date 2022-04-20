@@ -242,7 +242,7 @@ let g:ledger_extra_options = '--pedantic --explicit --check-payees'
 let g:ledger_default_commodity = 'Ksh'
 let g:ledger_commodity_sep = ' ' " Should be a space btn default commodity and amount
 let g:ledger_commodity_before = 1 " Default commodity prepended to amount
-let g:ledger_align_at = 50 " sets up the column of aligning decimal point
+let g:ledger_align_at = 60 " sets up the column of aligning decimal point
 
 " allows autocomplete and align in ledger files
 augroup filetype_ledger

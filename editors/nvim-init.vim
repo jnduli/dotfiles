@@ -106,4 +106,5 @@ require'nvim-treesitter.configs'.setup {
 }
 EOF
 
+let g:neon_style = "dark"
 colorscheme neon

@@ -64,7 +64,7 @@ set wildmode=longest:full
 set wildmenu
 
 set spell
-set spelllang=en_us,en_gb
+set spelllang=en_us,en_gb,sw,en
 
 packadd! matchit " allows matching xml tags and ifs
 
@@ -85,7 +85,7 @@ let &t_EI = "\<Esc>[2 q"
 " ------}}}
 
 " Options for document files------{{{ 
-autocmd BufRead,BufNewFile *.txt,*.md,*.rst,*.tex,*.wiki setlocal textwidth=72
+autocmd BufRead,BufNewFile *.txt,*.md,*.rst,*.tex,*.wiki setlocal textwidth=80
 " set paste "don't enable, messes up a lot of things
 "------}}}
 

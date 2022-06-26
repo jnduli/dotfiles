@@ -34,6 +34,7 @@ set nocompatible
 filetype plugin indent on " enables both plugin and indents of files
 syntax on
 
+set autoread " reload file when changed from outside
 set number " show line number where cursor is
 set relativenumber " other lines shown relative to current line
 set numberwidth=2 " Minimum space set for line nos
@@ -46,6 +47,8 @@ set smartindent " Better indenting than autoindent e.g. line after {
 set incsearch " Show matching search pattern as you type
 set showmatch " Jump to matching bracket temporarily once typed
 set hlsearch "mark all matching things
+set lazyredraw
+set timeoutlen=500
 " Expands %f to directory in command
 cabbr <expr> %f expand('%:p:h')
 " Expands %% to directory in command

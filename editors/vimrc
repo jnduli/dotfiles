@@ -39,7 +39,7 @@ set number " show line number where cursor is
 set relativenumber " other lines shown relative to current line
 set numberwidth=2 " Minimum space set for line nos
 set tabstop=4 " <Tab> = 4 spaces
-set shiftwidth =4 " Kinda similar to tabstop
+set shiftwidth=4 " Kinda similar to tabstop
 set expandtab " Replace <Tab> with spaces when used.
 set copyindent " Use same indentation as found in files
 set autoindent " Copies current indent to next line
@@ -49,6 +49,7 @@ set showmatch " Jump to matching bracket temporarily once typed
 set hlsearch "mark all matching things
 set lazyredraw
 set timeoutlen=500
+set termbidi " arabic support
 " Expands %f to directory in command
 cabbr <expr> %f expand('%:p:h')
 " Expands %% to directory in command

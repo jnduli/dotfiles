@@ -109,6 +109,7 @@ font:
     family: mononoki # use with size 12
     # family: Ubuntu Mono # use with size 14
     # family: JetBrains Mono
+    # family: Fira Mono
     style: Regular
 
   size: 12

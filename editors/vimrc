@@ -56,16 +56,16 @@ cabbr <expr> %f expand('%:p:h')
 cabbr <expr> %% expand('%:h')
 set noshowmode " disables showing of mode coz this is already done by airline
 set foldmethod=syntax
-" Mapping to make it easier to find last command in commandmode
-cnoremap <C-p> <UP>
 set scrolloff=3 " keep cursor 3 lines from bottom or top
 " setting local leader and global leader
 let mapleader=";"
 let maplocalleader=","
 
 " added for bash like completion
-set wildmode=longest:full
 set wildmenu
+set wildmode=longest:full
+" Mapping to make it easier to find last command in commandmode, interferes
+cnoremap <C-k> <UP>
 
 set spell
 set spelllang=en_us,en_gb,sw,en

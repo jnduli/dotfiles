@@ -90,7 +90,6 @@ let &t_EI = "\<Esc>[2 q"
 
 " Options for document files------{{{ 
 autocmd BufRead,BufNewFile *.txt,*.md,*.rst,*.tex,*.wiki setlocal textwidth=80
-" set paste "don't enable, messes up a lot of things
 "------}}}
 
 " Editting of commonly used files ------{{{
@@ -111,7 +110,7 @@ augroup indent_2_spaces
 augroup END
 "------}}}
 
-" " Color configs, set colorscheme here ------{{{
+" Color configs, set colorscheme here ------{{{
 set termguicolors " for more vibrant colors
 let g:gruvbox_italic=1
 let g:gruvbox_underline=1
@@ -135,7 +134,6 @@ let g:UltiSnipsExpandTrigger="<c-e>" " Default is <tab>
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
-" let g:UltiSnipsSnippetsDir="~/.vim/mysnippets"
 
 " ------}}}
 

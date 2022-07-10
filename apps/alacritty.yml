@@ -106,7 +106,8 @@ env:
 font:
   normal:
 
-    family: mononoki # use with size 12
+    family: iosevka # use with size 12
+    # family: mononoki # use with size 12
     # family: Ubuntu Mono # use with size 14
     # family: JetBrains Mono
     # family: Fira Mono

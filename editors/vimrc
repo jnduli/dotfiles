@@ -206,6 +206,9 @@ endfunction
 " set laststatus=2
 let g:airline_symbols_ascii = 1 " to use powerline symbols set g:airline_powerline_fonts=0
 let g:airline_section_z= '%3p%% %l:%c'
+let g:airline#extensions#wordcount#enabled = 1
+let g:airline#extensions#wordcount#filetypes =
+    \ ['asciidoc', 'help', 'mail', 'markdown', 'nroff', 'org', 'plaintex', 'rst', 'tex', 'text', 'vimwiki']
 " ------}}}
 
 " Distraction Free Writing (Goyo and limelight) ------{{{

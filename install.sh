@@ -31,7 +31,7 @@ install_packages() {
 
     # fonts
     # TODO: install with yay: fontpreview-ueberzug-git terminus-font-ttf
-    packages+=' noto-fonts-emoji ttf-fira-code ttf-fira-mono ttf-jetbrains-mono ttf-ubuntu-font-family adobe-source-code-pro-fonts'
+    packages+=' noto-fonts-emoji ttf-fira-code ttf-fira-mono ttf-jetbrains-mono ttf-ubuntu-font-family adobe-source-code-pro-fonts ttc-iosevka'
     sudo pacman -Sy --noconfirm $packages
 }
 

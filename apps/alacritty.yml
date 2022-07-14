@@ -111,7 +111,8 @@ font:
     # family: Ubuntu Mono # use with size 14
     # family: JetBrains Mono
     # family: Fira Mono
-    style: Regular
+    style: Medium 
+    # style: Regular
 
   size: 12
 

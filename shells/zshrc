@@ -142,6 +142,8 @@ alias tl-plan-kesho="tl query \"closed_utc IS NULL AND DATE(due_utc) <= DATE('no
 alias ledger-budget="ledger --file ~/docs/ledger/blackbook.ledger --period \"this month\"  --exchange Ksh --no-rounding --budget --monthly register ^expenses"
 alias test-writing='f(){write-good --parse "$1" | wc -l | xargs echo "write-good"; proselint "$1" | wc -l | xargs echo "proselint";  cat "$1" | wc -w | xargs echo "words"; unset -f f;}; f'
 alias vim-game="docker run -it --rm brandoncc/vim-be-good:stable"
+alias habit-tasks="sqlite3 -header -column ~/gdrive_rclone/tasklite/main.db \"SELECT distinct body, recurrence_duration FROM tasks_view WHERE recurrence_duration IS NOT NULL AND closed_utc IS NULL ORDER BY recurrence_duration DESC;\""
+
 
 if [ -f ~/.custom_alias ]; then
     source ~/.custom_alias

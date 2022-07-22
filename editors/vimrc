@@ -371,3 +371,26 @@ nnoremap <A-j> <C-w>j
 nnoremap <A-k> <C-w>k
 nnoremap <A-l> <C-w>l
 " ----------}}}
+"
+"
+
+function! TodoOutput(report = 'default') abort
+    " TODO: make this generci by creating a window function that I can send text to
+    " TODO: comment out sections
+    let lines = getline(1, '$')->filter({ _,line -> line =~ '.*TODO:.*' })
+    let content = join(lines, "\n")
+  " if empty(a:report)
+  "   call s:warning_message('No results')
+  "   return 0
+  " endif
+  " echo a:report
+  " open a buffer on bottom right
+  execute "botright new"
+  setlocal buftype=nofile bufhidden=wipe modifiable nobuflisted noswapfile nowrap
+  call append(0, lines)
+  setlocal nomodifiable
+  " Set local mappings to quit window or lose focus.
+  nnoremap <silent> <buffer> <tab> <c-w><c-p>
+  nnoremap <silent> <buffer> q <c-w><c-p>@=winnr('#')<cr><c-w>c
+  return 1
+endfunction

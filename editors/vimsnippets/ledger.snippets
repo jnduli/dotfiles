@@ -5,3 +5,13 @@ ${1:`!v strftime("%Y")`}-${2:`!v strftime("%m")`}-${3:`!v strftime("%d")`} ${4:*
 	Expenses:${6:food}  		Ksh ${7:0}.00
 	Assets:${8:mpesa}$0
 endsnippet
+
+snippet cic "Transaction" b
+${1:`!v strftime("%Y")`}-${2:`!v strftime("%m")`}-${3:`!v strftime("%d")`} * Transer
+	Assets:cic:money_market                       Ksh 50000.00 ; siz:
+	Assets:cic:money_market                       Ksh 40000.00 ; emergency:
+	Assets:cic:money_market                       Ksh 80000.00 ; insurance:
+	Assets:cic:money_market                       Ksh 30000.00
+	Expenses:bank:stanchart                         Ksh 192.00
+	Assets:bank:stanchart:current
+endsnippet

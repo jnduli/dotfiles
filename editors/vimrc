@@ -3,7 +3,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'tpope/vim-fugitive' " git support
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' " Snippet support
-Plug 'vimwiki/vimwiki' | Plug 'mattn/calendar-vim' " Calendar, Diary and wiki management
+Plug 'vimwiki/vimwiki', { 'branch': 'dev' } | Plug 'mattn/calendar-vim' " Calendar, Diary and wiki management
 Plug 'w0rp/ale' " Linting support (syntax and semantics)
 Plug 'tpope/vim-commentary' " commenting support
 " Plug 'morhetz/gruvbox' "Gruvbox color scheme

@@ -99,7 +99,7 @@ nnoremap  <leader>ev :vsplit <C-r>=resolve(expand($MYVIMRC))<cr><cr>
 nnoremap  <leader>sv :source $MYVIMRC<cr>
 
 " enable editing of ledger file
-nnoremap <leader>e$ :vsplit ~/docs/ledger/blackbook.ledger<cr>
+nnoremap <leader>e$ :tabnew ~/docs/ledger/blackbook.ledger<cr>
 " ------}}}
 
 " Setting default tab space to 2 for some files ------{{{

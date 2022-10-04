@@ -16,6 +16,8 @@ Plug 'fatih/vim-go'
 Plug 'puremourning/vimspector'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+" Experimenting with indent visualization
+Plug 'yggdroot/indentline'
 
 if has("nvim")
     Plug 'neovim/nvim-lspconfig'
@@ -39,11 +41,12 @@ set number " show line number where cursor is
 set relativenumber " other lines shown relative to current line
 set numberwidth=2 " Minimum space set for line nos
 set tabstop=4 " <Tab> = 4 spaces
+set softtabstop=4
 set shiftwidth=4 " Kinda similar to tabstop
 set expandtab " Replace <Tab> with spaces when used.
 set copyindent " Use same indentation as found in files
 set autoindent " Copies current indent to next line
-set smartindent " Better indenting than autoindent e.g. line after {
+" set smartindent -  deprecated
 set incsearch " Show matching search pattern as you type
 set showmatch " Jump to matching bracket temporarily once typed
 set hlsearch "mark all matching things

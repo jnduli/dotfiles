@@ -397,3 +397,7 @@ function! TodoOutput(report = 'default') abort
   nnoremap <silent> <buffer> q <c-w><c-p>@=winnr('#')<cr><c-w>c
   return 1
 endfunction
+
+" go to random line in the file, helps unbiased edits of todo lists, thought dumps
+" ref: https://vim.fandom.com/wiki/Jump_to_a_random_line
+:command! RandomLine execute 'normal! '.(system('/bin/bash -c "echo -n $RANDOM"') % line('$')).'G'

@@ -71,7 +71,6 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] =
 end    
 EOF
 
-
 " Neovim treesitter
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
@@ -84,7 +83,7 @@ require'nvim-treesitter.configs'.setup {
     -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
     -- Using this option may slow down your editor, and you may see some duplicate highlights.
     -- Instead of true it can also be a list of languages
-    additional_vim_regex_highlighting = false,
+    additional_vim_regex_highlighting = { "python", },
   },
   playground = {
     enable = true,

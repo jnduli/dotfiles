@@ -18,6 +18,8 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " Experimenting with indent visualization
 Plug 'yggdroot/indentline'
+" Experiment with python indenting
+Plug 'Vimjas/vim-python-pep8-indent'
 
 if has("nvim")
     Plug 'neovim/nvim-lspconfig'

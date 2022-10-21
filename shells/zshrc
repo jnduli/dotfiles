@@ -155,4 +155,5 @@ fi
 # prompt_dir () {
 #     prompt_segment blue black "%C"
 # }
-#
+
+echo -e "\e[1;35m Reminder: Take a deep breath and fix posture \e[0m"

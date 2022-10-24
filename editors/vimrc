@@ -362,7 +362,10 @@ xmap <Leader>di <Plug>VimspectorBalloonEval
 
 
 " terminal settings ----------{{{
-tnoremap <Esc> <C-\><C-n>
+" allow esc to quit fzf window
+"ref: https://github.com/junegunn/fzf.vim/issues/544#issuecomment-457456166
+au TermOpen * tnoremap <buffer> <Esc> <c-\><c-n>
+au FileType fzf tunmap <buffer> <Esc>
 tnoremap <A-h> <C-\><C-N><C-w>h
 tnoremap <A-j> <C-\><C-N><C-w>j
 tnoremap <A-k> <C-\><C-N><C-w>k
@@ -405,3 +408,7 @@ endfunction
 " go to random line in the file, helps unbiased edits of todo lists, thought dumps
 " ref: https://vim.fandom.com/wiki/Jump_to_a_random_line
 :command! RandomLine execute 'normal! '.(system('/bin/bash -c "echo -n $RANDOM"') % line('$')).'G'
+
+
+" FZF shortcuts
+nnoremap <silent> <Leader>ff :Files<CR>

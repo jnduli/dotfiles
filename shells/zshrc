@@ -64,7 +64,7 @@ COMPLETION_WAITING_DOTS="true"
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-plugins=(git vi-mode)
+plugins=(git vi-mode fzf)
 
 source $ZSH/oh-my-zsh.sh
 

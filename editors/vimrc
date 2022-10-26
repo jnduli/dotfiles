@@ -313,7 +313,11 @@ let g:ale_fixers = {
     \   'haskell': ['brittany', 'hlint'],
     \ 'python': ['isort', 'yapf', 'remove_trailing_lines', 'trim_whitespace'],
     \ 'ledger': ['trim_whitespace'],
+    \ 'terraform': ['terraform'],
     \}
+
+" temporary fix, change this when it causes too much trouble
+let g:ale_fix_on_save = 1
 " ----------}}}
 
 
@@ -414,3 +418,4 @@ endfunction
 
 " FZF shortcuts
 nnoremap <silent> <Leader>ff :Files<CR>
+nnoremap <silent> <Leader>fb :Buffers<CR>

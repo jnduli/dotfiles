@@ -4,10 +4,10 @@
 # I'm looking for a way to automatically notify myself when I need to have more fere dayads.
 # I can set this script up in my server ahd have an email sent out whenever my days exceed 5 days, so that I can schedule more.
 
-# PErhaps do a daemon with this, let's see how this would work.
+# Perhaps do a daemon with this, let's see how this would work.
 
 # PTO_Days_taken, I need to update this every time I take days off
-PTO_days_taken=17
+PTO_days_taken=8
 Sick_off_days_taken=0
 
 Sick_off_days=14

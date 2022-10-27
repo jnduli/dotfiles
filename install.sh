@@ -192,12 +192,6 @@ other_applications_setup(){
     git_clone_with_failure_message https://github.com/jnduli/pomodoro.git "$HOME/projects/pomodoro"
     replace_symlinks_or_move_files_to_old "$local_bin/pomodoro" "$HOME/projects/pomodoro/pomodoro.sh"
 
-    # dishes.sh
-    replace_symlinks_or_move_files_to_old "$local_bin/dishes.sh" "$DOTFILES_DIR/scripts/dishes.sh"
-    # communication_prompt
-    replace_symlinks_or_move_files_to_old "$local_bin/communication_prompt.sh" "$DOTFILES_DIR/scripts/communication_prompt.sh"
-    # check git remotes
-    replace_symlinks_or_move_files_to_old "$local_bin/sync_git_repos" "$DOTFILES_DIR/scripts/sync_git_repos"
 
     # tasklite
     mkdir -p "$HOME/.config/tasklite"
@@ -213,6 +207,15 @@ other_applications_setup(){
 	# set up dunstrc
     mkdir -p "$HOME/.config/alacritty"
     replace_symlinks_or_move_files_to_old "$HOME/.config/alacritty/alacritty.yml" "$DOTFILES_DIR/apps/alacritty.yml"
+}
+
+custom_scripts_setup() {
+    local local_bin="$HOME/.local/bin"
+    for full_path in "$DOTFILES_DIR"/scripts/*; do
+        local fname="${full_path##*/}"
+        # prefix command with comma
+        replace_symlinks_or_move_files_to_old "${local_bin}/,${fname}" "$full_path"
+    done
 }
 
 git_clone_with_failure_message() {
@@ -270,6 +273,7 @@ main () {
     X_setup
     shell_setup
     other_applications_setup
+    custom_scripts_setup
 }
 
 main "$@"

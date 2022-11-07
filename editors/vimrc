@@ -217,7 +217,7 @@ let g:airline#extensions#wordcount#filetypes =
 " ------}}}
 
 " Distraction Free Writing (Goyo and limelight) ------{{{
-:command WriteMode set background=light | colorscheme PaperColor | setlocal spell | Goyo
+:command WriteMode set background=light | colorscheme gruvbox | setlocal spell | Goyo
 :command WriteCode set background=dark | colorscheme gruvbox
 function! s:goyo_enter()
   set noshowcmd

@@ -20,6 +20,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'yggdroot/indentline'
 " Experiment with python indenting
 Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'junegunn/goyo.vim' | Plug 'junegunn/limelight.vim' " distraction free writing
 
 if has("nvim")
     Plug 'neovim/nvim-lspconfig'

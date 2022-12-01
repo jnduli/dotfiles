@@ -77,7 +77,7 @@ require'nvim-treesitter.configs'.setup {
     ensure_installed = { "bash", "dockerfile", "go", "ledger", "lua", "markdown", "python", "rust", "sql", "vim", "yaml" },
   highlight = {
     enable = true,              -- false will disable the whole extension
-    disable = {"ledger", },
+    -- disable = {"ledger", }, made the file smaller
     -- disable = { "c", "rust" },  -- list of language that will be disabled
     -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
     -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).

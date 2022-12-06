@@ -158,7 +158,7 @@ fi
 
 # run if fortune exists and 50% probability
 if [[ -x "$(command -v fortune)" ]] && (( RANDOM % 2 )); then
-    fortune
+    fortune -s
 else
     echo -e "\e[1;35m Reminder: Take a deep breath and fix posture \e[0m"
 fi

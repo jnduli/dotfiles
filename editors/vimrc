@@ -48,6 +48,7 @@ set numberwidth=2 " Minimum space set for line nos
 set tabstop=4 " <Tab> = 4 spaces
 set softtabstop=4
 set shiftwidth=4 " Kinda similar to tabstop
+set colorcolumn=80 " sets a column in 80
 set expandtab " Replace <Tab> with spaces when used.
 set copyindent " Use same indentation as found in files
 set autoindent " Copies current indent to next line

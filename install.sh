@@ -15,6 +15,14 @@ is_archlinux_or_exit() {
     fi
 }
 
+guix_packages() {
+    local packages=''
+    packages+='i3-gaps feh maim scrot dunst dmenu xautolock alacritty'
+    packages+=' git curl tmux ledger rsync'
+    packages+=' python neovim python-pynvim'
+
+}
+
 # installs packages using pacman required for dotfiles to work well
 install_packages() {
     is_archlinux_or_exit

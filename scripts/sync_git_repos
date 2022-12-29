@@ -2,6 +2,8 @@
 # I've parallelized the git checks so that I get faster results
 
 # TODO: may be add support for all folders in the projects folder
+#
+# set -euo pipefail
 
 folders_to_check=(
     '/home/rookie/projects/pomodoro'
@@ -30,7 +32,13 @@ check_folder_sync_status() {
 }
 
 for folder in "${folders_to_check[@]}"; do
-    check_folder_sync_status $folder &
+    if [[ ! -d "$folder" ]]; then
+        echo -e "\033[31m$folder\033[39;49m doesn't exist"
+    else
+        check_folder_sync_status "$folder" &
+    fi
 done
 
 wait
+
+echo "done sync checks"

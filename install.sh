@@ -1,3 +1,7 @@
+#!/bin/bash
+
+set -euo pipefail
+
 # TODO:
 # - [ ] have replace_symlinks_or_move_files_to_old() also create missing dirs
 
@@ -15,12 +19,15 @@ is_archlinux_or_exit() {
     fi
 }
 
-guix_packages() {
+guix_install_packages() {
     local packages=''
     packages+='i3-gaps feh maim scrot dunst dmenu xautolock alacritty'
     packages+=' git curl tmux ledger rsync'
     packages+=' python neovim python-pynvim'
-
+    packages+=' font-iosevka'
+    packages+=' nss-certs'
+    packages+=' fontconfig'
+    guix install $packages
 }
 
 # installs packages using pacman required for dotfiles to work well
@@ -247,17 +254,22 @@ install.sh
  It also sets up some useful repositories I regularly use
 
  -h: Show help file
+ -g: install guix packages
  -i : Ignores package installations
 EOF
 }
 
 options () {
-    while getopts "hi" OPTION; do
+    while getopts "hgi" OPTION; do
         case $OPTION in
             h)
                 show_help
                 exit 1
                 ;;
+	    g)
+		guix_install_packages
+		exit 1
+		;;
             i)
                 echo "Ignoring packages install"
                 IGNORE_INSTALL=1

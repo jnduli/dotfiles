@@ -162,3 +162,5 @@ if [[ -x "$(command -v fortune)" ]] && (( RANDOM % 2 )); then
 else
     echo -e "\e[1;35m Reminder: Take a deep breath and fix posture \e[0m"
 fi
+
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

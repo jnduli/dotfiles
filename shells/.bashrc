@@ -17,3 +17,6 @@ PROMPT_COMMAND=prompt_command
 
 PS1="╭─[\u@\h \w] <\$GIT_BRANCH>
 ╰─$ "
+. "$HOME/.cargo/env"
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

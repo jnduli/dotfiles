@@ -29,6 +29,7 @@ if has("nvim")
     " Plug 'nvim-treesitter/playground'
     Plug 'rafamadriz/neon'
     Plug '/home/rookie/.vim/custom_plugins/stackmap.nvim'
+    Plug 'hkupty/iron.nvim'
 endif
 
 call plug#end()

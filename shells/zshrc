@@ -153,6 +153,8 @@ alias tl-cleanup="sqlite3 -header -column ~/gdrive_rclone/tasklite/main.db \"
 alias ledger-budget="ledger --file ~/docs/ledger/blackbook.ledger --period \"this month\"  --exchange Ksh --no-rounding --budget --monthly register ^expenses"
 alias test-writing='f(){write-good --parse "$1" | wc -l | xargs echo "write-good"; proselint "$1" | wc -l | xargs echo "proselint";  cat "$1" | wc -w | xargs echo "words"; unset -f f;}; f'
 alias vim-game="docker run -it --rm brandoncc/vim-be-good:stable"
+alias feelings-wheel="feh --scale-down -g 970X720 https://feelingswheel.com/feelings-wheel.jpg"
+
 
 if [ -f ~/.custom_alias ]; then
     source ~/.custom_alias

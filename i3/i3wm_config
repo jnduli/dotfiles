@@ -226,7 +226,7 @@ exec --no-startup-id /usr/lib/policykit-1-gnome/polkit-gnome-authentication-agen
 exec --no-startup-id dunst
 
 # attempt to fix tearing in ubuntu
-exec --no-startup-id picom -b
+exec --no-startup-id picom --no-fading-openclose --daemon
 
 # Enables the other output window
 # bindsym $mod+m exec xrandr --output HDMI-1 --auto --right-of eDP-1

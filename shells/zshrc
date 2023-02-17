@@ -130,7 +130,8 @@ alias tl-remaining="sqlite3 -header -column ~/gdrive_rclone/tasklite/main.db \"
         -- if I wake up at 5 and sleep at 9 I have 16 hours for work, so all I need to do is get hours from 5 and get the ratio
         -- do * 24 because julianday returns no of days, so this converts it to hours
         -- use 02:00 since sqlite uses utc by default, so 5am EAT is 2am in utc
-        ROUND( (julianday('now') - julianday(DATE('now')|| ' 02:00')) * 24 / 16 , 2) AS expected_done
+        ROUND( (julianday('now') - julianday(DATE('now')|| ' 02:00')) * 24 / 16 , 2) AS expected_done,
+        ROUND( SUM(count) * (julianday('now') - julianday(DATE('now')|| ' 02:00')) * 24 / 16 , 0) AS expected_done_count
     FROM (
         SELECT DATE(closed_utc) AS closed_utc, COUNT(*) AS count from tasks_view
         WHERE DATE(due_utc)=DATE('now') OR DATE(closed_utc)=DATE('now')

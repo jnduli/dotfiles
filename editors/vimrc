@@ -30,6 +30,9 @@ if has("nvim")
     Plug 'rafamadriz/neon'
     Plug '/home/rookie/.vim/custom_plugins/stackmap.nvim'
     Plug 'hkupty/iron.nvim'
+    " testing some themse
+    Plug 'rebelot/kanagawa.nvim'
+    Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 endif
 
 call plug#end()

@@ -166,6 +166,7 @@ vim.keymap.set('n', '<space>rh', '<cmd>IronHide<cr>')
 EOF
 
 let g:neon_style = "dark"
-colorscheme neon
+" colorscheme neon
+colorscheme kanagawa
 
 

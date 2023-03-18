@@ -7,7 +7,7 @@
 # Perhaps do a daemon with this, let's see how this would work.
 
 # PTO_Days_taken, I need to update this every time I take days off
-PTO_days_taken=0
+PTO_days_taken=5
 Sick_off_days_taken=0
 
 Sick_off_days=14

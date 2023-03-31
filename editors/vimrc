@@ -60,7 +60,7 @@ set autoindent " Copies current indent to next line
 set incsearch " Show matching search pattern as you type
 set showmatch " Jump to matching bracket temporarily once typed
 set hlsearch "mark all matching things
-set lazyredraw
+" set lazyredraw
 set timeoutlen=500
 set termbidi " arabic support
 " Expands %f to directory in command

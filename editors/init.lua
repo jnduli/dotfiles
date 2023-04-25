@@ -116,6 +116,7 @@ require('lazy').setup({
     'navarasu/onedark.nvim',
     priority = 1000,
     config = function()
+      vim.g.onedark_config = { style = 'darker',}
       vim.cmd.colorscheme 'onedark'
     end,
   },
@@ -176,6 +177,7 @@ require('lazy').setup({
 
   -- vimwiki and calendar
   { 'vimwiki/vimwiki', branch = 'dev', dependencies = {'mattn/calendar-vim'} },
+  'dense-analysis/ale',
 
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
@@ -517,6 +519,49 @@ vim.api.nvim_create_autocmd('Filetype', {
   end,
   group = ledger_group,
 })
+
+vim.api.nvim_create_autocmd('TermOpen', {
+  callback = function()
+    vim.keymap.set('t', '<Esc>', '<c-\\><c-n>', { buffer = true, desc = 'escape works in terminal' })
+  end,
+})
+
+local function github_path_link()
+  -- Returns a path to github.com for the current line
+  -- e.g. https://github.com/jnduli/dotfiles/blob/57ebd0145c85580a171285a4440b8d16e74c380c/i3/i3status_config#L14
+  local originUrl = vim.fn.system('git config --get remote.origin.url')
+  local mainBranch = vim.fn.system('git symbolic-ref --short refs/remotes/origin/HEAD')
+  local mainHash = vim.fn.trim(vim.fn.system('git rev-parse ' .. mainBranch))
+  local gitPathToFile = vim.fn.trim(vim.fn.system('git ls-files --full-name ' .. vim.fn.expand("%")))
+
+
+  if gitPathToFile == nil or gitPathToFile == '' then
+    error("File " .. vim.fn.expand("%") .. " is not a tracked git file")
+  end
+
+  local github_relative_path = vim.fn.split(originUrl, 'github.com:\\?')[2]
+  local relative_path = vim.fn.split(github_relative_path, '\\.')[1]
+  -- local relativeGithub = vim.fn.trim(vim.fn.split(vim.fn.split(originUrl, 'github.com:\\?')[2], '\.')[1])
+  local path = 'https://github.com/' .. relative_path .. '/blob/' .. mainHash .. '/' .. gitPathToFile .. '#L' .. vim.fn.line(".")
+  vim.cmd("let @+ = '" .. path .. "'")
+end
+
+vim.keymap.set('n', '<leader>G', github_path_link, { desc = 'get github path link' })
+
+-- vimwiki things
+vim.g.vimwiki_list = {{path = "~/vimwiki", path_html= "~/vimwiki/public_html", auto_tags = 1, auto_diary_index = 1}, }
+
+vim.g.ale_fixers = {
+  haskell = {'ormolu', 'hlint'},
+  python = {'isort', 'remove_trailing_lines', 'trim_whitespaces'},
+  ledger = {'trim_whitespace'},
+  terraform = {'terraform'},
+  rust = {'rustfmt'},
+}
+
+vim.g.ale_fix_on_save = 1
+
+-- require("luasnip.loaders.from_snipmate").load({ path = { "~/.vim/mysnippets" } })
 
 
 -- The line beneath this is called `modeline`. See `:help modeline`

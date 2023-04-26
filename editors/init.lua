@@ -456,6 +456,13 @@ mason_lspconfig.setup_handlers {
 local cmp = require 'cmp'
 local luasnip = require 'luasnip'
 
+luasnip.add_snippets("all", {
+    luasnip.snippet("trigger", { luasnip.text_node("Wow! Text!") })
+})
+
+require("luasnip.loaders.from_snipmate").load()
+-- require("luasnip.loaders.from_snipmate").load({ path = { "~/.vim/mysnippets" } })
+
 luasnip.config.setup {}
 
 cmp.setup {

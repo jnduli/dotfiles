@@ -586,10 +586,18 @@ vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
 })
 
 -- VTE termincal cursor options ----{{{
-vim.cmd('let &t_SI = "<Esc>[6 q"')
-vim.cmd("let &t_SR = '<Esc>[4 q'")
-vim.cmd("let &t_EI = '<Esc>[2 q'")
+-- vim.cmd('let &t_SI = "<Esc>[6 q"')
+-- vim.cmd("let &t_SR = '<Esc>[4 q'")
+-- vim.cmd("let &t_EI = '<Esc>[2 q'")
+vim.opt.guicursor = "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
+vim.cmd("highlight Cursor gui=NONE guifg=bg guibg=fg")
 --
+--
+-- added for bash like completion
+vim.o.wildmenu = true
+vim.o.wildmode = "longest:full"
+-- " Mapping to make it easier to find last command in commandmode, interferes
+vim.keymap.set('c', '<C-k>', '<UP>', { desc = 'find last command in command mode with C-K' })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

@@ -460,8 +460,7 @@ luasnip.add_snippets("all", {
     luasnip.snippet("trigger", { luasnip.text_node("Wow! Text!") })
 })
 
-require("luasnip.loaders.from_snipmate").load()
--- require("luasnip.loaders.from_snipmate").load({ path = { "~/.vim/mysnippets" } })
+require("luasnip.loaders.from_snipmate").load({ paths = { "~/.vim/mysnippets/" } })
 
 luasnip.config.setup {}
 
@@ -560,7 +559,7 @@ vim.g.vimwiki_list = {{path = "~/vimwiki", path_html= "~/vimwiki/public_html", a
 
 vim.g.ale_fixers = {
   haskell = {'ormolu', 'hlint'},
-  python = {'isort', 'remove_trailing_lines', 'trim_whitespaces'},
+  python = {'isort', 'remove_trailing_lines', 'trim_whitespace'},
   ledger = {'trim_whitespace'},
   terraform = {'terraform'},
   rust = {'rustfmt'},
@@ -568,8 +567,29 @@ vim.g.ale_fixers = {
 
 vim.g.ale_fix_on_save = 1
 
--- require("luasnip.loaders.from_snipmate").load({ path = { "~/.vim/mysnippets" } })
+-- Expands %f to directory in command
+vim.cmd("cabbr <expr> %f expand('%:p:h')")
+-- Expands %% to directory in command
+vim.cmd("cabbr <expr> %% expand('%:h')")
 
+vim.wo.relativenumber = true
+vim.wo.numberwidth = 2
+vim.o.autoread = true
+vim.opt.colorcolumn = "80"
+vim.wo.scrolloff = 3
+
+vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
+  pattern = {'*.txt', '*md', '*.rst', '*.text', '*.wiki', '*.vimwiki'},
+  callback = function()
+    vim.bo.textwidth = 80
+  end
+})
+
+-- VTE termincal cursor options ----{{{
+vim.cmd('let &t_SI = "<Esc>[6 q"')
+vim.cmd("let &t_SR = '<Esc>[4 q'")
+vim.cmd("let &t_EI = '<Esc>[2 q'")
+--
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

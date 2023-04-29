@@ -290,6 +290,7 @@ vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc
 vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
+vim.keymap.set('n', '<leader>sb', require('telescope.builtin').buffers, { desc = '[S]earch [B]uffers' })
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
@@ -456,10 +457,6 @@ mason_lspconfig.setup_handlers {
 local cmp = require 'cmp'
 local luasnip = require 'luasnip'
 
-luasnip.add_snippets("all", {
-    luasnip.snippet("trigger", { luasnip.text_node("Wow! Text!") })
-})
-
 require("luasnip.loaders.from_snipmate").load({ paths = { "~/.vim/mysnippets/" } })
 
 luasnip.config.setup {}
@@ -503,20 +500,17 @@ cmp.setup {
   },
 }
 
--- extra configs
-vim.keymap.set('n', '<leader>e$', ":tabnew ~/docs/ledger/blackbook.ledger<cr>", { desc = "open ledger file" })
-vim.keymap.set('n', '<leader>ev', ":vsplit <C-r>=resolve(expand($MYVIMRC))<cr><cr>", { desc = "open main vimrc file" })
+-- vimconfig easy editting
 vim.keymap.set('n', '<leader>sv', ":source $MYVIMRC<cr>", { desc = "source main vimrc file" })
+vim.keymap.set('n', '<leader>ev', ":vsplit <C-r>=resolve(expand($MYVIMRC))<cr><cr>", { desc = "open main vimrc file" })
 
 -- ledger configs
-
 vim.g.ledger_bin = 'ledger'
 vim.g.ledger_extra_options = '--pedantic --explicit --check-payees'
 vim.g.ledger_default_commodity = 'Ksh'
 vim.g.ledger_commodity_sep = ' ' -- Should be a space btn default commodity and amount
 vim.g.ledger_commodity_before = 1 -- Default commodity prepended to amount
 vim.g.ledger_align_at = 60 -- sets up the column of aligning decimal point
-
 local ledger_group = vim.api.nvim_create_augroup('ledger_group', { clear = true })
 vim.api.nvim_create_autocmd('Filetype', {
   pattern = {'ledger',},
@@ -525,7 +519,9 @@ vim.api.nvim_create_autocmd('Filetype', {
   end,
   group = ledger_group,
 })
+vim.keymap.set('n', '<leader>e$', ":tabnew ~/docs/ledger/blackbook.ledger<cr>", { desc = "open ledger file" })
 
+-- nvim terminal configs
 vim.api.nvim_create_autocmd('TermOpen', {
   callback = function()
     vim.keymap.set('t', '<Esc>', '<c-\\><c-n>', { buffer = true, desc = 'escape works in terminal' })
@@ -551,12 +547,12 @@ local function github_path_link()
   local path = 'https://github.com/' .. relative_path .. '/blob/' .. mainHash .. '/' .. gitPathToFile .. '#L' .. vim.fn.line(".")
   vim.cmd("let @+ = '" .. path .. "'")
 end
-
 vim.keymap.set('n', '<leader>G', github_path_link, { desc = 'get github path link' })
 
--- vimwiki things
+-- vimwiki configs
 vim.g.vimwiki_list = {{path = "~/vimwiki", path_html= "~/vimwiki/public_html", auto_tags = 1, auto_diary_index = 1}, }
 
+-- ALE concigs
 vim.g.ale_fixers = {
   haskell = {'ormolu', 'hlint'},
   python = {'isort', 'remove_trailing_lines', 'trim_whitespace'},
@@ -564,20 +560,19 @@ vim.g.ale_fixers = {
   terraform = {'terraform'},
   rust = {'rustfmt'},
 }
-
 vim.g.ale_fix_on_save = 1
 
--- Expands %f to directory in command
+-- path expansions for command mode
 vim.cmd("cabbr <expr> %f expand('%:p:h')")
--- Expands %% to directory in command
 vim.cmd("cabbr <expr> %% expand('%:h')")
 
 vim.wo.relativenumber = true
 vim.wo.numberwidth = 2
 vim.o.autoread = true
-vim.opt.colorcolumn = "80"
+vim.opt.colorcolumn = "80,120"
 vim.wo.scrolloff = 3
 
+-- force wrapping of lines in plain text files at 80 char limit
 vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
   pattern = {'*.txt', '*md', '*.rst', '*.text', '*.wiki', '*.vimwiki'},
   callback = function()
@@ -585,18 +580,14 @@ vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
   end
 })
 
--- VTE termincal cursor options ----{{{
--- vim.cmd('let &t_SI = "<Esc>[6 q"')
--- vim.cmd("let &t_SR = '<Esc>[4 q'")
--- vim.cmd("let &t_EI = '<Esc>[2 q'")
+-- Added because with indent_blankline the cursor isn't visible on indent markers 
+-- ref: https://github.com/lukas-reineke/indent-blankline.nvim/issues/115
 vim.opt.guicursor = "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
 vim.cmd("highlight Cursor gui=NONE guifg=bg guibg=fg")
---
---
--- added for bash like completion
+
+-- coomand mode options to support bash like completion
 vim.o.wildmenu = true
 vim.o.wildmode = "longest:full"
--- " Mapping to make it easier to find last command in commandmode, interferes
 vim.keymap.set('c', '<C-k>', '<UP>', { desc = 'find last command in command mode with C-K' })
 
 -- The line beneath this is called `modeline`. See `:help modeline`

@@ -290,7 +290,7 @@ vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc
 vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
-vim.keymap.set('n', '<leader>sb', require('telescope.builtin').buffers, { desc = '[S]earch [B]uffers' })
+-- vim.keymap.set('n', '<leader>sb', require('telescope.builtin').buffers, { desc = '[S]earch [B]uffers' })
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
@@ -502,7 +502,7 @@ cmp.setup {
 
 -- vimconfig easy editting
 vim.keymap.set('n', '<leader>sv', ":source $MYVIMRC<cr>", { desc = "source main vimrc file" })
-vim.keymap.set('n', '<leader>ev', ":vsplit <C-r>=resolve(expand($MYVIMRC))<cr><cr>", { desc = "open main vimrc file" })
+vim.keymap.set('n', '<leader>ov', ":vsplit <C-r>=resolve(expand($MYVIMRC))<cr><cr>", { desc = "open main vimrc file" })
 
 -- ledger configs
 vim.g.ledger_bin = 'ledger'
@@ -517,9 +517,9 @@ vim.api.nvim_create_autocmd('Filetype', {
   callback = function()
     vim.keymap.set('v', '<Tab>', ':LedgerAlign<CR>', { silent = true, desc = 'align ledger file columns' })
   end,
-  group = ledger_group,
+group = ledger_group,
 })
-vim.keymap.set('n', '<leader>e$', ":tabnew ~/docs/ledger/blackbook.ledger<cr>", { desc = "open ledger file" })
+vim.keymap.set('n', '<leader>o$', ":tabnew ~/docs/ledger/blackbook.ledger<cr>", { desc = "open ledger file" })
 
 -- nvim terminal configs
 vim.api.nvim_create_autocmd('TermOpen', {

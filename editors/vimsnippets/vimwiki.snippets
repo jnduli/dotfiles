@@ -1,72 +1,25 @@
 priority -50
 
-global !p
-import datetime 
+snippet dsn "Design Doc" bc
+	# <Feature/Service name>
+	## Status: [Draft|final]
+	### Authors: <...>
 
-def get_date_for_schedule():
-	try:
-		date = datetime.datetime.strptime(fn.split('.')[0], "%Y-%m-%d")
-	except ValueError:
-		date = datetime.date.today()
-	return date
+	## Objective
 
+	_What is this document meant to accomplish?_
 
-def is_day_of_week(days_abbrev):
-	days_abbrev = [x.lower() for x in days_abbrev]
-	date = get_date_for_schedule()
-	return date.strftime("%a").lower() in days_abbrev
+	## Background
 
+	_What’s the context of the project? What are you solving and why? What constraints informed this design?_
+	_If your proposal is implemented, how does it benefit the company?_
+	_Goals
+	_Non-goals
 
-def who_s_day():
-	# differentiates work between me, Bonz, Purity
-	date = get_date_for_schedule()
-	workers = ["Purity", "me", "Boni"]
-	return workers[int(date.strftime('%j')) % 3]
+	## Design
 
+	_At a high level, how is your service put together? What’s the block-level diagram for the service?_
 
-def is_my_day():
-	# I do some tasks on alternating days, with my room mate for others
-	# if day from start of year is even, I do the work
-	date = get_date_for_schedule()
-	return int(date.strftime('%j')) % 2 == 0
+	## Alternatives Considered
 
-
-def is_my_week():
-	# Some tasks alternate weekly
-	date = get_date_for_schedule()
-	return int(date.strftime('%U')) % 2 != 0
-
-
-
-endglobal
-
-
-snippet bd "Basic Day" b
-= Tasks =
-When planning limit this to 27 for weekdays, 18 for weekends
-- [ ] Wake up
-- [ ] Make bed
-- [ ] Water plants
-- [ ] `!p snip.rv = who_s_day()` to clean dishes
-- [ ] Basic clean up: ${1:utensils, desk, room}
-- [ ] Meditation
-`!p snip.rv = "- [ ] algorithm:" if is_day_of_week(["mon", "wed", "fri"]) else "- [ ] Write story:"` ${2:content/link}
-- [ ] ${3:Book} read
-- [ ] Draw 3 pictures
-- [ ] Exercise
-- [ ] Review daily tasks
-`!p snip.rv = "- [ ] Work communications slack, jira, email\n- [ ] Work daily stand up [09:45 - 10:00]" if not is_day_of_week(["sat", "sun"]) else "- [ ] Thoughts"`
-`!p snip.rv = "- [ ] Wash house\n" if is_day_of_week(["sat"]) and is_my_week() else "- [ ] Remind roommate to wash house\n" if is_day_of_week(["sat"]) else ""`- [ ] Microphone audio recording
-`!p snip.rv = "- [ ] Wash clothes\n" if is_day_of_week(["tue"]) else ""`- [ ] Midday task review
-`!p snip.rv = "- [ ] Take out trash\n" if is_day_of_week(["tue"]) else ""`- [ ] Emails cleanup
-`!p snip.rv = "- [ ] Work log achievements\n" if not is_day_of_week(["sat", "sun"]) else ""`- [ ] Weekly entry
-`!p snip.rv = "- [ ] Weekly email\n- [ ] Weekly retrospection\n" if is_day_of_week(["sat"]) else ""`- [ ] Balance ledger
-`!p snip.rv = "- [ ] Algorithms to try and solve for week\n- [ ] Knowledge debt to clear for week\n- [ ] What knowledge to recall for week\n" if is_day_of_week(["sun"]) else ""`- [ ] Retrospection
-- [ ] Gratitude journal
-- [ ] Plan for tomorrow
-- [ ] Stop work
-endsnippet
-
-snippet btod "Basic Date" b
-- [ ] `!v strftime("[%a %d %b %Y]")`:
-endsnippet
+	_Optional. What else did you consider? Why were they rejected as a solution?_

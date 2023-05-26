@@ -525,8 +525,22 @@ vim.keymap.set('n', '<leader>o$', ":tabnew ~/docs/ledger/blackbook.ledger<cr>", 
 vim.api.nvim_create_autocmd('TermOpen', {
   callback = function()
     vim.keymap.set('t', '<Esc>', '<c-\\><c-n>', { buffer = true, desc = 'escape works in terminal' })
+    vim.keymap.set('t', '<A-h>', '<C-\\><C-N><C-w>h', { buffer = true })
+    vim.keymap.set('t', '<A-j>', '<C-\\><C-N><C-w>j', { buffer = true })
+    vim.keymap.set('t', '<A-k>', '<C-\\><C-N><C-w>k', { buffer = true })
+    vim.keymap.set('t', '<A-l>', '<C-\\><C-N><C-w>l', { buffer = true })
+    vim.keymap.set('t', '<A-h>', '<C-\\><C-N><C-w>h', { buffer = true })
+    vim.keymap.set('t', '<A-j>', '<C-\\><C-N><C-w>j', { buffer = true })
+    vim.keymap.set('t', '<A-k>', '<C-\\><C-N><C-w>k', { buffer = true })
+    vim.keymap.set('t', '<A-l>', '<C-\\><C-N><C-w>l', { buffer = true })
   end,
 })
+
+--  easy switching of windows
+vim.keymap.set('n', '<A-h>', '<C-w>h')
+vim.keymap.set('n', '<A-j>', '<C-w>j')
+vim.keymap.set('n', '<A-k>', '<C-w>k')
+vim.keymap.set('n', '<A-l>', '<C-w>l')
 
 local function github_path_link()
   -- Returns a path to github.com for the current line

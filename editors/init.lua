@@ -176,7 +176,17 @@ require('lazy').setup({
   'ledger/vim-ledger',
 
   -- vimwiki and calendar
-  { 'vimwiki/vimwiki', branch = 'dev', dependencies = {'mattn/calendar-vim'} },
+  { 'vimwiki/vimwiki',
+    branch = 'dev',
+    dependencies = {'mattn/calendar-vim'},
+    init = function()
+      vim.g.vimwiki_list = {
+        {path = "~/vimwiki", path_html= "~/vimwiki/public_html", auto_tags = 1, auto_diary_index = 1},
+        {path = "~/projects/vimwiki", path_html= "~/projects/vimwiki_markdown/public_html", syntax = 'markdown', ext = '.md'}, }
+      vim.g.vimwiki_markdown_link_ext = 1
+      vim.g.vimwiki_stripsym = ' '
+    end
+  },
   'dense-analysis/ale',
 
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
@@ -564,9 +574,6 @@ local function github_path_link()
 end
 vim.keymap.set('n', '<leader>G', github_path_link, { desc = 'get github path link' })
 
--- vimwiki configs
-vim.g.vimwiki_list = {{path = "~/vimwiki", path_html= "~/vimwiki/public_html", auto_tags = 1, auto_diary_index = 1}, }
-
 -- ALE concigs
 vim.g.ale_fixers = {
   haskell = {'ormolu', 'hlint'},
@@ -604,6 +611,12 @@ vim.cmd("highlight Cursor gui=NONE guifg=bg guibg=fg")
 vim.o.wildmenu = true
 vim.o.wildmode = "longest:full"
 vim.keymap.set('c', '<C-k>', '<UP>', { desc = 'find last command in command mode with C-K' })
+
+-- copied from primeagen
+--
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("x", "<leader>p", [["_dP]])
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

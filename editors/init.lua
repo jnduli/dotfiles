@@ -588,11 +588,11 @@ vim.g.ale_fix_on_save = 1
 vim.cmd("cabbr <expr> %f expand('%:p:h')")
 vim.cmd("cabbr <expr> %% expand('%:h')")
 
-vim.wo.relativenumber = true
+vim.opt.relativenumber = true
 vim.wo.numberwidth = 2
 vim.o.autoread = true
 vim.opt.colorcolumn = "80,120"
-vim.wo.scrolloff = 3
+vim.opt.scrolloff = 3
 
 -- force wrapping of lines in plain text files at 80 char limit
 vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {

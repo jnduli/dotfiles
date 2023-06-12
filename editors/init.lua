@@ -185,6 +185,7 @@ require('lazy').setup({
         {path = "~/projects/vimwiki", path_html= "~/projects/vimwiki_markdown/public_html", syntax = 'markdown', ext = '.md'}, }
       vim.g.vimwiki_markdown_link_ext = 1
       vim.g.vimwiki_stripsym = ' '
+      vim.g.vimwiki_global_ext = 0
     end
   },
   'dense-analysis/ale',

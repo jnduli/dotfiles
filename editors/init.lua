@@ -638,6 +638,11 @@ vim.keymap.set("n", "<C-p>", function() ui.nav_prev() end)
 -- vim.keymap.set("n", "<C-n>", function() ui.nav_file(3) end)
 -- vim.keymap.set("n", "<C-s>", function() ui.nav_file(4) end)
 
+function goto_random_line()
+  line_no = vim.api.nvim_buf_line_count(0)
+  random = math.random(0, line_no)
+  vim.cmd(string.format(":call cursor(%d, %d)", random, 1))
+end
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

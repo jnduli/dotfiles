@@ -82,6 +82,7 @@ require('lazy').setup({
       { 'williamboman/mason.nvim', config = true },
       'williamboman/mason-lspconfig.nvim',
 
+
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
       { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
@@ -175,6 +176,7 @@ require('lazy').setup({
   -- ledger support
   'ledger/vim-ledger',
 
+  "jose-elias-alvarez/null-ls.nvim",
   -- vimwiki and calendar
   { 'vimwiki/vimwiki',
     branch = 'dev',
@@ -458,6 +460,14 @@ local mason_lspconfig = require 'mason-lspconfig'
 mason_lspconfig.setup {
   ensure_installed = vim.tbl_keys(servers),
 }
+
+local null_ls = require 'null-ls'
+null_ls.setup({
+  sources = {
+    null_ls.builtins.formatting.black,
+    null_ls.builtins.formatting.isort,
+  }
+})
 
 mason_lspconfig.setup_handlers {
   function(server_name)

@@ -1,3 +1,4 @@
+# zmodload zsh/zprof  
 # If you come from bash you might have to change your $PATH.
 # add .local for personal scripts , and ~/go for golang support
 export PATH="$PATH:$HOME/.local/bin:$HOME/go/bin"
@@ -26,7 +27,7 @@ ZSH_THEME="bira"
 HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
@@ -49,7 +50,7 @@ COMPLETION_WAITING_DOTS="true"
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
 # much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
+DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
@@ -63,7 +64,8 @@ COMPLETION_WAITING_DOTS="true"
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-plugins=(git vi-mode fzf)
+plugins=(git vi-mode fzf gitfast)
+# plugins=()
 
 source $ZSH/oh-my-zsh.sh
 
@@ -75,11 +77,6 @@ source $ZSH/oh-my-zsh.sh
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
 export EDITOR=nvim
 
 # Compilation flags
@@ -160,12 +157,6 @@ alias feelings-wheel="feh --scale-down -g 970X720 https://feelingswheel.com/feel
 if [ -f ~/.custom_alias ]; then
     source ~/.custom_alias
 fi
-# prompt dir for agnoster theme
-# Check docs here: http://zsh.sourceforge.net/Doc/Release/Prompt-Expansion.html
-# prompt_dir () {
-#     prompt_segment blue black "%C"
-# }
-
 
 # run if fortune exists and 50% probability
 if [[ -x "$(command -v fortune)" ]] && (( RANDOM % 2 )); then
@@ -176,6 +167,17 @@ fi
 
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-export NVM_DIR="$HOME/.config/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+
+lazy_load_nvm() {
+    unset -f node
+    export NVM_DIR="$HOME/.config/nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+}
+
+node() {
+  lazy_load_nvm
+  node $@
+}
+# zprof

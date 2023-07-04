@@ -149,6 +149,8 @@ require('lazy').setup({
   -- harpoon
   { 'ThePrimeagen/harpoon', version = '*', dependencies = { 'nvim-lua/plenary.nvim' } },
 
+  { "folke/trouble.nvim", dependencies = { "nvim-tree/nvim-web-devicons" }, opts = { }, }
+
 
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
@@ -175,9 +177,6 @@ vim.o.hlsearch = false
 
 -- Make line numbers default
 vim.wo.number = true
-
--- Enable mouse mode
-vim.o.mouse = 'a'
 
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
@@ -261,7 +260,6 @@ vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc
 vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
--- vim.keymap.set('n', '<leader>sb', require('telescope.builtin').buffers, { desc = '[S]earch [B]uffers' })
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`

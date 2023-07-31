@@ -142,7 +142,7 @@ alias habit-tasks="sqlite3 -header -column ~/gdrive_rclone/tasklite/main.db \"SE
 alias tl-cleanup="sqlite3 -header -column ~/gdrive_rclone/tasklite/main.db \"
     DELETE FROM tasks WHERE 
         closed_utc IS NOT NULL 
-        AND DATE(closed_utc) < DATE('now', '-3 month');
+        AND DATE(closed_utc) < DATE('now', '-2 month');
     SELECT changes() AS rows_dropped;
     \"
 "

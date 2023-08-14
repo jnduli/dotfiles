@@ -1,3 +1,4 @@
+--no-pager
 --strict
 --explicit
 --file ~/docs/ledger/blackbook.ledger

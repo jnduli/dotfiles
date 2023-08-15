@@ -186,6 +186,9 @@ vim.o.clipboard = 'unnamedplus'
 -- Enable break indent
 vim.o.breakindent = true
 
+-- Tabs occupy 4 spaces instead of 8
+vim.o.tabstop = 4
+
 -- Save undo history
 vim.o.undofile = true
 

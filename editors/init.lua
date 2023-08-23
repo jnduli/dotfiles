@@ -149,7 +149,13 @@ require('lazy').setup({
   -- harpoon
   { 'ThePrimeagen/harpoon', version = '*', dependencies = { 'nvim-lua/plenary.nvim' } },
 
-  { "folke/trouble.nvim", dependencies = { "nvim-tree/nvim-web-devicons" }, opts = { }, }
+  { "folke/trouble.nvim", dependencies = { "nvim-tree/nvim-web-devicons" }, opts = { }, },
+
+  {
+     "m4xshen/hardtime.nvim",
+     dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
+     opts = {}
+  },
 
 
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart

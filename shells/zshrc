@@ -152,6 +152,8 @@ alias ledger-budget="ledger --file ~/docs/ledger/blackbook.ledger --period \"thi
 alias test-writing='f(){write-good --parse "$1" | wc -l | xargs echo "write-good"; proselint "$1" | wc -l | xargs echo "proselint";  cat "$1" | wc -w | xargs echo "words"; unset -f f;}; f'
 alias vim-game="docker run -it --rm brandoncc/vim-be-good:stable"
 alias feelings-wheel="feh --scale-down -g 970X720 https://feelingswheel.com/feelings-wheel.jpg"
+# TODO: add support for main and fail early whennothing is found
+alias git-delete-merged="git branch --merged | grep --extended-regexp -v \"(^\\*|master)\" | xargs --no-run-if-empty git branch -d"
 
 
 if [ -f ~/.custom_alias ]; then

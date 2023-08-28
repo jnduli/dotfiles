@@ -154,7 +154,13 @@ require('lazy').setup({
   {
      "m4xshen/hardtime.nvim",
      dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
-     opts = {}
+     opts = {
+       restricted_keys = {
+         -- I use this in harpoon
+          ["<C-N>"] = { "x" },
+          ["<C-P>"] = { "x" },
+       },
+    }
   },
 
 

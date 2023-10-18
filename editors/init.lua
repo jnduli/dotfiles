@@ -636,10 +636,13 @@ end
 -- attempts to implement the functionality in https://github.com/redahe/vim-espeaker/blob/master/plugin/espeaker.vim
 --
 function say_line()
-  cmd = 'espeak "' .. vim.api.nvim_get_current_line() .. '"'
+  cmd = 'espeak -- "' .. vim.api.nvim_get_current_line() .. '"'
   print(cmd)
   vim.fn.system(cmd)
 end
+  
+vim.keymap.set("n", "<C-s>", say_line)
+
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

@@ -3,43 +3,40 @@
 set-option -g prefix C-b
 bind-key C-a last-window
 
+set -g base-index 1 # start window indexing at 1, 0 too far
+set -s escape-time 0 # reduce delays in command sequences
+set -g renumber-windows on # renumber all windows when any window is closed
+set -g status-position top # status on top to reduce clutter with nvim status bar
+set-option -g status-style bg=default # transparent status bar
+
+
 #############3
 ##########3
-# set -g prefix ^A
-set -g base-index 1          # start indexing windows at 1 instead of 0
 set -g detach-on-destroy off # don't exit from tmux when closing a session
-set -g escape-time 0         # zero-out escape time delay
 set -g history-limit 1000000 # increase history size (from 2,000)
 set -g mouse on              # enable mouse support
-set -g renumber-windows on   # renumber all windows when any window is closed
 set -g set-clipboard on      # use system clipboard
 set -g status-interval 3     # update the status bar every 3 seconds
-set -g status-left "#[fg=blue,bold,bg=#1e1e2e]  #S   "
-set -g status-right "#[fg=#b4befe,bold,bg=#1e1e2e]%a %Y-%m-%d 󱑒 %l:%M %p"
-set -ga status-right "#($HOME/.config/tmux/scripts/cal.sh)"
-set -g status-justify left
-set -g status-left-length 200    # increase length (from 10)
-set -g status-right-length 200    # increase length (from 10)
-set -g status-position top       # macOS / darwin style
-set -g status-style 'bg=#1e1e2e' # transparent
-set -g window-status-current-format '#[fg=magenta,bg=#1e1e2e] *#I #W'
-set -g window-status-format '#[fg=gray,bg=#1e1e2e] #I #W'
-set -g window-status-last-style 'fg=white,bg=black'
-set -g default-terminal "${TERM}"
-set -g message-command-style bg=default,fg=yellow
-set -g message-style bg=default,fg=yellow
-set -g mode-style bg=default,fg=yellow
-setw -g mode-keys vi
-set -g pane-active-border-style 'fg=magenta,bg=default'
-set -g pane-border-style 'fg=brightblack,bg=default'
+# set -g status-left "#[fg=blue,bold,bg=#1e1e2e]  #S   "
+# set -g status-right "#[fg=#b4befe,bold,bg=#1e1e2e]%a %Y-%m-%d 󱑒 %l:%M %p"
+# set -ga status-right "#($HOME/.config/tmux/scripts/cal.sh)"
+# set -g status-justify left
+# set -g status-left-length 200    # increase length (from 10)
+# set -g status-right-length 200    # increase length (from 10)
+# set -g window-status-current-format '#[fg=magenta,bg=#1e1e2e] *#I #W'
+# set -g window-status-format '#[fg=gray,bg=#1e1e2e] #I #W'
+# set -g window-status-last-style 'fg=white,bg=black'
+# set -g default-terminal "${TERM}"
+# set -g message-command-style bg=default,fg=yellow
+# set -g message-style bg=default,fg=yellow
+# set -g mode-style bg=default,fg=yellow
+# setw -g mode-keys vi
+# set -g pane-active-border-style 'fg=magenta,bg=default'
+# set -g pane-border-style 'fg=brightblack,bg=default'
 #############3
 
 
-#try to reduce delays in command sequences
-set -s escape-time 0
 
-# layout
-set -g status-position top
 
 #vim stuff
 setw -g mode-keys vi
@@ -47,8 +44,6 @@ set -g status-keys vi
 # Copy using y to global clipboard
 # Found from https://unix.stackexchange.com/questions/131011/use-system-clipboard-in-vi-copy-mode-in-tmux
 bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'xclip -in -selection clipboard'
-#start window numbering at 1, 0 too far
-set -g base-index 1
 # set , to rename window automatically
 unbind ,
 bind-key , command-prompt -p (rename-window) "rename-window '%%'"
@@ -83,6 +78,7 @@ set-option -ga terminal-overrides ",xterm-256color:Tc"
 #bind -r C-S-l swap-window -t +1
 
 # List of plugins
+# set -g @plugin 'hallazzang/tmux-reset' # reset tmux when testing configs
 set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'tmux-plugins/tmux-sensible'
 # set -g @plugin 'seebi/tmux-colors-solarized'

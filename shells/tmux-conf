@@ -13,6 +13,7 @@ set-option -ga terminal-overrides ",xterm-256color:Tc" # enable terminal compabi
 set -g window-status-current-format '#[fg=magenta,bg=black] *#I: #W'
 # set -g window-status-last-style 'fg=white,bg=magenta'
 # set -g window-status-format '#[fg=gray,bg=black] #I: #W'
+set -g mode-style bg=default,fg=yellow
 
 #############3
 ##########3
@@ -29,7 +30,6 @@ set -g status-interval 3     # update the status bar every 3 seconds
 # set -g status-right-length 200    # increase length (from 10)
 # set -g message-command-style bg=default,fg=yellow
 # set -g message-style bg=default,fg=yellow
-# set -g mode-style bg=default,fg=yellow
 # setw -g mode-keys vi
 # set -g pane-active-border-style 'fg=magenta,bg=default'
 # set -g pane-border-style 'fg=brightblack,bg=default'

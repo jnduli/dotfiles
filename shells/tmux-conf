@@ -8,7 +8,11 @@ set -s escape-time 0 # reduce delays in command sequences
 set -g renumber-windows on # renumber all windows when any window is closed
 set -g status-position top # status on top to reduce clutter with nvim status bar
 set-option -g status-style bg=default # transparent status bar
-
+set -g default-terminal "xterm-256color" # ensure vibrant colors
+set-option -ga terminal-overrides ",xterm-256color:Tc" # enable terminal compability
+set -g window-status-current-format '#[fg=magenta,bg=black] *#I: #W'
+# set -g window-status-last-style 'fg=white,bg=magenta'
+# set -g window-status-format '#[fg=gray,bg=black] #I: #W'
 
 #############3
 ##########3
@@ -23,10 +27,6 @@ set -g status-interval 3     # update the status bar every 3 seconds
 # set -g status-justify left
 # set -g status-left-length 200    # increase length (from 10)
 # set -g status-right-length 200    # increase length (from 10)
-# set -g window-status-current-format '#[fg=magenta,bg=#1e1e2e] *#I #W'
-# set -g window-status-format '#[fg=gray,bg=#1e1e2e] #I #W'
-# set -g window-status-last-style 'fg=white,bg=black'
-# set -g default-terminal "${TERM}"
 # set -g message-command-style bg=default,fg=yellow
 # set -g message-style bg=default,fg=yellow
 # set -g mode-style bg=default,fg=yellow
@@ -67,11 +67,6 @@ bind '%' split-window -h -c '#{pane_current_path}'  # Split panes horizontal
 bind '"' split-window -v -c '#{pane_current_path}'  # Split panes vertically
 bind c new-window -c '#{pane_current_path}' # Create new window
 
-#colors
-set -g default-terminal "xterm-256color"
-#  enable terminal compability
-set-option -ga terminal-overrides ",xterm-256color:Tc"
-# set-option -sa terminal-overrides ',XXX:RGB'
 
 #switching windows bindings
 #bind -r C-S-h swap-window -t -1

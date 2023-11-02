@@ -158,7 +158,7 @@ font:
   # use_thin_strokes: true
 
 # If `true`, bold text is drawn using the bright color variants.
-draw_bold_text_with_bright_colors: true
+# draw_bold_text_with_bright_colors: true
 schemes:
   vscode: &vscode
     colors:
@@ -190,8 +190,10 @@ schemes:
     colors:
       # Default colors
       primary:
-        background: '#282a36'
-        foreground: '#f8f8f2'
+        background:   '#50fa7b'
+        # foreground: '#f8f8f2'
+        # foreground:   '#ff5555'
+        foreground:     '#ff5555'
       # Normal colors
       normal:
         black:   '#000000'
@@ -200,8 +202,8 @@ schemes:
         yellow:  '#f1fa8c'
         blue:    '#caa9fa'
         magenta: '#ff79c6'
-        cyan:    '#8be9fd'
-        white:   '#bfbfbf'
+        white:    '#8be9fd'
+        cyan:     '#ff5555'
       # Bright colors
       bright:
         black:   '#575b70'
@@ -211,7 +213,7 @@ schemes:
         blue:    '#caa9fa'
         magenta: '#ff92d0'
         cyan:    '#9aedfe'
-        white:   '#e6e6e6'
+        white:     '#ff5555'
   gruvbox_dark: &gruvbox_dark
     primary:
       # hard contrast background - '#1d2021'
@@ -258,7 +260,6 @@ schemes:
       cyan:    '#427b58'
       white:   '#928374'
 
-
   gruvbox_light: &gruvbox_light
     primary:
       # hard contrast: background = '#f9f5d7'
@@ -288,7 +289,34 @@ schemes:
       cyan:    '#427b58'
       white:   '#3c3836'
       # indexed_colors: []
-colors: *dracula
+      #
+  one_dark: &one_dark
+    primary:
+      background: '0x1e2127'
+      foreground: '0xabb2bf'
+
+    # Normal colors
+    normal:
+      black:   '0x1e2127'
+      red:     '0xe06c75'
+      green:   '0x98c379'
+      yellow:  '0xd19a66'
+      blue:    '0x61afef'
+      magenta: '0xc678dd'
+      cyan:    '0x56b6c2'
+      white:   '0xabb2bf'
+
+    # Bright colors
+    bright:
+      black:   '0x5c6370'
+      red:     '0xe06c75'
+      green:   '0x98c379'
+      yellow:  '0xd19a66'
+      blue:    '0x61afef'
+      magenta: '0xc678dd'
+      cyan:    '0x56b6c2'
+      white:   '0xffffff'
+colors: *one_dark
 
 # Bell
 #

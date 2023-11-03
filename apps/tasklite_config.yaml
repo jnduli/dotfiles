@@ -3,7 +3,7 @@ idWidth: 4
 idStyle: green
 priorityStyle: magenta
 dateStyle: dull grey
-bodyStyle: white
+bodyStyle: dull white
 bodyClosedStyle: black
 closedStyle: dull grey
 dueStyle: yellow
@@ -18,8 +18,8 @@ dataDir: ~/gdrive_rclone/tasklite
 
 dbName: main.db
 dateWidth: 10
-bodyWidth: 10
-prioWidth: 4
+bodyWidth: 10 
+prioWidth: 3
 headCount: 20
 maxWidth: 120
 progressBarWidth: 24

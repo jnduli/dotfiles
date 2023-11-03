@@ -7,11 +7,11 @@ set -g base-index 1 # start window indexing at 1, 0 too far
 set -s escape-time 0 # reduce delays in command sequences
 set -g renumber-windows on # renumber all windows when any window is closed
 set -g status-position top # status on top to reduce clutter with nvim status bar
-set-option -g status-style bg=default # transparent status bar
+set-option -g status-style bg=brightblack # transparent status bar
 set -g default-terminal "xterm-256color" # ensure vibrant colors
 set-option -ga terminal-overrides ",xterm-256color:Tc" # enable terminal compability
 set -g window-status-current-format '#[fg=magenta,bg=black] *#I: #W' # active window format
-set -g window-status-format '#{?window_last_flag,#[fg=blue#,bg=black],#[fg=red#,bg=black]} #I: #W#F' # last window and inactive window formats
+set -g window-status-format '#{?window_last_flag,#[fg=blue#,bg=brightblack],#[fg=red#,bg=brightblack]} #I: #W#F' # last window and inactive window formats
 set -g message-style bg=default,fg=yellow # command prompt colors
 set -g pane-border-indicators both
 # set -g message-command-style bg=default,fg=yellow

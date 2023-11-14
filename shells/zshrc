@@ -1,7 +1,7 @@
 # zmodload zsh/zprof  
 # If you come from bash you might have to change your $PATH.
 # add .local for personal scripts , and ~/go for golang support
-export PATH="$PATH:$HOME/.local/bin:$HOME/go/bin"
+export PATH="$PATH:$HOME/.local/bin:$HOME/go/bin:$HOME/.cargo/bin"
 
 # Path to your oh-my-zsh installation.
 export ZSH=/home/rookie/.oh-my-zsh

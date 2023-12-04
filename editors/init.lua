@@ -141,7 +141,8 @@ require('lazy').setup({
   -- ledger support
   'ledger/vim-ledger',
 
-  "jose-elias-alvarez/null-ls.nvim",
+  -- fork after original was archived "jose-elias-alvarez/null-ls.nvim",
+  'nvimtools/none-ls.nvim',
 
   -- vimwiki and calendar
   { 'vimwiki/vimwiki',
@@ -586,7 +587,7 @@ vim.opt.relativenumber = true
 vim.wo.numberwidth = 2
 vim.o.autoread = true
 vim.opt.colorcolumn = "80,120"
-vim.opt.scrolloff = 3
+vim.opt.scrolloff = 8
 
 -- force wrapping of lines in plain text files at 80 char limit
 vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {

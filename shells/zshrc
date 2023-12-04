@@ -93,6 +93,7 @@ export EDITOR=nvim
 # alias tmux="TERM=screen-256color-bce tmux"
 #
 alias tl="tasklite"
+alias rt="rust_tasks"
 alias tl-review="sqlite3 -header -column ~/gdrive_rclone/tasklite/main.db \"
     SELECT p.due_date, c.total_done, p.planned, d.planned_done, m.missed_deadlines from 
     -- all tasks that had been planned

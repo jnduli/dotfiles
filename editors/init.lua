@@ -144,6 +144,9 @@ require('lazy').setup({
   -- fork after original was archived "jose-elias-alvarez/null-ls.nvim",
   'nvimtools/none-ls.nvim',
 
+  -- support for chaging surround params
+  'tpope/vim-surround',
+
   -- vimwiki and calendar
   { 'vimwiki/vimwiki',
     branch = 'dev',

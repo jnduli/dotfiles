@@ -145,6 +145,7 @@ alias tl-cleanup="sqlite3 -header -column ~/gdrive_rclone/tasklite/main.db \"
         closed_utc IS NOT NULL 
         AND DATE(closed_utc) < DATE('now', '-2 month');
     SELECT changes() AS rows_dropped;
+    DELETE from task_to_tag where task_ulid NOT IN (select ulid from tasks);
     \"
 "
 

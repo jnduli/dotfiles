@@ -1,0 +1,166 @@
+[colors.bright]
+black = "0x5c6370"
+blue = "0x61afef"
+cyan = "0x56b6c2"
+green = "0x98c379"
+magenta = "0xc678dd"
+red = "0xe06c75"
+white = "0xffffff"
+yellow = "0xd19a66"
+
+[colors.normal]
+black = "0x1e2127"
+blue = "0x61afef"
+cyan = "0x56b6c2"
+green = "0x98c379"
+magenta = "0xc678dd"
+red = "0xe06c75"
+white = "0xabb2bf"
+yellow = "0xd19a66"
+
+[colors.primary]
+background = "0x1e2127"
+foreground = "0xabb2bf"
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+size = 10
+
+[font.normal]
+family = "iosevka"
+style = "Medium"
+
+[[hints.enabled]]
+command = "xdg-open"
+post_processing = true
+regex = "(mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)[^\u0000-\u001F\u007F-<>\"\\s{-}\\^⟨⟩`]+"
+
+[hints.enabled.binding]
+key = "U"
+mods = "Control|Shift"
+
+[hints.enabled.mouse]
+enabled = true
+mods = "None"
+
+# [schemes.dracula.colors.bright]
+# black = "#575b70"
+# blue = "#caa9fa"
+# cyan = "#9aedfe"
+# green = "#5af78e"
+# magenta = "#ff92d0"
+# red = "#ff6e67"
+# white = "#ff5555"
+# yellow = "#f4f99d"
+#
+# [schemes.dracula.colors.normal]
+# black = "#000000"
+# blue = "#caa9fa"
+# cyan = "#ff5555"
+# green = "#50fa7b"
+# magenta = "#ff79c6"
+# red = "#ff5555"
+# white = "#8be9fd"
+# yellow = "#f1fa8c"
+#
+# [schemes.dracula.colors.primary]
+# background = "#50fa7b"
+# foreground = "#ff5555"
+#
+# [schemes.gruvbox_dark.bright]
+# black = "#928374"
+# blue = "#83a598"
+# cyan = "#8ec07c"
+# green = "#b8bb26"
+# magenta = "#d3869b"
+# red = "#fb4934"
+# white = "#ebdbb2"
+# yellow = "#fabd2f"
+#
+# [schemes.gruvbox_dark.cursor]
+# cursor = "CellForeground"
+# text = "CellBackground"
+#
+# [schemes.gruvbox_dark.dim]
+# black = "#32302f"
+# blue = "#076678"
+# cyan = "#427b58"
+# green = "#79740e"
+# magenta = "#8f3f71"
+# red = "#9d0006"
+# white = "#928374"
+# yellow = "#b57614"
+#
+# [schemes.gruvbox_dark.normal]
+# black = "#282828"
+# blue = "#458588"
+# cyan = "#689d6a"
+# green = "#98971a"
+# magenta = "#b16286"
+# red = "#cc241d"
+# white = "#a89984"
+# yellow = "#d79921"
+#
+# [schemes.gruvbox_dark.primary]
+# background = "#282828"
+# bright_foreground = "#f9f5d7"
+# dim_foreground = "#f2e5bc"
+# foreground = "#fbf1c7"
+#
+# [schemes.gruvbox_dark.selection]
+# background = "CellForeground"
+# text = "CellBackground"
+#
+# [schemes.gruvbox_dark.vi_mode_cursor]
+# cursor = "CellForeground"
+# text = "CellBackground"
+#
+# [schemes.gruvbox_light.bright]
+# black = "#928374"
+# blue = "#076678"
+# cyan = "#427b58"
+# green = "#79740e"
+# magenta = "#8f3f71"
+# red = "#9d0006"
+# white = "#3c3836"
+# yellow = "#b57614"
+#
+# [schemes.gruvbox_light.normal]
+# black = "#fbf1c7"
+# blue = "#458588"
+# cyan = "#689d6a"
+# green = "#98971a"
+# magenta = "#b16286"
+# red = "#cc241d"
+# white = "#7c6f64"
+# yellow = "#d79921"
+#
+# [schemes.gruvbox_light.primary]
+# background = "#fbf1c7"
+# foreground = "#3c3836"
+#
+# [schemes.one_dark.bright]
+# black = "0x5c6370"
+# blue = "0x61afef"
+# cyan = "0x56b6c2"
+# green = "0x98c379"
+# magenta = "0xc678dd"
+# red = "0xe06c75"
+# white = "0xffffff"
+# yellow = "0xd19a66"
+#
+# [schemes.one_dark.normal]
+# black = "0x1e2127"
+# blue = "0x61afef"
+# cyan = "0x56b6c2"
+# green = "0x98c379"
+# magenta = "0xc678dd"
+# red = "0xe06c75"
+# white = "0xabb2bf"
+# yellow = "0xd19a66"
+#
+# [schemes.one_dark.primary]
+# background = "0x1e2127"
+# foreground = "0xabb2bf"

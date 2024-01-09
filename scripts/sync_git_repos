@@ -23,6 +23,13 @@ check_folder_sync_status() {
     files_not_commited=$(git -C $folder status -s)
     if [[ -n $branches_info || -n $files_not_commited ]]; then
         echo -e "\033[31m$folder\033[39;49m not in sync"
+        if [[ -n $branches_info ]]; then
+            echo -e "\t branches not in sync:"
+            git -C $folder branch -vv | grep -E 'ahead|behind'
+        fi
+        if [[ -n $files_not_commited ]]; then
+            echo -e "\t files not commited: $files_not_commited"
+        fi
     else
         pull_result=$(git -C $folder pull)
         if [[ $pull_result != "Already up to date." ]]; then

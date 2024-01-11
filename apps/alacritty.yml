@@ -105,8 +105,7 @@ env:
 # Font configuration
 font:
   normal:
-
-    family: iosevka # use with size 12
+    family: iosevkanerdfont # use with size 12
     # family: mononoki # use with size 12
     # family: Ubuntu Mono # use with size 14
     # family: JetBrains Mono

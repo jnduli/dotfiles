@@ -45,6 +45,16 @@ mods = "Control|Shift"
 enabled = true
 mods = "None"
 
+[[keyboard.bindings]]
+chars = "\u001B[13;2u"
+key = "Return"
+mods = "Shift"
+
+[[keyboard.bindings]]
+chars = "\u001B[13;5u"
+key = "Return"
+mods = "Control"
+
 # [schemes.dracula.colors.bright]
 # black = "#575b70"
 # blue = "#caa9fa"

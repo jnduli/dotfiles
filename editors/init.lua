@@ -468,13 +468,13 @@ mason_lspconfig.setup {
   ensure_installed = vim.tbl_keys(servers),
 }
 
-local null_ls = require 'null-ls'
-null_ls.setup({
-  sources = {
-    null_ls.builtins.formatting.black,
-    null_ls.builtins.formatting.isort,
-  }
-})
+-- local null_ls = require 'null-ls'
+-- null_ls.setup({
+--   sources = {
+--     null_ls.builtins.formatting.black,
+--     null_ls.builtins.formatting.isort,
+--   }
+-- })
 
 mason_lspconfig.setup_handlers {
   function(server_name)
@@ -599,7 +599,7 @@ vim.keymap.set('n', '<leader>G', github_path_link, { desc = 'get github path lin
 -- ALE concigs
 vim.g.ale_fixers = {
   haskell = {'ormolu', 'hlint'},
-  python = {'isort', 'remove_trailing_lines', 'trim_whitespace'},
+  python = {'remove_trailing_lines', 'trim_whitespace'},
   ledger = {'trim_whitespace'},
   terraform = {'terraform'},
   rust = {'rustfmt'},

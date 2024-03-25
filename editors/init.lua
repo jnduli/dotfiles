@@ -40,7 +40,7 @@ require('lazy').setup({
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
+      { 'j-hui/fidget.nvim',       tag = 'legacy', opts = {} },
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
@@ -53,7 +53,7 @@ require('lazy').setup({
   },
 
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim', opts = {} },
+  { 'folke/which-key.nvim',          opts = {} },
   { -- Adds git releated signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
     opts = {
@@ -72,7 +72,7 @@ require('lazy').setup({
     'navarasu/onedark.nvim',
     priority = 1000,
     config = function()
-      vim.g.onedark_config = { style = 'darker',}
+      vim.g.onedark_config = { style = 'darker', }
       vim.cmd.colorscheme 'onedark'
     end,
   },
@@ -112,7 +112,7 @@ require('lazy').setup({
   -- },
 
   -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim', opts = {} },
+  { 'numToStr/Comment.nvim',         opts = {} },
 
   -- Fuzzy Finder (files, lsp, etc)
   { 'nvim-telescope/telescope.nvim', version = '*', dependencies = { 'nvim-lua/plenary.nvim' } },
@@ -148,12 +148,13 @@ require('lazy').setup({
   'tpope/vim-surround',
 
   -- vimwiki and calendar
-  { 'vimwiki/vimwiki',
+  {
+    'vimwiki/vimwiki',
     branch = 'dev',
-    dependencies = {'mattn/calendar-vim'},
+    dependencies = { 'mattn/calendar-vim' },
     init = function()
       vim.g.vimwiki_list = {
-        {path = "~/vimwiki", path_html= "~/vimwiki/public_html", auto_tags = 1, auto_diary_index = 1, syntax = 'markdown', ext = '.md'}, }
+        { path = "~/vimwiki", path_html = "~/vimwiki/public_html", auto_tags = 1, auto_diary_index = 1, syntax = 'markdown', ext = '.md' }, }
       vim.g.vimwiki_markdown_link_ext = 1
       vim.g.vimwiki_stripsym = ' '
       vim.g.vimwiki_global_ext = 0
@@ -162,34 +163,38 @@ require('lazy').setup({
   'dense-analysis/ale',
 
   -- harpoon
-  { 'ThePrimeagen/harpoon', version = '*', dependencies = { 'nvim-lua/plenary.nvim' } },
+  { 'ThePrimeagen/harpoon', version = '*',                                    dependencies = { 'nvim-lua/plenary.nvim' } },
 
-  { "folke/trouble.nvim", dependencies = { "nvim-tree/nvim-web-devicons" }, opts = { }, },
+  { "folke/trouble.nvim",   dependencies = { "nvim-tree/nvim-web-devicons" }, opts = {}, },
 
   {
-     "m4xshen/hardtime.nvim",
-     dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
-     opts = {
-       restricted_keys = {
-         -- I use this in harpoon
-          ["<C-N>"] = { "x" },
-          ["<C-P>"] = { "x" },
-       },
+    "m4xshen/hardtime.nvim",
+    dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
+    opts = {
+      restricted_keys = {
+        -- I use this in harpoon
+        ["<C-N>"] = { "x" },
+        ["<C-P>"] = { "x" },
+      },
     }
   },
 
   -- Experimenting with neorg for large single file organization
   {
+    "vhyrro/luarocks.nvim",
+    priority = 1000, -- We'd like this plugin to load first out of the rest
+    config = true,   -- This automatically runs `require("luarocks-nvim").setup()`
+  },
+  {
     "nvim-neorg/neorg",
-    build = ":Neorg sync-parsers",
-    -- tag = "*",
-    dependencies = { "nvim-lua/plenary.nvim" },
+    dependencies = { "luarocks.nvim" },
+    -- put any other flags you wanted to pass to lazy here!
     config = function()
-      require("neorg").setup {
+      require("neorg").setup({
         load = {
-          ["core.defaults"] = {}, -- Loads default behaviour
+          ["core.defaults"] = {},  -- Loads default behaviour
           ["core.concealer"] = {}, -- Adds pretty icons to your documents
-          ["core.dirman"] = { -- Manages Neorg workspaces
+          ["core.dirman"] = {      -- Manages Neorg workspaces
             config = {
               workspaces = {
                 notes = "~/notes",
@@ -197,11 +202,9 @@ require('lazy').setup({
             },
           },
         },
-      }
+      })
     end,
-  },
-
-
+  }
 
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
@@ -429,7 +432,7 @@ local on_attach = function(_, bufnr)
 
   -- Create a command `:Format` local to the LSP buffer
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-    vim.lsp.buf.format{ timeout_ms = 2000 }
+    vim.lsp.buf.format { timeout_ms = 2000 }
   end, { desc = 'Format current buffer with LSP' })
 end
 
@@ -541,16 +544,16 @@ vim.keymap.set('n', '<leader>ov', ":vsplit <C-r>=resolve(expand($MYVIMRC))<cr><c
 vim.g.ledger_bin = 'ledger'
 vim.g.ledger_extra_options = '--pedantic --explicit --check-payees'
 vim.g.ledger_default_commodity = 'Ksh'
-vim.g.ledger_commodity_sep = ' ' -- Should be a space btn default commodity and amount
+vim.g.ledger_commodity_sep = ' '  -- Should be a space btn default commodity and amount
 vim.g.ledger_commodity_before = 1 -- Default commodity prepended to amount
-vim.g.ledger_align_at = 60 -- sets up the column of aligning decimal point
+vim.g.ledger_align_at = 60        -- sets up the column of aligning decimal point
 local ledger_group = vim.api.nvim_create_augroup('ledger_group', { clear = true })
 vim.api.nvim_create_autocmd('Filetype', {
-  pattern = {'ledger',},
+  pattern = { 'ledger', },
   callback = function()
     vim.keymap.set('v', '<Tab>', ':LedgerAlign<CR>', { silent = true, desc = 'align ledger file columns' })
   end,
-group = ledger_group,
+  group = ledger_group,
 })
 vim.keymap.set('n', '<leader>o$', ":tabnew ~/docs/ledger/blackbook.ledger<cr>", { desc = "open ledger file" })
 
@@ -591,18 +594,19 @@ local function github_path_link()
   local github_relative_path = vim.fn.split(originUrl, 'github.com:\\?')[2]
   local relative_path = vim.fn.split(github_relative_path, '\\.')[1]
   -- local relativeGithub = vim.fn.trim(vim.fn.split(vim.fn.split(originUrl, 'github.com:\\?')[2], '\.')[1])
-  local path = 'https://github.com/' .. relative_path .. '/blob/' .. mainHash .. '/' .. gitPathToFile .. '#L' .. vim.fn.line(".")
+  local path = 'https://github.com/' ..
+      relative_path .. '/blob/' .. mainHash .. '/' .. gitPathToFile .. '#L' .. vim.fn.line(".")
   vim.cmd("let @+ = '" .. path .. "'")
 end
 vim.keymap.set('n', '<leader>G', github_path_link, { desc = 'get github path link' })
 
 -- ALE concigs
 vim.g.ale_fixers = {
-  haskell = {'ormolu', 'hlint'},
-  python = {'remove_trailing_lines', 'trim_whitespace'},
-  ledger = {'trim_whitespace'},
-  terraform = {'terraform'},
-  rust = {'rustfmt'},
+  haskell = { 'ormolu', 'hlint' },
+  python = { 'remove_trailing_lines', 'trim_whitespace' },
+  ledger = { 'trim_whitespace' },
+  terraform = { 'terraform' },
+  rust = { 'rustfmt' },
 }
 vim.g.ale_fix_on_save = 1
 
@@ -617,16 +621,17 @@ vim.opt.colorcolumn = "80,120"
 vim.opt.scrolloff = 8
 
 -- force wrapping of lines in plain text files at 80 char limit
-vim.api.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
-  pattern = {'*.txt', '*md', '*.rst', '*.text', '*.wiki', '*.vimwiki'},
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = { '*.txt', '*md', '*.rst', '*.text', '*.wiki', '*.vimwiki' },
   callback = function()
     vim.bo.textwidth = 80
   end
 })
 
--- Added because with indent_blankline the cursor isn't visible on indent markers 
+-- Added because with indent_blankline the cursor isn't visible on indent markers
 -- ref: https://github.com/lukas-reineke/indent-blankline.nvim/issues/115
-vim.opt.guicursor = "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
+vim.opt.guicursor =
+"n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
 vim.cmd("highlight Cursor gui=NONE guifg=bg guibg=fg")
 
 -- coomand mode options to support bash like completion
@@ -668,7 +673,7 @@ function say_line()
   print(cmd)
   vim.fn.system(cmd)
 end
-  
+
 vim.keymap.set("n", "<C-s>", say_line)
 
 

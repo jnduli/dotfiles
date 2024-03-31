@@ -2,12 +2,3 @@ snippet tk "Transaction" b
 	${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE} * ${1:Home} 
 		Expenses:${2:food}		Ksh ${3:0}.00
 		Assets:${4:mpesa}$0
-
-snippet cic "Transaction" b
-	${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE} * Transfer
-		Assets:cic:money_market                       Ksh 50000.00 ; siz:
-		Assets:cic:money_market                       Ksh 40000.00 ; emergency:
-		Assets:cic:money_market                       Ksh 80000.00 ; insurance:
-		Assets:cic:money_market                       Ksh 30000.00
-		Expenses:bank:stanchart                         Ksh 192.00
-		Assets:bank:stanchart:current

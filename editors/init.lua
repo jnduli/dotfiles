@@ -178,6 +178,15 @@ require('lazy').setup({
       },
     }
   },
+  -- Experimental for UI elements
+  ---
+  {
+    'stevearc/dressing.nvim',
+    opts = {},
+  },
+
+
+  --
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
@@ -647,6 +656,17 @@ function say_line()
 end
 
 vim.keymap.set("n", "<C-s>", say_line)
+
+require("dressing").setup({
+  input = {
+    -- When true, <Esc> will close the modal
+    insert_only = false,
+
+    -- When true, input will start in insert mode.
+    start_in_insert = false,
+
+  },
+})
 
 
 -- The line beneath this is called `modeline`. See `:help modeline`

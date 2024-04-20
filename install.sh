@@ -19,6 +19,10 @@ is_archlinux_or_exit() {
     fi
 }
 
+is_ubuntu_or_exit() {
+    cat /etc/lsb-release | grep -q "Ubuntu"
+}
+
 guix_install_packages() {
     local packages=''
     packages+='i3-gaps feh maim scrot dunst dmenu xautolock alacritty'
@@ -30,8 +34,46 @@ guix_install_packages() {
     guix install $packages
 }
 
+ubuntu_install_packages() {
+    is_ubuntu_or_exit
+    echo "found ubuntu"
+    apt update
+    apt install --yes software-properties-common ca-certificates curl
+
+    # ref: https://i3wm.org/docs/repositories.html
+    echo "Adding i3 ppa repo"
+    /usr/lib/apt/apt-helper download-file https://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2024.03.04_all.deb keyring.deb SHA256:f9bb4340b5ce0ded29b7e014ee9ce788006e9bbfe31e96c09b2118ab91fca734
+    apt install ./keyring.deb
+    echo "deb https://debian.sur5r.net/i3/ $(grep '^DISTRIB_CODENAME=' /etc/lsb-release | cut -f2 -d=) universe" | sudo tee /etc/apt/sources.list.d/sur5r-i3.list
+
+    # neovim ubuntu update: https://github.com/neovim/neovim/blob/master/INSTALL.md#ubuntu
+    add-apt-repository --yes ppa:neovim-ppa/unstable
+
+    local packages=''
+    packages+='i3 feh maim scrot dunst dmenu xautolock alacritty'
+    packages+=' git curl tmux ledger rsync'
+    packages+=' python3-dev python3-pip neovim python3-pynvim'
+    packages+=' fontconfig'
+    apt update && apt install --yes $packages
+
+    # install iosevka font
+    curl -L "https://github.com/be5invis/Iosevka/releases/download/v29.2.0/PkgTTC-Iosevka-29.2.0.zip" > /tmp/iosevka.zip
+    unzip /tmp/iosevka.zip -d ~/.font/
+
+    # install rust and alacritty. Ref: https://github.com/alacritty/alacritty/blob/master/INSTALL.md#building
+    apt install git
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+    git clone --depth 1 https://github.com/alacritty/alacritty.git /tmp/alacritty
+    cd /tmp/alacritty
+    apt install --yes cmake pkg-config libfreetype6-dev libfontconfig1-dev libxcb-xfixes0-dev libxkbcommon-dev python3
+    source ~/.cargo/env
+    cargo build --release
+    cp target/release/alacritty /usr/bin/alacritty
+    tic -xe alacritty,alacritty-direct extra/alacritty.info
+}
+
 # installs packages using pacman required for dotfiles to work well
-install_packages() {
+install_archlinux_ackages() {
     is_archlinux_or_exit
     local packages=''
     # window manager packages
@@ -47,6 +89,7 @@ install_packages() {
     # fonts
     # TODO: install with yay: fontpreview-ueberzug-git terminus-font-ttf
     packages+=' noto-fonts-emoji ttf-fira-code ttf-fira-mono ttf-jetbrains-mono ttf-ubuntu-font-family adobe-source-code-pro-fonts ttc-iosevka'
+
     sudo pacman -Sy --noconfirm $packages
 }
 
@@ -255,12 +298,13 @@ install.sh
 
  -h: Show help file
  -g: install guix packages
- -i : Ignores package installations
+ -i <os_name>: install packages for os. Support oses are ubuntu and arch
+ -s : Other set up instructions
 EOF
 }
 
 options () {
-    while getopts "hgi" OPTION; do
+    while getopts "hi:sg" OPTION; do
         case $OPTION in
             h)
                 show_help
@@ -271,8 +315,25 @@ options () {
 		exit 1
 		;;
             i)
-                echo "Ignoring packages install"
-                IGNORE_INSTALL=1
+                os=${OPTARG}
+                if [[ $os == "ubuntu" ]]; then
+                    ubuntu_install_packages
+                elif [[ $os == "arch" ]]; then
+                    install_archlinux_ackages
+                else
+                    echo "Invalid OS ${os} provided"
+                    exit 1
+                fi
+                exit
+                ;;
+            s)
+                vim_setup
+                i3_setup
+                X_setup
+                shell_setup
+                other_applications_setup
+                custom_scripts_setup
+                exit
                 ;;
             \?)
                 echo "Invalid option: -$OPTARG" >&2
@@ -283,17 +344,4 @@ options () {
 }
 
 
-main () {
-    options "$@"
-    if [[ "$IGNORE_INSTALL" != 1 ]]; then
-        install_packages
-    fi
-    vim_setup
-    i3_setup
-    X_setup
-    shell_setup
-    other_applications_setup
-    custom_scripts_setup
-}
-
-main "$@"
+options "$@"

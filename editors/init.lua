@@ -184,6 +184,13 @@ require('lazy').setup({
     'stevearc/dressing.nvim',
     opts = {},
   },
+  -- file organization
+  {
+    'stevearc/oil.nvim',
+    opts = {},
+    -- Optional dependencies
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+  },
 
 
   --
@@ -668,6 +675,7 @@ require("dressing").setup({
   },
 })
 
+require("oil").setup()
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

@@ -30,7 +30,7 @@ guix_install_packages() {
     packages+=' python neovim python-pynvim'
     packages+=' font-iosevka'
     packages+=' nss-certs'
-    packages+=' fontconfig'
+    packages+=' fontconfig gcc-toolchain setxkbmap'
     guix install $packages
 }
 

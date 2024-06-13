@@ -252,6 +252,9 @@ vim.o.completeopt = 'menuone,noselect'
 -- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
 
+-- mode is already shown using lualine. Disabled so that I can see visual mode messages
+vim.o.showmode = false
+
 -- [[ Basic Keymaps ]]
 
 -- Keymaps for better default experience
@@ -676,6 +679,7 @@ require("dressing").setup({
 })
 
 require("oil").setup()
+
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

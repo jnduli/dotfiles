@@ -1,11 +1,11 @@
 # zmodload zsh/zprof  
 # If you come from bash you might have to change your $PATH.
 # add .local for personal scripts , and ~/go for golang support
-export PATH="$PATH:$HOME/.local/bin:$HOME/go/bin:$HOME/.cargo/bin"
+export PATH="$HOME/.local/bin:$PATH:$HOME/go/bin:$HOME/.cargo/bin"
 
 # Path to your oh-my-zsh installation.
 export ZSH=/home/rookie/.oh-my-zsh
-
+# export FZF_BASE=/home/rookie/.fzf
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -184,4 +184,7 @@ node() {
   lazy_load_nvm
   node $@
 }
+
+export PATH="$HOME/.local/bin:$PATH:$HOME/go/bin:$HOME/.cargo/bin"
 # zprof
+#

@@ -14,7 +14,7 @@ set-option -g status-style bg=#393939
 set -g default-terminal "xterm-256color" # ensure vibrant colors
 set-option -ga terminal-overrides ",xterm-256color:Tc" # enable terminal compability
 set -g window-status-current-format '#[fg=green,bg=black] *#I: #W' # active window format
-set -g window-status-format '#{?window_last_flag,#[fg=blue#,bg=#393939],#[fg=red#,bg=#393939]} #I: #W#F' # last window and inactive window formats
+set -g window-status-format '#{?window_last_flag,#[fg=blue#,bg=#393939],#[fg=#808080,bg=#393939]} #I: #W#F' # last window and inactive window formats
 set -g message-style bg=default,fg=yellow # command prompt colors
 set -g pane-border-indicators both
 # set -g message-command-style bg=default,fg=yellow

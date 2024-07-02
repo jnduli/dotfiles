@@ -167,24 +167,25 @@ require('lazy').setup({
 
   { "folke/trouble.nvim",   dependencies = { "nvim-tree/nvim-web-devicons" }, opts = {}, },
 
-  {
-    "m4xshen/hardtime.nvim",
-    dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
-    opts = {
-      restricted_keys = {
-        -- I use this in harpoon
-        ["<C-N>"] = { "x" },
-        ["<C-P>"] = { "x" },
-      },
-    }
-  },
-  -- Experimental for UI elements
-  ---
+  -- disabled since it doesnt work in nvim versions < 0.10 and guix still uses 0.9.5
+  -- {
+  --   "m4xshen/hardtime.nvim",
+  --   dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
+  --   opts = {
+  --     restricted_keys = {
+  --       -- I use this in harpoon
+  --       ["<C-N>"] = { "x" },
+  --       ["<C-P>"] = { "x" },
+  --     },
+  --   }
+  -- },
+  -- -- Experimental for UI elements
+  -- ---
   {
     'stevearc/dressing.nvim',
     opts = {},
   },
-  -- file organization
+  -- -- file organization
   {
     'stevearc/oil.nvim',
     opts = {},

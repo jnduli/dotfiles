@@ -159,13 +159,13 @@ i3_setup() {
     # set up wallpaper image
     local i3_wallpaper="${HOME}/images/i3_wallpaper.png"
     if [ ! -f "$i3_wallpaper" ]; then
-        curl --fail --location --output "$i3_wallpaper" --create-dirs https://raw.githubusercontent.com/dracula/wallpaper/master/arch.png
+        curl --fail --location --output "$i3_wallpaper" --create-dirs https://raw.githubusercontent.com/dracula/wallpaper/master/first-collection/linux.png
     fi
 
     # set up lock screen image
     local i3_lock="${HOME}/images/i3_lock.png"
     if [ ! -f "$i3_lock" ]; then
-        curl --fail --location --output "$i3_lock" --create-dirs https://raw.githubusercontent.com/dracula/wallpaper/master/arch.png
+        curl --fail --location --output "$i3_lock" --create-dirs https://raw.githubusercontent.com/dracula/wallpaper/master/first-collection/arch.png
     fi
 }
 

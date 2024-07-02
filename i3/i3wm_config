@@ -195,6 +195,9 @@ gaps inner 5
 #background image
 exec feh --bg-fill ~/images/i3_wallpaper.png
 
+# swap caps with escape
+exec setxkbmap -option caps:escape
+
 #scrot screen shot
 bindsym $mod+p exec "maim -s | xclip -selection clipboard -t image/png"
 # bindsym $mod+p exec "scrot ~/images/Screenshot%Y-%m-%d_at_%H-%M-%S.png"

@@ -193,6 +193,12 @@ require('lazy').setup({
     dependencies = { "nvim-tree/nvim-web-devicons" },
   },
 
+  { 
+    "tpope/vim-dadbod",
+    "kristijanhusak/vim-dadbod-completion",
+    "kristijanhusak/vim-dadbod-ui",
+  },
+
 
   --
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart

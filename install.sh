@@ -112,31 +112,7 @@ replace_symlinks_or_move_files_to_old(){
 
 # Sets up vim and vim and all plugins in use
 vim_setup(){
-    # set up .vimrc and init.vim
-    replace_symlinks_or_move_files_to_old "$HOME/.vimrc" "${DOTFILES_DIR}/editors/vimrc"
-    local vimrc_path="$HOME/.vimrc"
-    local dotfile_vimrc="${DOTFILES_DIR}/editors/vimrc"
-    replace_symlinks_or_move_files_to_old "$vimrc_path" "$dotfile_vimrc"
-    local neovim_folder="$HOME/.config/nvim"
-    mkdir -p "$neovim_folder"
-    replace_symlinks_or_move_files_to_old "${neovim_folder}/init.vim" "${DOTFILES_DIR}/editors/nvim-init.vim"
-    # set up Plug (plugin manager)
-    curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    # install vim plugins
-    nvim -c ':PlugInstall' -c 'qa!'
-
-    # personal snippets setup
-    local snippets_dest="${HOME}/.vim/mysnippets"
-    mkdir -p "$snippets_dest"
-    local snippets_src="${DOTFILES_DIR}/editors/vimsnippets"
-    for dotfile in "${snippets_src}"/*
-    do
-        local filename
-        filename=$(basename "$dotfile")
-        local dest_file="${snippets_dest}/${filename}"
-        replace_symlinks_or_move_files_to_old "$dest_file" "$dotfile" 
-    done
+    stow nvim
 }
 
 

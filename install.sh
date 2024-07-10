@@ -156,14 +156,7 @@ X_setup() {
     local dotfile_xserver="${DOTFILES_DIR}/X11/xserverrc"
     replace_symlinks_or_move_files_to_old "$xserverrc" "$dotfile_xserver"
 
-    # xdg-dirs setup
-    local user_dirs_conf="${HOME}/.config/user-dirs.conf"
-    local dotfile_user_dirs_conf="${DOTFILES_DIR}/X11/user-dirs.conf"
-    replace_symlinks_or_move_files_to_old "$user_dirs_conf" "$dotfile_user_dirs_conf"
-
-    local user_dirs_dirs="${HOME}/.config/user-dirs.dirs"
-    local dotfile_user_dirs_dirs="${DOTFILES_DIR}/X11/user-dirs.dirs"
-    replace_symlinks_or_move_files_to_old "$user_dirs_dirs" "$dotfile_user_dirs_dirs"
+    stow xdg-user-dirs
 }
 
 
@@ -172,14 +165,10 @@ shell_setup() {
     # installing oh-my-zsh
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-    # set up .zshrc
-    replace_symlinks_or_move_files_to_old "$HOME/.zshrc" "${DOTFILES_DIR}/shells/zshrc"
-    # set up bash files
-    replace_symlinks_or_move_files_to_old "${HOME}/.bashrc" "${DOTFILES_DIR}/shells/.bashrc"
-    replace_symlinks_or_move_files_to_old "${HOME}/.bash_profile" "${DOTFILES_DIR}/shells/.bash_profile"
+    stow zsh
+    stow bash
+    stow tmux
 
-    # set up tmux
-    replace_symlinks_or_move_files_to_old "${HOME}/.tmux.conf" "${DOTFILES_DIR}/shells/tmux-conf"
     # tpm setup and tpm plugins
     git_clone_with_failure_message https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
     sh -c "${HOME}/.tmux/plugins/tpm/bin/install_plugins"
@@ -193,9 +182,7 @@ other_applications_setup(){
     mkdir -p "$HOME/projects"
 
     # set up .ledgerrc
-    local ledgerrc="$HOME/.ledgerrc"
-    local dotfile_ledgerrc="${DOTFILES_DIR}/apps/ledgerrc"
-    replace_symlinks_or_move_files_to_old "$ledgerrc" "$dotfile_ledgerrc"
+    stow ledger
 
     # clone ledger repo
     git_clone_with_failure_message ssh://rookie@jnduli.co.ke:/home/rookie/git/ledger.git "$HOME/docs/ledger"

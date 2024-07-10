@@ -113,24 +113,14 @@ replace_symlinks_or_move_files_to_old(){
 # Sets up vim and vim and all plugins in use
 vim_setup(){
     stow nvim
+    # set up .vimrc and init.vim
 }
 
 
 # sets up i3 and i3 status configs and wallpaper/lock images
 i3_setup() {
-    # set up i3wm configs
-    local i3wm_folder="${HOME}/.config/i3"
-    local i3status_folder="${HOME}/.config/i3status"
-    mkdir -p "$i3wm_folder"
-    mkdir -p "$i3status_folder"
-
-    local i3wm_config="${i3wm_folder}/config"
-    local dotfiles_i3wm="${DOTFILES_DIR}/i3/i3wm_config"
-    replace_symlinks_or_move_files_to_old "$i3wm_config" "$dotfiles_i3wm"
-
-    local i3status_config="${i3status_folder}/config"
-    local dotfiles_i3status="${DOTFILES_DIR}/i3/i3status_config"
-    replace_symlinks_or_move_files_to_old "$i3status_config" "$dotfiles_i3status"
+    stow i3
+    stow i3status
 
     # set up wallpaper image
     local i3_wallpaper="${HOME}/images/i3_wallpaper.png"
@@ -226,21 +216,12 @@ other_applications_setup(){
     git_clone_with_failure_message https://github.com/jnduli/pomodoro.git "$HOME/projects/pomodoro"
     replace_symlinks_or_move_files_to_old "$local_bin/pomodoro" "$HOME/projects/pomodoro/pomodoro.sh"
 
-
-    # tasklite
-    mkdir -p "$HOME/.config/tasklite"
-    replace_symlinks_or_move_files_to_old "$HOME/.config/tasklite/config.yaml" "$DOTFILES_DIR/apps/tasklite_config.yaml"
-
-    # set up dunstrc
-    mkdir -p "$HOME/.config/dunst"
-    replace_symlinks_or_move_files_to_old "$HOME/.config/dunst/dunstrc" "$DOTFILES_DIR/apps/dunstrc"
     # set up gruvbox hard theme for xfce4 terminal
     mkdir -p "$HOME/.local/share/xfce4/terminal/colorschemes"
     replace_symlinks_or_move_files_to_old "$HOME/.local/share/xfce4/terminal/colorschemes/gruvbox-dark-hard.theme" "$DOTFILES_DIR/apps/xfce4_terminal_gruvbox-dark-hard.theme"
 
-	# set up dunstrc
-    mkdir -p "$HOME/.config/alacritty"
-    replace_symlinks_or_move_files_to_old "$HOME/.config/alacritty/alacritty.yml" "$DOTFILES_DIR/apps/alacritty.yml"
+    stow dunst
+    stow alacritty
 }
 
 custom_scripts_setup() {

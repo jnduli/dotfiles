@@ -163,9 +163,9 @@ require('lazy').setup({
   'dense-analysis/ale',
 
   -- harpoon
-  { 'ThePrimeagen/harpoon', version = '*',                                    dependencies = { 'nvim-lua/plenary.nvim' } },
+  { 'ThePrimeagen/harpoon', version = '*', dependencies = { 'nvim-lua/plenary.nvim' } },
 
-  { "folke/trouble.nvim",   dependencies = { "nvim-tree/nvim-web-devicons" }, opts = {}, },
+  { "folke/trouble.nvim", dependencies = { "nvim-tree/nvim-web-devicons" }, opts = {}, },
 
   -- disabled since it doesnt work in nvim versions < 0.10 and guix still uses 0.9.5
   -- {

@@ -1,11 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -euo pipefail
 
-# TODO:
-# - [ ] have replace_symlinks_or_move_files_to_old() also create missing dirs
-
-# dotfiles folder
 DOTFILES_DIR=$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")
 
 IGNORE_INSTALL=0
@@ -73,7 +69,7 @@ ubuntu_install_packages() {
 }
 
 # installs packages using pacman required for dotfiles to work well
-install_archlinux_ackages() {
+install_archlinux_packages() {
     is_archlinux_or_exit
     local packages=''
     # window manager packages
@@ -110,29 +106,25 @@ replace_symlinks_or_move_files_to_old(){
     ln --force --symbolic "${2}" "${1}"
 }
 
-# Sets up vim and vim and all plugins in use
-vim_setup(){
-    stow nvim
-    # set up .vimrc and init.vim
-}
-
-
-# sets up i3 and i3 status configs and wallpaper/lock images
-i3_setup() {
-    stow i3
-    stow i3status
-
-    # set up wallpaper image
+config_setup() {
+    stow nvim i3 i3status zsh bash tmux ledger dunst alacritty
+    # set up wallpaper and lockscreen images
     local i3_wallpaper="${HOME}/images/i3_wallpaper.png"
     if [ ! -f "$i3_wallpaper" ]; then
         curl --fail --location --output "$i3_wallpaper" --create-dirs https://raw.githubusercontent.com/dracula/wallpaper/master/first-collection/linux.png
     fi
-
-    # set up lock screen image
     local i3_lock="${HOME}/images/i3_lock.png"
     if [ ! -f "$i3_lock" ]; then
         curl --fail --location --output "$i3_lock" --create-dirs https://raw.githubusercontent.com/dracula/wallpaper/master/first-collection/arch.png
     fi
+
+    # FIXME: find better way to do install on-my-zsh
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+
+    # tpm setup and tpm plugins
+    git_clone_with_failure_message https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
+    sh -c "${HOME}/.tmux/plugins/tpm/bin/install_plugins"
 }
 
 # sets up i3 and i3 status configs and wallpaper/lock images
@@ -160,20 +152,6 @@ X_setup() {
 }
 
 
-# Install ohmyzsh, tpm and set up configs
-shell_setup() {
-    # installing oh-my-zsh
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
-    stow zsh
-    stow bash
-    stow tmux
-
-    # tpm setup and tpm plugins
-    git_clone_with_failure_message https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
-    sh -c "${HOME}/.tmux/plugins/tpm/bin/install_plugins"
-}
-
 other_applications_setup(){
     # set up location for custom scripts
     mkdir -p "$HOME/.local/bin"
@@ -181,15 +159,9 @@ other_applications_setup(){
     # set up projects folder
     mkdir -p "$HOME/projects"
 
-    # set up .ledgerrc
-    stow ledger
 
     # clone ledger repo
     git_clone_with_failure_message ssh://rookie@jnduli.co.ke:/home/rookie/git/ledger.git "$HOME/docs/ledger"
-
-    # weekly entries
-    git_clone_with_failure_message ssh://rookie@jnduli.co.ke:/home/rookie/git/weekly.git "$HOME/docs/weekly"
-    replace_symlinks_or_move_files_to_old "$local_bin/week_entry" "$HOME/docs/weekly/week_entry.sh"
 
     # clone personal vimwiki
     git_clone_with_failure_message ssh://rookie@jnduli.co.ke:/home/rookie/git/vimwiki.git "$HOME/vimwiki"
@@ -207,12 +179,11 @@ other_applications_setup(){
     mkdir -p "$HOME/.local/share/xfce4/terminal/colorschemes"
     replace_symlinks_or_move_files_to_old "$HOME/.local/share/xfce4/terminal/colorschemes/gruvbox-dark-hard.theme" "$DOTFILES_DIR/apps/xfce4_terminal_gruvbox-dark-hard.theme"
 
-    stow dunst
-    stow alacritty
 }
 
 custom_scripts_setup() {
     local local_bin="$HOME/.local/bin"
+    mkdir -p "$local_bin"
     for full_path in "$DOTFILES_DIR"/scripts/*; do
         local fname="${full_path##*/}"
         # prefix command with comma
@@ -232,17 +203,14 @@ git_clone_with_failure_message() {
 
 show_help() {
     cat <<EOF
-Copyright (C) 2019: John Nduli K.                                                                                                      
+Copyright (C) 2024: John Nduli K.                                                                                                      
 install.sh
- This installs dependencies for various files in the dotfiles.
- It also sets up symlinks to the various dotfiles in this repository.
-
- The following are setup: vim, neovim, i3, X, zsh, tmux, ledger
- It also sets up some useful repositories I regularly use
+ Installs packages and configuration for various programs.
+ Clones common repostories I use.
+ Installs custom scripts to $HOME/.local/bin
 
  -h: Show help file
- -g: install guix packages
- -i <os_name>: install packages for os. Support oses are ubuntu and arch
+ -i <os_name>: install packages for os. os_name can be ubuntu, arch or guix.
  -s : Other set up instructions
 EOF
 }
@@ -254,16 +222,14 @@ options () {
                 show_help
                 exit 1
                 ;;
-	    g)
-		guix_install_packages
-		exit 1
-		;;
             i)
                 os=${OPTARG}
                 if [[ $os == "ubuntu" ]]; then
                     ubuntu_install_packages
                 elif [[ $os == "arch" ]]; then
-                    install_archlinux_ackages
+                    install_archlinux_packages
+                elif [[ $os == "guix" ]]; then
+                    guix_install_packages
                 else
                     echo "Invalid OS ${os} provided"
                     exit 1
@@ -271,10 +237,8 @@ options () {
                 exit
                 ;;
             s)
-                vim_setup
-                i3_setup
+                config_setup
                 X_setup
-                shell_setup
                 other_applications_setup
                 custom_scripts_setup
                 exit

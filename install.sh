@@ -21,7 +21,7 @@ is_ubuntu_or_exit() {
 
 guix_install_packages() {
     local packages=''
-    packages+='i3-gaps feh maim scrot dunst dmenu xautolock alacritty'
+    packages+='i3-gaps feh maim scrot dunst dmenu xautolock alacritty xdg-utils'
     packages+=' git curl tmux ledger rsync'
     packages+=' python neovim python-pynvim'
     packages+=' font-iosevka'

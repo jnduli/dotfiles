@@ -42,9 +42,10 @@ bindsym $mod+Return exec $term
 #for_window [class="xfce4-terminal"] floating enable
 
 # alacritty drop down menu
+bindsym $mod+Shift+v exec --no-startup-id $term --title dropdown_term
 exec --no-startup-id $term --title dropdown_term
 for_window [title="dropdown_term"] floating enable, border none, move scratchpad
-for_window [title="dropdown_term"] move absolute position 10ppt 0, resize set width 80ppt 
+# for_window [title="dropdown_term"] resize set width 1000
 bindsym $mod+u [title="dropdown_term"] scratchpad show
 
 # kill focused window

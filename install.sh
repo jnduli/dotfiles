@@ -184,11 +184,7 @@ other_applications_setup(){
 custom_scripts_setup() {
     local local_bin="$HOME/.local/bin"
     mkdir -p "$local_bin"
-    for full_path in "$DOTFILES_DIR"/scripts/*; do
-        local fname="${full_path##*/}"
-        # prefix command with comma
-        replace_symlinks_or_move_files_to_old "${local_bin}/,${fname}" "$full_path"
-    done
+    stow scripts
 }
 
 git_clone_with_failure_message() {

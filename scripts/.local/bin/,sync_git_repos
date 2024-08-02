@@ -1,21 +1,27 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # I've parallelized the git checks so that I get faster results
 
 # TODO: may be add support for all folders in the projects folder
 #
 # set -euo pipefail
+#
 
+CONFIG_PATH="$HOME/.config/dotfile_scripts/sync_git_repos" 
+
+if [[ ! -f "$CONFIG_PATH" ]]; then
+    cat <<EOF
+Config folder: $CONFIG_PATH not found.
+Create one with the folders you want to regularly sync.
+Example content is:
 folders_to_check=(
-    '/home/rookie/projects/pomodoro'
-    '/home/rookie/projects/purity_maths_questions'
-    '/home/rookie/projects/weekend_projects'
-    '/home/rookie/docs/ledger'
-    '/home/rookie/docs/weekly'
-    '/home/rookie/dotfiles'
-    '/home/rookie/projects/blog'
-    '/home/rookie/vimwiki'
-    '/home/rookie/.password-store'
+    '/absolute/path/to/project1'
+    '/absolute/path/to/repo2'
     ) 
+EOF
+    exit 1
+fi
+
+source $CONFIG_PATH
 
 check_folder_sync_status() {
     local folder=$1

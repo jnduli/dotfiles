@@ -27,6 +27,7 @@ guix_install_packages() {
     packages+=' font-iosevka'
     packages+=' nss-certs'
     packages+=' fontconfig gcc-toolchain setxkbmap'
+    packages+=' bind:utils'
     guix install $packages
 }
 

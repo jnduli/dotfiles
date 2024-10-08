@@ -216,6 +216,34 @@ require('lazy').setup({
         lang = "python3"
       },
   },
+  { 
+      "mistweaverco/kulala.nvim",
+      opts = {
+        default_view = "headers_body"
+      }
+  },
+
+  {
+    'MeanderingProgrammer/render-markdown.nvim',
+    opts = {},
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+  },
+
+  -- disable features in big files
+  {
+  "LunarVim/bigfile.nvim",
+  },
+
+  -- work log support
+  {
+    dir = "~/.config/nvim/personal_plugins/work_log",
+  },
+  {
+    dir = "~/.config/nvim/personal_plugins/ai_helper",
+    dependencies = { 'nvim-lua/plenary.nvim' }
+  },
 
 
   --
@@ -339,7 +367,7 @@ vim.keymap.set('n', '<leader>sgi', require('telescope.builtin').git_files, { des
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim' },
+  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim', 'markdown', 'markdown_inline', 'org' },
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = false,
@@ -607,7 +635,6 @@ vim.keymap.set('n', '<leader>G', my_fns.github_path_link, { desc = 'get github p
 
 -- ALE concigs
 vim.g.ale_fixers = {
-  haskell = { 'ormolu', 'hlint' },
   python = { 'remove_trailing_lines', 'trim_whitespace' },
   ledger = { 'trim_whitespace' },
   terraform = { 'terraform' },
@@ -681,6 +708,17 @@ require("dressing").setup({
 })
 
 require("oil").setup()
+
+-- kulala set up
+vim.filetype.add({
+  extension = {
+    ['http'] = 'http',
+  },
+})
+
+
+require("work_log")
+require("ai_helper")
 
 
 -- The line beneath this is called `modeline`. See `:help modeline`

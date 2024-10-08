@@ -27,6 +27,18 @@ local get_work_content = function()
   return parse_json
 end
 
+local get_highlight_group = function(status)
+  highlight_group = nil
+  if status == "RUNNING" then
+    highlight_group = "WorkLogRun"
+  elseif status == "CREATED" or status == "PAUSED" then
+    highlight_group = "WorkLogPause"
+  elseif status == "COMPLETED" then
+    highlight_group = "WorkLogComplete"
+  end
+  return highlight_group
+end
+
 
 local reload_work_content = function(buffer, contents_json)
   if contents_json == nil then
@@ -34,11 +46,16 @@ local reload_work_content = function(buffer, contents_json)
     return
   end
 
-  local contents = {}
+  vim.api.nvim_buf_set_lines(buffer, 0, -1, true, {})
   for idx, val in pairs(contents_json) do
-    contents[idx] = string.format("%s: %s", val["description"], val["status"])
+    local line_content = string.format("%s: %s", val["description"], val["status"])
+    local highlight_group = get_highlight_group(val["status"])
+    -- highlight needs to happend after we add the line content
+    vim.api.nvim_buf_set_lines(buffer, idx - 1, idx - 1, true, { line_content })
+    if highlight_group ~= nil then
+      vim.api.nvim_buf_add_highlight(buffer, -1, highlight_group, idx - 1, 0, -1)
+    end
   end
-  vim.api.nvim_buf_set_lines(buffer, 0, -1, true, contents)
 end
 
 local update_work_log = function(win_id, action_flag, buffer_json)
@@ -51,17 +68,41 @@ end
 
 local load_task_content = function(buffer, task)
   local contents = {}
-  contents[1] = string.format("UUID: %s", task["uuid"])
-  contents[2] = string.format("description: %s", task["description"])
-  contents[3] = string.format("status: %s, minutes: %d", task["status"], task["minutes"])
-  contents[4] = "Notes:"
+  local minutes = 0
 
-  for _, val in pairs(task["notes"]) do
-    table.insert(contents, string.format("  %s", val))
+  local time_format = "%Y-%m-%dT%H:%M"
+  for _, times in pairs(task["times"]) do
+    local start = vim.fn.strptime(time_format, times[1])
+    local end_time = nil
+    if times[1] ~= nil then
+      end_time = vim.fn.strptime(time_format, times[2])
+    else
+      end_time =  os.time()
+    end
+    minutes = minutes + (end_time - start) / 60
   end
 
-  table.insert(contents, "Press q to go back to log listing")
-  vim.api.nvim_buf_set_lines(buffer, 0, -1, true, contents)
+  local highlight_group = get_highlight_group(task["status"])
+  contents[1] = { hl = nil, content = string.format("UUID: %s", task["uuid"]) }
+  contents[2] = { hl = highlight_group, content = string.format("description: %s", task["description"]) }
+  contents[3] = { hl = nil, content = string.format("status: %s, minutes: %d", task["status"], minutes) }
+  contents[4] = { hl = nil, content = "Notes:" }
+
+  for _, val in pairs(task["notes"]) do
+    table.insert(contents, { hl = nil, content = string.format("  %s", val) })
+  end
+
+  table.insert(contents, { hl = "WorkLogComment", content = "Press q to go back to log listing" })
+
+
+  vim.api.nvim_buf_set_lines(buffer, 0, -1, true, {})
+
+  for idx, val in pairs(contents) do
+    vim.api.nvim_buf_set_lines(buffer, idx - 1, idx - 1, true, { val["content"] })
+    if val["hl"] ~= nil then
+      vim.api.nvim_buf_add_highlight(buffer, -1, val["hl"], idx - 1, 0, -1)
+    end
+  end
 end
 
 
@@ -87,8 +128,10 @@ function M.new_window()
   local buffer_json = get_work_content()
   reload_work_content(buffer, buffer_json)
   local window_state = "TASKS"
-  vim.api.nvim_buf_set_option(buffer, "buftype", "nofile")
-  vim.api.nvim_buf_set_option(buffer, "bufhidden", "delete")
+  vim.api.nvim_set_option_value("buftype", "nofile", { buf = buffer })
+  vim.api.nvim_set_option_value("bufhidden", "delete", { buf = buffer })
+  -- vim.api.nvim_buf_set_option(buffer, "buftype", "nofile")
+  -- vim.api.nvim_buf_set_option(buffer, "bufhidden", "delete")
   vim.api.nvim_buf_set_keymap(buffer, "n", "q", "", {
     callback = function()
       if window_state == "TASKS" then
@@ -137,8 +180,6 @@ function M.new_window()
           task = buffer_json[window_state]
           load_task_content(buffer, task)
         end
-
-        vim.print(cmd_obj.stdout)
       end)
     end
   })

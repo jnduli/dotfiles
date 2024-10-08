@@ -158,7 +158,7 @@ alias feelings-wheel="feh --scale-down -g 970X720 https://feelingswheel.com/feel
 alias git-delete-merged="git branch --merged | grep --extended-regexp -v \"(^\\*|master)\" | xargs --no-run-if-empty git branch -d"
 
 
-if [ -f ~/.custom_alias ]; then
+if [[ -f ~/.custom_alias ]]; then
     source ~/.custom_alias
 fi
 

@@ -1,11 +1,10 @@
+local gemini = require("ai_helper.gemini")
+
+local LOGGER = require("ai_helper.log").logger
+
 local M = {}
 
 RESULTS = {}
-
-LOGGER = require("plenary.log").new({
-    plugin = "ai_helper",
-    level = "debug",
-})
 
 local get_content = function(first_pos, last_pos)
     -- first_pos and last_pos are arrays, similar to output of getpos
@@ -42,13 +41,17 @@ local new_window = function(first_pos, last_pos)
     local width = 100
     local height = 10
 
+    local visual_selection = get_content(first_pos, last_pos)
     local buffer = vim.api.nvim_create_buf(false, false)
     local popup = require("plenary.popup")
 
     local borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" }
 
+    local mode = "call_ai" -- can also be prompt
+    local prompt = gemini.prompts["senior_eng"]
+
     local current_win_id, _ = popup.create(buffer, {
-        title = "Gemini Call: r-replace, a-append, q-quit",
+        title = "Gemini Call: r-replace content/replace prompt, a-append, c-change prompt, q-quit",
         line = math.floor(((vim.o.lines - height) / 2) - 1),
         col = math.floor((vim.o.columns - width) / 2),
         minwidth = width,
@@ -59,12 +62,25 @@ local new_window = function(first_pos, last_pos)
     vim.api.nvim_buf_set_option(buffer, "bufhidden", "delete")
     vim.api.nvim_buf_set_keymap(buffer, "n", "q", "", {
         callback = function()
+            if mode == "select_prompt" then
+                M.gemini_call(buffer, visual_selection, prompt)
+                mode = "call_ai"
+                return
+            end
             vim.api.nvim_win_close(current_win_id, true)
         end,
         silent = true
     })
     vim.api.nvim_buf_set_keymap(buffer, "n", "r", "", {
         callback = function()
+            if mode == "select_prompt" then
+                local line = vim.fn.line(".")
+                local prompt_key = vim.api.nvim_buf_get_lines(buffer, line-1, line, false)
+                prompt = gemini.prompts[prompt_key[1]]
+                M.gemini_call(buffer, visual_selection, prompt)
+                mode = "call_ai"
+                return
+            end
             vim.api.nvim_win_close(current_win_id, true)
             replace_content(first_pos, last_pos, RESULTS["result"])
         end,
@@ -78,53 +94,37 @@ local new_window = function(first_pos, last_pos)
         end,
         silent = true
     })
+    vim.api.nvim_buf_set_keymap(buffer, "n", "c", "", {
+        callback = function()
+            local con = {}
+            for k, _ in pairs(gemini.prompts) do
+                table.insert(con, k)
+            end
+            vim.api.nvim_buf_set_lines(buffer, 0, -1, true, con)
+            mode = "select_prompt"
+        end,
+        silent = true
+    })
     return buffer
-end
-
-local gemini_api_call = function(content)
-    local prompt = "taking the role of a senior software engineer, rewrite the content in a short and clear way: " ..
-    content
-    LOGGER.debug("AI prompt: ", prompt)
-
-    local parts_json = { parts = { { text = prompt } } }
-    local query_json = { contents = { parts_json } }
-    local query_string = vim.json.encode(query_json)
-    local google_api_key = os.getenv("GOOGLE_API_KEY")
-    if google_api_key == nil then
-        error("GOOGLE_API_KEY env variable not set")
-    end
-    local curl_command = {
-        "curl",
-        "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" .. google_api_key,
-        "-H", "Content-Type: application/json",
-        "-X", "POST",
-        "-d",
-        query_string
-    }
-    local result = nil
-    vim.system(curl_command, { text = true }, function(obj)
-        LOGGER.debug("AI result", obj.stdout)
-        result = obj.stdout
-    end):wait()
-
-    if result == nil then
-        error("Failed to get result from gemini api")
-    end
-
-    local decoded_result = vim.json.decode(result)
-    return decoded_result["candidates"][1]["content"]["parts"][1]["text"]
 end
 
 function M.reset()
     package.loaded["ai_helper"] = nil
+    package.loaded["ai_helper.gemini"] = nil
     require("ai_helper")
+    require("ai_helper.gemini")
 end
 
-function M.gemini_call(content, first_pos, last_pos)
-    -- FIXME: replace this to use proper gemini responses, for now I'll use this to test
-    local buffer = new_window(first_pos, last_pos)
+function M.gemini_call(buffer, content, prompt)
     vim.api.nvim_buf_set_lines(buffer, 0, -1, true, { "Calling gemini api" })
-    local gem_result = gemini_api_call(content)
+    if prompt == nil then
+        prompt = gemini.prompts["senior_eng"]
+    end
+    local gem_result = gemini.api_call(content, prompt)
+    if gem_result == nil then
+        vim.api.nvim_buf_set_lines(buffer, 0, -1, true, { "Errors encountered calling gemini api" })
+        return
+    end
     local gem_table = {}
     for line in string.gmatch(gem_result, '[^\n]+') do
         table.insert(gem_table, line)
@@ -140,7 +140,8 @@ function M.setup()
             local first_pos = vim.fn.getpos("'<")
             local last_pos = vim.fn.getpos("'>")
             local visual_selection = get_content(first_pos, last_pos)
-            M.gemini_call(visual_selection, first_pos, last_pos)
+            local buffer = new_window(first_pos, last_pos)
+            M.gemini_call(buffer, visual_selection)
         end,
         { range = true })
 end

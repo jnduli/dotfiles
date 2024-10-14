@@ -57,6 +57,10 @@ ubuntu_install_packages() {
     curl -L "https://github.com/be5invis/Iosevka/releases/download/v29.2.0/PkgTTC-Iosevka-29.2.0.zip" > /tmp/iosevka.zip
     unzip /tmp/iosevka.zip -d ~/.font/
 
+    # install iosevka nerd font
+    curl -L "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Iosevka.zip" > /tmp/iosevka.zip
+    unzip /tmp/iosevka -d $HOME/.local/share/fonts/
+
     # install rust and alacritty. Ref: https://github.com/alacritty/alacritty/blob/master/INSTALL.md#building
     apt install git
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
@@ -86,8 +90,12 @@ install_archlinux_packages() {
     # fonts
     # TODO: install with yay: fontpreview-ueberzug-git terminus-font-ttf
     packages+=' noto-fonts-emoji ttf-fira-code ttf-fira-mono ttf-jetbrains-mono ttf-ubuntu-font-family adobe-source-code-pro-fonts ttc-iosevka'
+    packages+=' ttf-iosevka-nerd'
 
     sudo pacman -Sy --noconfirm $packages
+
+    # curl -L "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Iosevka.zip" > /tmp/iosevka.zip
+    # unzip /tmp/iosevka -d $HOME/.local/share/fonts/
 }
 
 # if a file is a symlink, replace this will new file

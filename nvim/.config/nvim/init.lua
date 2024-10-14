@@ -514,6 +514,10 @@ require('neodev').setup()
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
+-- require("mason").setup {
+--     log_level = vim.log.levels.DEBUG
+-- }
+
 -- Ensure the servers above are installed
 local mason_lspconfig = require 'mason-lspconfig'
 

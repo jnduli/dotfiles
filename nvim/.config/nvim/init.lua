@@ -225,7 +225,9 @@ require('lazy').setup({
 
   {
     'MeanderingProgrammer/render-markdown.nvim',
-    opts = {},
+    opts = {
+      file_types = {"markdown", "vimwiki"}
+    },
     -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
     -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
     dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
@@ -434,6 +436,7 @@ require('nvim-treesitter.configs').setup {
     },
   },
 }
+vim.treesitter.language.register('markdown', 'vimwiki')
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
@@ -494,7 +497,6 @@ end
 local servers = {
   -- clangd = {},
   bashls = {},
-  gopls = {},
   pyright = {},
   rust_analyzer = {
     ["rust-analyzer"] = {

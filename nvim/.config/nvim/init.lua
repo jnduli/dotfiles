@@ -192,41 +192,41 @@ require('lazy').setup({
     dependencies = { "nvim-tree/nvim-web-devicons" },
   },
 
-  { 
+  {
     "tpope/vim-dadbod",
     "kristijanhusak/vim-dadbod-completion",
     "kristijanhusak/vim-dadbod-ui",
   },
 
   {
-      "kawre/leetcode.nvim",
-      build = ":TSUpdate html",
-      -- cmd = "Leet",
-      dependencies = {
-          "nvim-telescope/telescope.nvim",
-          "nvim-lua/plenary.nvim", -- required by telescope
-          "MunifTanjim/nui.nvim",
+    "kawre/leetcode.nvim",
+    build = ":TSUpdate html",
+    -- cmd = "Leet",
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+      "nvim-lua/plenary.nvim", -- required by telescope
+      "MunifTanjim/nui.nvim",
 
-          -- optional
-          "nvim-treesitter/nvim-treesitter",
-          "rcarriga/nvim-notify",
-          "nvim-tree/nvim-web-devicons",
-      },
-      opts = {
-        lang = "python3"
-      },
+      -- optional
+      "nvim-treesitter/nvim-treesitter",
+      "rcarriga/nvim-notify",
+      "nvim-tree/nvim-web-devicons",
+    },
+    opts = {
+      lang = "python3"
+    },
   },
-  { 
-      "mistweaverco/kulala.nvim",
-      opts = {
-        default_view = "headers_body"
-      }
+  {
+    "mistweaverco/kulala.nvim",
+    opts = {
+      default_view = "headers_body"
+    }
   },
 
   {
     'MeanderingProgrammer/render-markdown.nvim',
     opts = {
-      file_types = {"markdown", "vimwiki"}
+      file_types = { "markdown", "vimwiki" }
     },
     -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
     -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
@@ -235,7 +235,26 @@ require('lazy').setup({
 
   -- disable features in big files
   {
-  "LunarVim/bigfile.nvim",
+    "LunarVim/bigfile.nvim",
+  },
+  -- chat support trial
+  {
+    "robitx/gp.nvim",
+    config = function()
+      local conf = {
+        providers = {
+          googleai = {
+            disable = false,
+            endpoint =
+            "https://generativelanguage.googleapis.com/v1beta/models/{{model}}:streamGenerateContent?key={{secret}}",
+            secret = os.getenv("GOOGLE_API_KEY"),
+          },
+        },
+        default_chat_agent = "ChatGemini",
+        -- default_command_agent
+      }
+      require("gp").setup(conf)
+    end,
   },
 
   -- work log support
@@ -373,7 +392,7 @@ require('nvim-treesitter.configs').setup {
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = false,
- 
+
 
 
   -- ref: https://github.com/nvim-treesitter/nvim-treesitter/issues/1573#issuecomment-2202945329
@@ -732,6 +751,41 @@ vim.filetype.add({
 require("work_log")
 require("ai_helper")
 
+-- markdown cycle through todo list items
+vim.api.nvim_create_autocmd('Filetype', {
+  pattern = { 'markdown', },
+  callback = function()
+    -- ['<C-Space>'] = cmp.mapping.complete {},
+    vim.keymap.set('n', '<C-x>', function()
+      local save_cursor = vim.fn.getcurpos()
+      vim.fn.setpos('.', { save_cursor[1], save_cursor[2], 1, save_cursor[3] }) -- move to first line
+      local node = require("nvim-treesitter.ts_utils").get_node_at_cursor()
+      if node == nil then
+        return
+      end
+      if node:type() == "list_marker_minus" then
+        local start_row, start_col, _, _ = node:range()
+        local text_array = vim.api.nvim_buf_get_text(0, start_row, start_col, start_row, start_col + 5, {})
+        local text_content = text_array[1]
+        local next_content = "- [ ]"
+        if text_content == "- [ ]" then
+          next_content = "- [-]"
+        elseif text_content == "- [-]" then
+          next_content = "- [X]"
+        elseif text_content == "- [X]" then
+          next_content = "- [~]"
+        elseif text_content == "- [~]" then
+          next_content = "- [ ]"
+        else
+          return
+        end
+        vim.api.nvim_buf_set_text(0, start_row, start_col, start_row, start_col + 5, { next_content })
+      end
+      vim.fn.setpos('.', save_cursor)
+    end, { silent = true, desc = 'cycle through todo list states' })
+  end,
+  group = ledger_group,
+})
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

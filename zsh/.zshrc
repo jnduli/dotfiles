@@ -186,5 +186,10 @@ node() {
 }
 
 export PATH="$HOME/.local/bin:$PATH:$HOME/go/bin:$HOME/.cargo/bin"
+
+# disable execute-named-cmd prompts in zsh
+# ref: https://superuser.com/questions/928846/what-is-execute-on-the-command-line-and-how-to-i-avoid-it
+bindkey -e -r '^[x'
+bindkey -a -r ':'
 # zprof
 #

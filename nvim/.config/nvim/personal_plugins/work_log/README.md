@@ -1,4 +1,4 @@
-## Neovim Worklog Plugin
+# Neovim Worklog Plugin
 
 This plugin integrates with my [worklog tool](https://github.com/jnduli/gn_work_tracker).
 **Installation:**

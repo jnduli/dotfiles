@@ -68,14 +68,48 @@ require('lazy').setup({
     },
   },
 
+  -- Themes
   { -- Theme inspired by Atom
     'navarasu/onedark.nvim',
     priority = 1000,
     config = function()
       vim.g.onedark_config = { style = 'darker', }
-      vim.cmd.colorscheme 'onedark'
+      -- vim.cmd.colorscheme 'onedark'
     end,
   },
+  {
+    "neanias/everforest-nvim",
+    -- Optional; default configuration will be used if setup isn't called.
+    config = function()
+      require("everforest").setup({
+        background = "hard",
+      })
+      vim.cmd.colorscheme 'everforest'
+    end,
+  },
+
+
+  -- {
+  --   "aktersnurra/no-clown-fiesta.nvim",
+  --   priority = 1000,
+  --   config = function()
+  --     local opts = {
+  --       transparent = true,
+  --       styles = {
+  --         type = { bold = true },
+  --         lsp = { underline = false },
+  --         match_paren = { underline = true },
+  --       },
+  --     }
+  --     local plugin = require "no-clown-fiesta"
+  --     plugin.setup(opts)
+  --     vim.cmd.colorscheme 'no-clown-fiesta'
+  --     return plugin.load()
+  --   end,
+  --   lazy = false,
+  -- },
+
+
 
   { -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
@@ -83,7 +117,7 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'onedark',
+        theme = 'everforest',
         component_separators = '|',
         section_separators = '',
       },
@@ -163,9 +197,9 @@ require('lazy').setup({
   'dense-analysis/ale',
 
   -- harpoon
-  { 'ThePrimeagen/harpoon', version = '*', dependencies = { 'nvim-lua/plenary.nvim' } },
+  { 'ThePrimeagen/harpoon', version = '*',                                    dependencies = { 'nvim-lua/plenary.nvim' } },
 
-  { "folke/trouble.nvim", dependencies = { "nvim-tree/nvim-web-devicons" }, opts = {}, },
+  { "folke/trouble.nvim",   dependencies = { "nvim-tree/nvim-web-devicons" }, opts = {}, },
 
   {
     "m4xshen/hardtime.nvim",
@@ -265,6 +299,12 @@ require('lazy').setup({
     dir = "~/.config/nvim/personal_plugins/ai_helper",
     dependencies = { 'nvim-lua/plenary.nvim' }
   },
+  {
+    dir = "~/vimwiki/scripts/camaraderie",
+    config = function ()
+      require("camaraderie").setup()
+    end,
+  },
 
 
   --
@@ -283,6 +323,9 @@ require('lazy').setup({
   --    An additional note is that if you only copied in the `init.lua`, you can just comment this line
   --    to get rid of the warning telling you that there are not plugins in `lua/custom/plugins/`.
   -- { import = 'custom.plugins' },
+  --
+  --
+  --
 }, {})
 
 -- [[ Setting options ]]
@@ -788,7 +831,7 @@ vim.api.nvim_create_autocmd('Filetype', {
 })
 
 
-require("notify").setup({timeout = 1000})
+require("notify").setup({ timeout = 1000 })
 
 
 -- The line beneath this is called `modeline`. See `:help modeline`

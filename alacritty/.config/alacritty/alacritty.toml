@@ -1,4 +1,4 @@
-# [general]
+[general]
 import = [
     "~/.config/alacritty/themes/everforest_dark.toml"
 ]

@@ -801,7 +801,12 @@ vim.api.nvim_create_autocmd('Filetype', {
     -- ['<C-Space>'] = cmp.mapping.complete {},
     vim.keymap.set('n', '<C-x>', function()
       local save_cursor = vim.fn.getcurpos()
-      vim.fn.setpos('.', { save_cursor[1], save_cursor[2], 1, save_cursor[3] }) -- move to first line
+      local line = vim.api.nvim_buf_get_lines(0, save_cursor[2]-1, save_cursor[2], false)[1]
+      local dash_col, _ = string.find(line, "-")
+      if dash_col == nil then
+        dash_col = 1
+      end
+      vim.fn.setpos('.', { save_cursor[1], save_cursor[2], dash_col, save_cursor[3] }) -- move to first line
       local node = require("nvim-treesitter.ts_utils").get_node_at_cursor()
       if node == nil then
         return
@@ -810,6 +815,7 @@ vim.api.nvim_create_autocmd('Filetype', {
         local start_row, start_col, _, _ = node:range()
         local text_array = vim.api.nvim_buf_get_text(0, start_row, start_col, start_row, start_col + 5, {})
         local text_content = text_array[1]
+        print("text to replace: " .. text_content .. " start col: " .. start_col)
         local next_content = "- [ ]"
         if text_content == "- [ ]" then
           next_content = "- [-]"
@@ -822,6 +828,7 @@ vim.api.nvim_create_autocmd('Filetype', {
         else
           return
         end
+        print("replacing text to " .. next_content)
         vim.api.nvim_buf_set_text(0, start_row, start_col, start_row, start_col + 5, { next_content })
       end
       vim.fn.setpos('.', save_cursor)

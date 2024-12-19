@@ -301,7 +301,7 @@ require('lazy').setup({
   },
   {
     dir = "~/vimwiki/scripts/camaraderie",
-    config = function ()
+    config = function()
       require("camaraderie").setup()
     end,
   },
@@ -795,46 +795,31 @@ require("work_log")
 require("ai_helper")
 
 -- markdown cycle through todo list items
+local function toggle_markdown_checklist()
+  local current_cursor = vim.fn.getcurpos()
+  local current_line = vim.api.nvim_buf_get_lines(0, current_cursor[2] - 1, current_cursor[2], false)[1]
+  local next_checklist_table = { ["[ ]"] = "[-]", ["[-]"] = "[X]", ["[X]"] = "[~]", ["[~]"] = "[ ]" }
+  local dash_col, _ = string.find(current_line, "[-*]")
+  if dash_col == nil then
+    return
+  end
+  local current_check = vim.api.nvim_buf_get_text(0, current_cursor[2] - 1, dash_col + 1, current_cursor[2] - 1,
+    dash_col + 4, {})[1]
+  local next_content = next_checklist_table[current_check]
+  if next_content == nil then
+    return
+  end
+  vim.api.nvim_buf_set_text(0, current_cursor[2] - 1, dash_col + 1, current_cursor[2] - 1, dash_col + 4, { next_content })
+  vim.fn.setpos('.', current_cursor)
+end
+
+local markdown_group = vim.api.nvim_create_augroup('markdown_group', { clear = true })
 vim.api.nvim_create_autocmd('Filetype', {
   pattern = { 'markdown', },
   callback = function()
-    -- ['<C-Space>'] = cmp.mapping.complete {},
-    vim.keymap.set('n', '<C-x>', function()
-      local save_cursor = vim.fn.getcurpos()
-      local line = vim.api.nvim_buf_get_lines(0, save_cursor[2]-1, save_cursor[2], false)[1]
-      local dash_col, _ = string.find(line, "-")
-      if dash_col == nil then
-        dash_col = 1
-      end
-      vim.fn.setpos('.', { save_cursor[1], save_cursor[2], dash_col, save_cursor[3] }) -- move to first line
-      local node = require("nvim-treesitter.ts_utils").get_node_at_cursor()
-      if node == nil then
-        return
-      end
-      if node:type() == "list_marker_minus" then
-        local start_row, start_col, _, _ = node:range()
-        local text_array = vim.api.nvim_buf_get_text(0, start_row, start_col, start_row, start_col + 5, {})
-        local text_content = text_array[1]
-        print("text to replace: " .. text_content .. " start col: " .. start_col)
-        local next_content = "- [ ]"
-        if text_content == "- [ ]" then
-          next_content = "- [-]"
-        elseif text_content == "- [-]" then
-          next_content = "- [X]"
-        elseif text_content == "- [X]" then
-          next_content = "- [~]"
-        elseif text_content == "- [~]" then
-          next_content = "- [ ]"
-        else
-          return
-        end
-        print("replacing text to " .. next_content)
-        vim.api.nvim_buf_set_text(0, start_row, start_col, start_row, start_col + 5, { next_content })
-      end
-      vim.fn.setpos('.', save_cursor)
-    end, { silent = true, desc = 'cycle through todo list states' })
+    vim.keymap.set('n', '<C-x>', toggle_markdown_checklist, { silent = true, desc = 'cycle through todo list states' })
   end,
-  group = ledger_group,
+  group = markdown_group,
 })
 
 

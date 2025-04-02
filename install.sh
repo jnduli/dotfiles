@@ -21,7 +21,7 @@ is_ubuntu_or_exit() {
 
 guix_install_packages() {
     local packages=''
-    packages+='i3-gaps feh maim scrot dunst dmenu xautolock alacritty xdg-utils'
+    packages+='i3-gaps feh maim scrot dunst dmenu i3lock alacritty xdg-utils'
     packages+=' git curl tmux ledger rsync'
     packages+=' python neovim python-pynvim'
     packages+=' font-iosevka'
@@ -79,13 +79,11 @@ install_archlinux_packages() {
     local packages=''
     # window manager packages
     # i3 group contains i3-wm, i3blocks, i3lock, i3status
+    # deleted xautolock, change i3 to use i3lock
     # dunst -> notifications
-    packages+='i3 feh maim scrot dunst dmenu xautolock alacritty'
-
-    # I'm still dependent on xfce4 for somethings so I install the group
-    packages+=' xfce4'
-
-    packages+=' gvim git curl tmux xdg-user-dirs ledger rsync ranger'
+    # TODO: find alternative to xautolock
+    packages+='xorg-xinit i3 feh maim scrot dunst dmenu alacritty xfce4 brightnessctl'
+    packages+=' nvim git curl tmux xdg-user-dirs ledger rsync openssh stow'
 
     # fonts
     # TODO: install with yay: fontpreview-ueberzug-git terminus-font-ttf
@@ -93,9 +91,6 @@ install_archlinux_packages() {
     packages+=' ttf-iosevka-nerd'
 
     sudo pacman -Sy --noconfirm $packages
-
-    # curl -L "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Iosevka.zip" > /tmp/iosevka.zip
-    # unzip /tmp/iosevka -d $HOME/.local/share/fonts/
 }
 
 # if a file is a symlink, replace this will new file
@@ -116,7 +111,10 @@ replace_symlinks_or_move_files_to_old(){
 }
 
 config_setup() {
-    stow nvim i3 i3status zsh bash tmux ledger dunst alacritty
+    # FIXME: find better way to do install on-my-zsh
+    # sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    stow X11 xdg-user-dirs
+    stow nvim i3 i3status bash tmux ledger dunst alacritty zsh
     # set up wallpaper and lockscreen images
     local i3_wallpaper="${HOME}/images/i3_wallpaper.png"
     if [ ! -f "$i3_wallpaper" ]; then
@@ -127,39 +125,11 @@ config_setup() {
         curl --fail --location --output "$i3_lock" --create-dirs https://raw.githubusercontent.com/dracula/wallpaper/master/first-collection/arch.png
     fi
 
-    # FIXME: find better way to do install on-my-zsh
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
-
     # tpm setup and tpm plugins
-    git_clone_with_failure_message https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
+    # mkdir -p ${HOME}/.tmux/plugins/
+    # git_clone_with_failure_message https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
     sh -c "${HOME}/.tmux/plugins/tpm/bin/install_plugins"
 }
-
-# sets up i3 and i3 status configs and wallpaper/lock images
-sway_setup() {
-    # set up sway configs
-    local sway_folder="${HOME}/.config/sway"
-    mkdir -p "$sway_folder"
-
-    local dotfiles_sway="${DOTFILES_DIR}/swayconfig"
-    local sway_config="${sway_folder}/config"
-    replace_symlinks_or_move_files_to_old "$sway_config" "$dotfiles_sway"
-}
-
-# sets up X files to help launch i3 and xfce4
-X_setup() {
-    local xinitrc="${HOME}/.xinitrc"
-    local dotfile_xinitrc="${DOTFILES_DIR}/X11/xinitrc"
-    replace_symlinks_or_move_files_to_old "$xinitrc" "$dotfile_xinitrc"
-
-    local xserverrc="${HOME}/.xserverrc"
-    local dotfile_xserver="${DOTFILES_DIR}/X11/xserverrc"
-    replace_symlinks_or_move_files_to_old "$xserverrc" "$dotfile_xserver"
-
-    stow xdg-user-dirs
-}
-
 
 other_applications_setup(){
     # set up location for custom scripts
@@ -167,7 +137,6 @@ other_applications_setup(){
     local local_bin="$HOME/.local/bin"
     # set up projects folder
     mkdir -p "$HOME/projects"
-
 
     # clone ledger repo
     git_clone_with_failure_message ssh://rookie@jnduli.co.ke:/home/rookie/git/ledger.git "$HOME/docs/ledger"
@@ -220,6 +189,15 @@ install.sh
 EOF
 }
 
+manual_instructions() {
+    cat <<EOF
+Run the following to have a good time
+    1. install yay
+    2. yay -S xidlehook
+    3. install oh-my-zsh
+EOF
+}
+
 options () {
     while getopts "hi:sg" OPTION; do
         case $OPTION in
@@ -233,6 +211,7 @@ options () {
                     ubuntu_install_packages
                 elif [[ $os == "arch" ]]; then
                     install_archlinux_packages
+                    manual_instructions
                 elif [[ $os == "guix" ]]; then
                     guix_install_packages
                 else
@@ -242,10 +221,11 @@ options () {
                 exit
                 ;;
             s)
-                config_setup
                 X_setup
+                config_setup
                 other_applications_setup
                 custom_scripts_setup
+                manual_instructions
                 exit
                 ;;
             \?)

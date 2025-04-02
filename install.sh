@@ -193,7 +193,7 @@ manual_instructions() {
     cat <<EOF
 Run the following to have a good time
     1. install yay
-    2. yay -S xidlehook
+    2. yay -S xautolock 
     3. install oh-my-zsh
 EOF
 }

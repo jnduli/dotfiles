@@ -203,8 +203,7 @@ exec setxkbmap -option caps:escape
 #scrot screen shot
 bindsym $mod+p exec "maim -s | xclip -selection clipboard -t image/png"
 # bindsym $mod+p exec "scrot ~/images/Screenshot%Y-%m-%d_at_%H-%M-%S.png"
-
-exec --no-startup-id xidlehook ---not-when-fullscreen --timer 5 'i3lock -i ~/images/i3_lock.png -p win -n' ''
+exec --no-startup-id xautolock -time 5 -corners -0+0 -cornerdelay 3 -locker 'i3lock -i ~/images/i3_lock.png -p win -n'
 
 #increase and decrease keyboard brightness
 bindsym XF86KbdBrightnessUp exec python /usr/local/bin/kb-light.py +

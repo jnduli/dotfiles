@@ -171,11 +171,16 @@ fi
 
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+# nvm install path from pacman -S nvm
+export NVIM_DIR="/usr/share/nvm/init-nvm.sh"
+source "$NVIM_DIR"
 
 
 lazy_load_nvm() {
     unset -f node
-    export NVM_DIR="$HOME/.config/nvm"
+    # export NVM_DIR="$HOME/.config/nvm"
+    # nvim install path from pacman -S nvm
+    export NVIM_DIR="/usr/share/nvm/init-nvm.sh"
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 }

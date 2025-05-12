@@ -96,7 +96,22 @@ local STATS_HIGHLIGHT_GROUP = "StatsHighlight"
 local global_stats_ext_mark = nil
 local global_top_line_index = nil
 
-vim.api.nvim_set_hl(0, STATS_HIGHLIGHT_GROUP, { fg = "black", bg = "yellow", bold = true })
+vim.api.nvim_set_hl(0, "WeakStatsHighlight", { fg = "white", bg = "red", bold = true })
+vim.api.nvim_set_hl(0, "GrowingStatsHighlight", { fg = "black", bg = "orange", bold = true })
+vim.api.nvim_set_hl(0, "StrongStatsHighlight", { fg = "black", bg = "yellow", bold = true })
+vim.api.nvim_set_hl(0, "OptimalStatsHighlight", { fg = "white", bg = "green", bold = true })
+
+local function get_stats_highlight(ratio)
+  if ratio == nil or ratio < 0.2 then
+    return "WeakStatsHighlight"
+  elseif ratio < 0.6 then
+    return "GrowingStatsHighlight"
+  elseif ratio < 0.9 then
+    return "StrongStatsHighlight"
+  else
+    return "OptimalStatsHighlight"
+  end
+end
 
 local function stats()
   local buf = vim.api.nvim_get_current_buf()
@@ -127,10 +142,11 @@ local function stats()
   end
   local ratio = done / total
   local stats_msg = string.format("%d/%d, %.2f", done, total, ratio)
+  local stats_highlight = get_stats_highlight(ratio)
 
   global_top_line_index = line_with_stats
   global_stats_ext_mark = vim.api.nvim_buf_set_extmark(buf, STATS_NAMESPACE_ID, line_with_stats, 0, {
-    virt_text = { { stats_msg, STATS_HIGHLIGHT_GROUP } },
+    virt_text = { { stats_msg, stats_highlight } },
     virt_text_pos = "eol_right_align",
   })
 end

@@ -113,8 +113,8 @@ replace_symlinks_or_move_files_to_old(){
 config_setup() {
     # FIXME: find better way to do install on-my-zsh
     # sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-    stow X11 xdg-user-dirs
-    stow nvim i3 i3status bash tmux ledger dunst alacritty zsh
+    stow --dotfiles X11 xdg-user-dirs tmux zsh bash
+    stow --dotfiles i3 i3status dunst alacritty ledger nvim
     # set up wallpaper and lockscreen images
     local i3_wallpaper="${HOME}/images/i3_wallpaper.png"
     if [ ! -f "$i3_wallpaper" ]; then
@@ -162,7 +162,7 @@ other_applications_setup(){
 custom_scripts_setup() {
     local local_bin="$HOME/.local/bin"
     mkdir -p "$local_bin"
-    stow scripts
+    stow --dotfiles scripts
 }
 
 git_clone_with_failure_message() {

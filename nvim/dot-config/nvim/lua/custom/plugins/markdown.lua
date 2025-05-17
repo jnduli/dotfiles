@@ -140,6 +140,9 @@ local function stats()
       total = total + 1
     end
   end
+  if total == 0 then
+    return
+  end
   local ratio = done / total
   local stats_msg = string.format("%d/%d, %.2f", done, total, ratio)
   local stats_highlight = get_stats_highlight(ratio)

@@ -21,7 +21,7 @@ is_ubuntu_or_exit() {
 
 guix_install_packages() {
     local packages=''
-    packages+='i3-gaps feh maim scrot dunst dmenu i3lock alacritty xdg-utils'
+    packages+='i3-gaps feh maim scrot dunst dmenu i3lock alacritty xdg-utils rofi'
     packages+=' git curl tmux ledger rsync'
     packages+=' python neovim python-pynvim'
     packages+=' font-iosevka'
@@ -47,7 +47,7 @@ ubuntu_install_packages() {
     add-apt-repository --yes ppa:neovim-ppa/unstable
 
     local packages=''
-    packages+='i3 feh maim scrot dunst dmenu xautolock alacritty'
+    packages+='i3 feh maim scrot dunst dmenu xautolock alacritty rofi'
     packages+=' git curl tmux ledger rsync'
     packages+=' python3-dev python3-pip neovim python3-pynvim'
     packages+=' fontconfig'
@@ -82,7 +82,7 @@ install_archlinux_packages() {
     # deleted xautolock, change i3 to use i3lock
     # dunst -> notifications
     # TODO: find alternative to xautolock
-    packages+='xorg-xinit i3 feh maim scrot dunst dmenu alacritty xfce4 brightnessctl'
+    packages+='xorg-xinit i3 feh maim scrot dunst dmenu rofi alacritty xfce4 brightnessctl'
     packages+=' nvim git curl tmux xdg-user-dirs ledger rsync openssh stow'
 
     # fonts

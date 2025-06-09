@@ -92,25 +92,40 @@ local function toggle_markdown_checklist()
 end
 
 local STATS_NAMESPACE_ID = vim.api.nvim_create_namespace("StatsVirtualTextNamespace")
-local STATS_HIGHLIGHT_GROUP = "StatsHighlight"
 local global_stats_ext_mark = nil
 local global_top_line_index = nil
 
-vim.api.nvim_set_hl(0, "WeakStatsHighlight", { fg = "white", bg = "red", bold = true })
-vim.api.nvim_set_hl(0, "GrowingStatsHighlight", { fg = "black", bg = "orange", bold = true })
-vim.api.nvim_set_hl(0, "StrongStatsHighlight", { fg = "black", bg = "yellow", bold = true })
-vim.api.nvim_set_hl(0, "OptimalStatsHighlight", { fg = "white", bg = "green", bold = true })
+local STATUS_COLORS = {
+  "#FF0000",
+  "#FF3300",
+  "#FF6600",
+  "#FF9900",
+  "#FFCC00",
+  "#FFFF00",
+  "#CCFF00",
+  "#99FF00",
+  "#66FF00",
+  "#33FF00",
+  "#00FF00",
+}
+local function highlight_name(idx)
+  return string.format("StatsHighlight_%d", idx)
+end
+
+local function create_highlight_groups()
+  for idx, color in ipairs(STATUS_COLORS) do
+    vim.api.nvim_set_hl(0, highlight_name(idx), { fg = "black", bg = color, bold = true })
+  end
+end
 
 local function get_stats_highlight(ratio)
-  if ratio == nil or ratio < 0.2 then
-    return "WeakStatsHighlight"
-  elseif ratio < 0.6 then
-    return "GrowingStatsHighlight"
-  elseif ratio < 0.9 then
-    return "StrongStatsHighlight"
-  else
-    return "OptimalStatsHighlight"
+  -- local length = #STATUS_COLORS
+  local length = 10
+  if ratio == nil then
+    ratio = 0
   end
+  local index = vim.fn.round(ratio * length) + 1
+  return highlight_name(index)
 end
 
 local function stats()
@@ -144,7 +159,8 @@ local function stats()
     return
   end
   local ratio = done / total
-  local stats_msg = string.format("%d/%d, %.2f", done, total, ratio)
+  local percentage = ratio * 100
+  local stats_msg = string.format("%d/%d, %.1f%%", done, total, percentage)
   local stats_highlight = get_stats_highlight(ratio)
 
   global_top_line_index = line_with_stats
@@ -158,6 +174,7 @@ local markdown_group = vim.api.nvim_create_augroup("markdown_group", { clear = t
 vim.api.nvim_create_autocmd("Filetype", {
   pattern = { "markdown", "vimwiki" },
   callback = function()
+    create_highlight_groups()
     vim.bo.textwidth = 80
     vim.keymap.set("n", "<C-x>", toggle_markdown_checklist, { silent = true, desc = "cycle through todo list states" })
     vim.keymap.set("n", "<C-u>", move_up_checklist_item, { silent = true, desc = "move checklist item to top" })

@@ -139,9 +139,11 @@ local function stats()
     return
   end
 
-  if global_stats_ext_mark ~= nil then
-    vim.api.nvim_buf_del_extmark(buf, STATS_NAMESPACE_ID, global_stats_ext_mark)
-  end
+  vim.api.nvim_buf_clear_namespace(buf, STATS_NAMESPACE_ID, 0, -1)
+
+  -- if global_stats_ext_mark ~= nil then
+  --   vim.api.nvim_buf_del_extmark(buf, STATS_NAMESPACE_ID, global_stats_ext_mark)
+  -- end
 
   local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
   local total = 0

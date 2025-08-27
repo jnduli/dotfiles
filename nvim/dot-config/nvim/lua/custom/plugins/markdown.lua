@@ -9,12 +9,167 @@ local log = require("plenary.log").new({
 
 DONE_CHECKLIST = "- [X]"
 OPEN_CHECKLIST = "- [ ]"
+local STARS_HIGHLIGHT_GROUP = "TaskAnimStars"
+local STARS_NAMESPACE_ID = vim.api.nvim_create_namespace("StarsVirtualTextNamespace")
+print(STARS_NAMESPACE_ID)
+
+vim.api.nvim_set_hl(0, STARS_HIGHLIGHT_GROUP, { fg = "#ffc000", bold = true, default = true })
 
 local CHECKLIST_STATUS = {
   OPEN = 1,
   DONE = 2,
   UNKNOWN = 3,
 }
+
+local easing_in_out_quad = function(t)
+  return t < 0.5 and 2 * t * t or 1 - math.pow(-2 * t + 2, 2) / 2
+end
+
+local animate = function(frame_rate_ms, duration_ms, on_update, on_complete)
+  local timer = vim.uv.new_timer()
+  if timer == nil then
+    return
+  end
+  local start_time = vim.uv.now()
+  timer:start(0, frame_rate_ms, function()
+    local elapsed_time = vim.uv.now() - start_time
+    local raw_progress = math.min(1, elapsed_time / duration_ms)
+    local eased_progress = easing_in_out_quad(raw_progress)
+    on_update(eased_progress)
+
+    if raw_progress >= 1 then
+      timer:stop()
+      timer:close()
+      if on_complete then
+        on_complete()
+      end
+    end
+  end)
+  return timer
+end
+
+-- Original function (for context and testing)
+function convert_time_to_sortable_format(text)
+  local h_str, m_str = text:match("(%d%d?)%p(%d%d)")
+  local ampm = text:match("%s*([ap]m)%s*")
+
+  if not h_str then
+    return nil -- No time found
+  end
+
+  local h = tonumber(h_str)
+  local m = tonumber(m_str)
+
+  local h24 = h
+
+  if ampm then
+    if ampm == "pm" and h < 12 then
+      h24 = h + 12
+    elseif ampm == "am" and h == 12 then
+      h24 = 0
+    end
+  end
+
+  return string.format("%02d:%02d", h24, m)
+end
+
+-- Test function
+function test_convert_time_to_sortable_format()
+  local test_cases = {
+    { "Finish this task by 8.00 am", "08:00" },
+    { "Meeting at 14.30 pm today", "14:30" }, -- This should stay 14:30
+    { "Call him at 6.15 pm", "18:15" },
+    { "Midnight snack at 12.00 am", "00:00" },
+    { "Lunch at 12.00 pm", "12:00" },
+    { "Early morning at 5.00", "05:00" }, -- No AM/PM, assumes 24-hour format
+    { "Appointment at 10.45 am", "10:45" },
+    { "Evening plan 9.30 pm", "21:30" },
+    { "Late night coding 1.00 am", "01:00" },
+    { "Just some text without time", nil },
+    { "Another line at 23.59", "23:59" },
+    { "12.00 am party", "00:00" },
+    { "12.00 pm lunch", "12:00" },
+  }
+
+  local passed = 0
+  local failed = 0
+
+  print("--- Running tests for convert_time_to_sortable_format ---")
+
+  for i, test_case in ipairs(test_cases) do
+    local input_text = test_case[1]
+    local expected_output = test_case[2]
+    local actual_output = convert_time_to_sortable_format(input_text)
+
+    if actual_output == expected_output then
+      print(
+        string.format(
+          "[PASS] Input: '%s' -> Expected: '%s', Got: '%s'",
+          input_text,
+          expected_output or "nil",
+          actual_output or "nil"
+        )
+      )
+      passed = passed + 1
+    else
+      print(
+        string.format(
+          "[FAIL] Input: '%s' -> Expected: '%s', Got: '%s'",
+          input_text,
+          expected_output or "nil",
+          actual_output or "nil"
+        )
+      )
+      failed = failed + 1
+    end
+  end
+
+  print("---------------------------------------------------------")
+  print(string.format("Tests complete: %d passed, %d failed", passed, failed))
+  print("---------------------------------------------------------")
+
+  return failed == 0
+end
+
+local animate_character_horizontal = function(row, col, characters, on_complete)
+  local buf = vim.api.nvim_create_buf(false, true)
+  local win = vim.api.nvim_open_win(buf, false, {
+    relative = "editor",
+    width = 2,
+    height = 1,
+    row = row,
+    col = col,
+    style = "minimal",
+  })
+  local single_action = function(ratio)
+    local idx = math.floor((ratio * #characters) + 0.5)
+    local g = characters[idx + 1]
+    vim.schedule(function()
+      vim.api.nvim_buf_set_lines(buf, 0, -1, false, { g })
+      vim.hl.range(buf, STARS_NAMESPACE_ID, STARS_HIGHLIGHT_GROUP, { 0, 0 }, { 10, 10 })
+    end)
+  end
+
+  local clean_up = function()
+    vim.schedule(function()
+      if vim.api.nvim_win_is_valid(win) then
+        vim.api.nvim_win_close(win, true)
+      end
+    end)
+    if on_complete then
+      on_complete()
+    end
+  end
+
+  local duration_ms = 250
+  local refresh_ms = 40 -- 24 fps
+  animate(refresh_ms, duration_ms, single_action, clean_up)
+end
+
+local function popup_stars(row, col, on_complete)
+  local stars = { " .", "✨", "☆", "★", "★", "★" }
+  animate_character_horizontal(row, col, stars, on_complete)
+end
 
 local function str_to_checklist(raw_string)
   local status = string.sub(raw_string, 1, string.len(DONE_CHECKLIST))
@@ -77,23 +232,38 @@ local function toggle_markdown_checklist()
   if next_content == nil then
     return
   end
-  vim.api.nvim_buf_set_text(
-    0,
-    current_cursor[2] - 1,
-    dash_col - 1,
-    current_cursor[2] - 1,
-    dash_col + string.len(DONE_CHECKLIST) - 1,
-    { next_content }
-  )
-  if dash_col - 1 == 0 then
-    move_up_checklist_item(current_cursor[2] - 1)
+
+  local next_actions = function()
+    vim.schedule(function()
+      vim.api.nvim_buf_set_text(
+        0,
+        current_cursor[2] - 1,
+        dash_col - 1,
+        current_cursor[2] - 1,
+        dash_col + string.len(DONE_CHECKLIST) - 1,
+        { next_content }
+      )
+      if dash_col - 1 == 0 then
+        move_up_checklist_item(current_cursor[2] - 1)
+      end
+      vim.fn.setpos(".", current_cursor)
+    end)
   end
-  vim.fn.setpos(".", current_cursor)
+  if next_content == DONE_CHECKLIST then
+    local cur_win_cursor = vim.api.nvim_win_get_cursor(0) -- 0 refers to the current window
+    local screen_pos_info = vim.fn.screenpos(0, cur_win_cursor[1], dash_col)
+    if screen_pos_info.row == 0 or screen_pos_info.col == 0 then
+      return
+    end
+
+    popup_stars(cur_win_cursor[1] - 1, screen_pos_info.col + 2, next_actions)
+  else
+    next_actions()
+  end
 end
 
 local STATS_NAMESPACE_ID = vim.api.nvim_create_namespace("StatsVirtualTextNamespace")
-local global_stats_ext_mark = nil
-local global_top_line_index = nil
+local GLOBAL_TOP_LINE_INDEX = nil
 
 local STATUS_COLORS = {
   "#FF0000",
@@ -112,7 +282,7 @@ local function highlight_name(idx)
   return string.format("StatsHighlight_%d", idx)
 end
 
-local function create_highlight_groups()
+local function create_stats_highlight_groups()
   for idx, color in ipairs(STATUS_COLORS) do
     vim.api.nvim_set_hl(0, highlight_name(idx), { fg = "black", bg = color, bold = true })
   end
@@ -128,22 +298,55 @@ local function get_stats_highlight(ratio)
   return highlight_name(index)
 end
 
+local function reorder()
+  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+  local start = nil
+  local ch_end = nil
+  local orders = {}
+  for idx, line in ipairs(lines) do
+    local checklist_obj = str_to_checklist(line)
+    if checklist_obj and checklist_obj.status == CHECKLIST_STATUS.OPEN then
+      if start == nil then
+        start = idx
+      end
+      if ch_end == nil then
+        ch_end = idx
+      end
+      local time_convert = convert_time_to_sortable_format(line)
+      if time_convert == nil then
+        time_convert = "24:00"
+      end
+      table.insert(orders, { time_convert, line })
+      start = math.min(start, idx)
+      ch_end = math.max(ch_end, idx)
+    end
+  end
+  table.sort(orders, function(a, b)
+    return a[1] < b[1]
+  end)
+  local new_list = {}
+  for _, v in ipairs(orders) do
+    table.insert(new_list, v[2])
+  end
+  if start == nil or ch_end == nil then
+    return
+  end
+
+  vim.api.nvim_buf_set_lines(0, start - 1, ch_end, false, new_list) -- indexing is 0-based
+end
+
 local function stats()
   local buf = vim.api.nvim_get_current_buf()
 
   local winline = vim.fn.winline() -- get current line relative to the top of the window
   local current_cursor = vim.fn.getcurpos()
   local current_line = current_cursor[2] -- get current line relative to the whole file
-  local line_with_stats = current_line - winline
-  if global_top_line_index == line_with_stats and not vim.bo.modified then
+  local line_with_stats = math.max(current_line - winline, 0)
+  if GLOBAL_TOP_LINE_INDEX == line_with_stats and not vim.bo.modified then
     return
   end
 
   vim.api.nvim_buf_clear_namespace(buf, STATS_NAMESPACE_ID, 0, -1)
-
-  -- if global_stats_ext_mark ~= nil then
-  --   vim.api.nvim_buf_del_extmark(buf, STATS_NAMESPACE_ID, global_stats_ext_mark)
-  -- end
 
   local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
   local total = 0
@@ -165,8 +368,8 @@ local function stats()
   local stats_msg = string.format("%d/%d, %.1f%%", done, total, percentage)
   local stats_highlight = get_stats_highlight(ratio)
 
-  global_top_line_index = line_with_stats
-  global_stats_ext_mark = vim.api.nvim_buf_set_extmark(buf, STATS_NAMESPACE_ID, line_with_stats, 0, {
+  GLOBAL_TOP_LINE_INDEX = line_with_stats
+  vim.api.nvim_buf_set_extmark(buf, STATS_NAMESPACE_ID, line_with_stats, 0, {
     virt_text = { { stats_msg, stats_highlight } },
     virt_text_pos = "eol_right_align",
   })
@@ -174,18 +377,19 @@ end
 
 local markdown_group = vim.api.nvim_create_augroup("markdown_group", { clear = true })
 vim.api.nvim_create_autocmd("Filetype", {
-  pattern = { "markdown", "vimwiki" },
+  pattern = { "markdown", "vimwiki", "*.md" },
   callback = function()
-    create_highlight_groups()
-    vim.bo.textwidth = 80
+    create_stats_highlight_groups()
+    vim.bo.textwidth = 120
     vim.keymap.set("n", "<C-x>", toggle_markdown_checklist, { silent = true, desc = "cycle through todo list states" })
     vim.keymap.set("n", "<C-u>", move_up_checklist_item, { silent = true, desc = "move checklist item to top" })
+    vim.api.nvim_create_user_command("Order", reorder, {})
   end,
   group = markdown_group,
 })
 
 vim.api.nvim_create_autocmd({ "BufEnter", "CursorMoved" }, {
-  pattern = { "*.md" },
+  pattern = { "markdown", "vimwiki", "*.md" },
   group = markdown_group,
   callback = function()
     stats()

@@ -73,64 +73,6 @@ function convert_time_to_sortable_format(text)
   return string.format("%02d:%02d", h24, m)
 end
 
--- Test function
-function test_convert_time_to_sortable_format()
-  local test_cases = {
-    { "Finish this task by 8.00 am", "08:00" },
-    { "Meeting at 14.30 pm today", "14:30" }, -- This should stay 14:30
-    { "Call him at 6.15 pm", "18:15" },
-    { "Midnight snack at 12.00 am", "00:00" },
-    { "Lunch at 12.00 pm", "12:00" },
-    { "Early morning at 5.00", "05:00" }, -- No AM/PM, assumes 24-hour format
-    { "Appointment at 10.45 am", "10:45" },
-    { "Evening plan 9.30 pm", "21:30" },
-    { "Late night coding 1.00 am", "01:00" },
-    { "Just some text without time", nil },
-    { "Another line at 23.59", "23:59" },
-    { "12.00 am party", "00:00" },
-    { "12.00 pm lunch", "12:00" },
-  }
-
-  local passed = 0
-  local failed = 0
-
-  print("--- Running tests for convert_time_to_sortable_format ---")
-
-  for i, test_case in ipairs(test_cases) do
-    local input_text = test_case[1]
-    local expected_output = test_case[2]
-    local actual_output = convert_time_to_sortable_format(input_text)
-
-    if actual_output == expected_output then
-      print(
-        string.format(
-          "[PASS] Input: '%s' -> Expected: '%s', Got: '%s'",
-          input_text,
-          expected_output or "nil",
-          actual_output or "nil"
-        )
-      )
-      passed = passed + 1
-    else
-      print(
-        string.format(
-          "[FAIL] Input: '%s' -> Expected: '%s', Got: '%s'",
-          input_text,
-          expected_output or "nil",
-          actual_output or "nil"
-        )
-      )
-      failed = failed + 1
-    end
-  end
-
-  print("---------------------------------------------------------")
-  print(string.format("Tests complete: %d passed, %d failed", passed, failed))
-  print("---------------------------------------------------------")
-
-  return failed == 0
-end
-
 local animate_character_horizontal = function(row, col, characters, on_complete)
   local buf = vim.api.nvim_create_buf(false, true)
   local win = vim.api.nvim_open_win(buf, false, {

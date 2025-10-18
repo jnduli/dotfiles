@@ -11,7 +11,10 @@ DONE_CHECKLIST = "- [X]"
 OPEN_CHECKLIST = "- [ ]"
 local STARS_HIGHLIGHT_GROUP = "TaskAnimStars"
 local STARS_NAMESPACE_ID = vim.api.nvim_create_namespace("StarsVirtualTextNamespace")
-print(STARS_NAMESPACE_ID)
+
+local DELAYED_TASK_NAMESPACE_ID = vim.api.nvim_create_namespace("DelayedTaskNamespace")
+local DELAYED_HIGHLIGHT_GROUP = "DelayedTaskHighlight"
+vim.api.nvim_set_hl(0, DELAYED_HIGHLIGHT_GROUP, { bg = "#711D1D", fg = "#FFFFFF" }) -- Red background, white text
 
 vim.api.nvim_set_hl(0, STARS_HIGHLIGHT_GROUP, { fg = "#ffc000", bold = true, default = true })
 
@@ -123,7 +126,13 @@ local function str_to_checklist(raw_string)
   else
     return nil
   end
-  return { status = status_obj, content = raw_string }
+
+  local time_convert = convert_time_to_sortable_format(raw_string)
+  if time_convert == nil then
+    time_convert = "24:00"
+  end
+
+  return { status = status_obj, time = time_convert, content = raw_string }
 end
 
 local function move_up_checklist_item(lnum)
@@ -151,6 +160,23 @@ local function move_up_checklist_item(lnum)
   log.debug("Moving " .. line .. " from: " .. lnum .. " to: " .. up_lnum)
   vim.api.nvim_buf_set_lines(0, lnum, lnum + 1, false, {})
   vim.api.nvim_buf_set_lines(0, up_lnum + 1, up_lnum + 1, false, { line })
+end
+
+local function highlight_delayed_tasks()
+  local buf = vim.api.nvim_get_current_buf()
+  vim.api.nvim_buf_clear_namespace(buf, DELAYED_TASK_NAMESPACE_ID, 0, -1)
+  local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+  local cur_time = os.date("*t")
+  local compare_time = string.format("%02d:%02d", cur_time.hour, cur_time.min)
+  for idx, line in ipairs(lines) do
+    local checklist_obj = str_to_checklist(line)
+    if checklist_obj and checklist_obj.status == CHECKLIST_STATUS.OPEN then
+      if checklist_obj.time < compare_time then
+        -- Add highlight to the entire line (idx-1 because nvim_buf_add_highlight is 0-indexed)
+        vim.api.nvim_buf_add_highlight(buf, DELAYED_TASK_NAMESPACE_ID, DELAYED_HIGHLIGHT_GROUP, idx - 1, 0, -1)
+      end
+    end
+  end
 end
 
 -- markdown cycle through todo list items
@@ -198,7 +224,8 @@ local function toggle_markdown_checklist()
       return
     end
 
-    popup_stars(cur_win_cursor[1] - 1, screen_pos_info.col + 2, next_actions)
+    popup_stars(screen_pos_info.row - 1, screen_pos_info.col + 2, next_actions)
+    -- popup_stars(cur_win_cursor[1] - 1, screen_pos_info.col + 2, next_actions)
   else
     next_actions()
   end
@@ -245,6 +272,7 @@ local function reorder()
   local start = nil
   local ch_end = nil
   local orders = {}
+  local seen_content = {}
   for idx, line in ipairs(lines) do
     local checklist_obj = str_to_checklist(line)
     if checklist_obj and checklist_obj.status == CHECKLIST_STATUS.OPEN then
@@ -254,13 +282,12 @@ local function reorder()
       if ch_end == nil then
         ch_end = idx
       end
-      local time_convert = convert_time_to_sortable_format(line)
-      if time_convert == nil then
-        time_convert = "24:00"
+      if not seen_content[line] then
+        table.insert(orders, { checklist_obj.time, line })
+        start = math.min(start, idx)
+        ch_end = math.max(ch_end, idx)
+        seen_content[line] = true
       end
-      table.insert(orders, { time_convert, line })
-      start = math.min(start, idx)
-      ch_end = math.max(ch_end, idx)
     end
   end
   table.sort(orders, function(a, b)
@@ -335,6 +362,7 @@ vim.api.nvim_create_autocmd({ "BufEnter", "CursorMoved" }, {
   group = markdown_group,
   callback = function()
     stats()
+    highlight_delayed_tasks()
   end,
 })
 

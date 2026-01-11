@@ -41,7 +41,8 @@ bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
 # bindsym $mod+d exec --no-startup-id dmenu_run -fn 'DejaVu Sans Mono-10' -nb "#3c3836" -nf "#f9f5d7"
-bindsym $mod+d exec --no-startup-id "rofi -show combi -modes combi -combi-modes 'window,drun,run' -show-icons -matching fuzzy"
+bindsym $mod+d exec --no-startup-id "rofi -font 'iosevka 20' -show combi -modes combi -combi-modes 'window,drun,run' -show-icons -matching fuzzy"
+
 
 # change focus
 bindsym $mod+h focus left

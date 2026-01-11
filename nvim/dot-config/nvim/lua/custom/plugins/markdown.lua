@@ -123,8 +123,6 @@ local function str_to_checklist(raw_string)
     status_obj = CHECKLIST_STATUS.DONE
   elseif status == OPEN_CHECKLIST then
     status_obj = CHECKLIST_STATUS.OPEN
-  else
-    return nil
   end
 
   local time_convert = convert_time_to_sortable_format(raw_string)
@@ -143,7 +141,7 @@ local function move_up_checklist_item(lnum)
   while up_lnum > 0 do
     local current_line = vim.api.nvim_buf_get_lines(0, up_lnum, up_lnum + 1, false)[1]
     local checklist = str_to_checklist(current_line)
-    if checklist == nil then
+    if checklist == nil or checklist.content == "" then
       break
     end
     if checklist.status == CHECKLIST_STATUS.DONE then
@@ -284,10 +282,10 @@ local function reorder()
       end
       if not seen_content[line] then
         table.insert(orders, { checklist_obj.time, line })
-        start = math.min(start, idx)
-        ch_end = math.max(ch_end, idx)
         seen_content[line] = true
       end
+      start = math.min(start, idx)
+      ch_end = math.max(ch_end, idx)
     end
   end
   table.sort(orders, function(a, b)
@@ -300,7 +298,7 @@ local function reorder()
   if start == nil or ch_end == nil then
     return
   end
-
+  log.debug("Changing new list")
   vim.api.nvim_buf_set_lines(0, start - 1, ch_end, false, new_list) -- indexing is 0-based
 end
 

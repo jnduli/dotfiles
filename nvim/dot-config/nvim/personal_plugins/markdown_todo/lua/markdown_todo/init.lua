@@ -8,6 +8,13 @@ local log = require("plenary.log").new({
   level = log_level,
 })
 
+local default_config = {
+  start_time = { hour = 5, min = 0 },
+  end_time = { hour = 21, min = 0 },
+}
+
+M.config = {}
+
 local DELAYED_TASK_NAMESPACE_ID = vim.api.nvim_create_namespace("DelayedTaskNamespace")
 local DELAYED_HIGHLIGHT_GROUP = "DelayedTaskHighlight"
 vim.api.nvim_set_hl(0, DELAYED_HIGHLIGHT_GROUP, { bg = "#711D1D", fg = "#FFFFFF" }) -- Red background, white text
@@ -141,6 +148,9 @@ M.get_stats_highlight = function(ratio)
   if ratio == nil then
     ratio = 0
   end
+  if ratio > 1 then
+    ratio = 1
+  end
   local index = vim.fn.round(ratio * length) + 1
   return M.highlight_name(index)
 end
@@ -210,10 +220,9 @@ M.stats = function()
   if total == 0 then
     return
   end
-  local ratio = done / total
-  local percentage = ratio * 100
-  local stats_msg = string.format("%d/%d, %.1f%%", done, total, percentage)
-  local stats_highlight = M.get_stats_highlight(ratio)
+  local performance = utils.pace_score(M.config.start_time, M.config.end_time, total, done)
+  local stats_msg = string.format("Pace: %d/%d, %.1f%%", done, performance.expected_done, performance.score * 100)
+  local stats_highlight = M.get_stats_highlight(performance.score)
 
   GLOBAL_TOP_LINE_INDEX = line_with_stats
   vim.api.nvim_buf_set_extmark(buf, STATS_NAMESPACE_ID, line_with_stats, 0, {
@@ -231,6 +240,33 @@ M.calculate_and_print = function(args)
   else
     print("Result: " .. res)
   end
+end
+
+function M.setup(user_opts)
+  user_opts = user_opts or {}
+
+  -- Basic check for the top-level table
+  vim.validate({
+    schedule = { user_opts.schedule, "table", true },
+  })
+
+  -- Check nested values if they exist
+  if user_opts.schedule then
+    if user_opts.schedule.start_time then
+      vim.validate({
+        hour = { user_opts.schedule.start_time.hour, "number" },
+        min = { user_opts.schedule.start_time.min, "number" },
+      })
+    end
+    if user_opts.schedule.end_time then
+      vim.validate({
+        hour = { user_opts.schedule.end_time.hour, "number" },
+        min = { user_opts.schedule.end_time.min, "number" },
+      })
+    end
+  end
+
+  M.config = vim.tbl_deep_extend("force", default_config, user_opts or {})
 end
 
 return M

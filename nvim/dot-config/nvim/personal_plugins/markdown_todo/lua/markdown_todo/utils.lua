@@ -70,10 +70,23 @@ function Checklist.from_str(raw_string)
   return Checklist.new(status_obj, time_convert, raw_string)
 end
 
-M.Checklist = Checklist
-
 -- Checklist object utils
 --
+
+M.pace_score = function(start, end_time, total_tasks, tasks_done)
+  -- TODO: figure out how to handle work hours here for better scaling
+  local total_available_hours = (end_time.hour - start.hour) + ((end_time.min - start.min) / 60)
+  if vim.g.missing_hours ~= nil then
+    total_available_hours = total_available_hours - vim.g.missing_hours
+  end
+
+  local expected_pace_per_hour = total_tasks / total_available_hours
+  local cur_time = os.date("*t")
+  local hours_passed = (cur_time.hour - start.hour) + ((cur_time.min - start.min) / 60)
+  local expected_tasks_done = hours_passed * expected_pace_per_hour
+  local performance = tasks_done / expected_tasks_done -- can be greater than 100% which is what I want
+  return { score = performance, expected_done = expected_tasks_done }
+end
 
 M.STARS_HIGHLIGHT_GROUP = "TaskAnimStars"
 M.STARS_NAMESPACE_ID = vim.api.nvim_create_namespace("StarsVirtualTextNamespace")
@@ -147,16 +160,6 @@ M.popup_stars = function(row, col, on_complete)
   M.animate_character_horizontal(row, col, stars, on_complete)
 end
 
--- TODO: clean this up
-M.add = function(a, b)
-  local num_a = tonumber(a)
-  local num_b = tonumber(b)
-
-  if not num_a or not num_b then
-    return nil, "Invalid numbers"
-  end
-
-  return num_a + num_b
-end
+M.Checklist = Checklist
 
 return M

@@ -57,8 +57,16 @@ return {
           "/home/rookie/vimwiki/",
         },
         filetypes = {
+          yaml = false,
           markdown = false,
+          help = false,
+          gitcommit = false,
+          gitrebase = false,
+          hgcommit = false,
+          svn = false,
+          cvs = false,
           vimwiki = false,
+          ["."] = false,
         },
         nes = {
           enabled = true, -- requires copilot-lsp as a dependency

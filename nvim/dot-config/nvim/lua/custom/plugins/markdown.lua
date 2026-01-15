@@ -45,5 +45,11 @@ return {
     dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" }, -- if you prefer nvim-web-devicons
   },
 
-  { dir = "~/.config/nvim/personal_plugins/markdown_todo" },
+  {
+    dir = "~/.config/nvim/personal_plugins/markdown_todo",
+    opts = {
+      start_time = { hour = 5, min = 0 },
+      end_time = { hour = 21, min = 0 },
+    },
+  },
 }

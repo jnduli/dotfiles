@@ -19,6 +19,16 @@ vim.api.nvim_create_autocmd("Filetype", {
       { silent = true, desc = "move checklist item to top" }
     )
     vim.api.nvim_create_user_command("Order", markdown_todo.reorder, {})
+    vim.api.nvim_create_user_command("MissingHours", function(opts)
+      local missing_hours = tonumber(opts.args)
+      if missing_hours then
+        vim.g.missing_hours = missing_hours
+        markdown_todo.stats()
+        print("Set missing hours to: " .. missing_hours)
+      else
+        print("Error: Please provide a valid number")
+      end
+    end, { nargs = 1 }) -- nargs = 1 means the command requires exactly one argument
   end,
   group = markdown_group,
 })
@@ -31,7 +41,3 @@ vim.api.nvim_create_autocmd({ "BufEnter", "CursorMoved" }, {
     markdown_todo.highlight_delayed_tasks()
   end,
 })
-
-vim.api.nvim_create_user_command("Add", function(opts)
-  require("calc").calculate_and_print(opts)
-end, { nargs = "*" })

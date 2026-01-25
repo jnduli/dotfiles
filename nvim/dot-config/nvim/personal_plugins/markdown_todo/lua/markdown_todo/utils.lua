@@ -30,8 +30,8 @@ end
 
 function Checklist.get_time(text)
   local default_time = "24:00"
-  local h_str, m_str = text:match("(%d%d?)%p(%d%d)")
-  local ampm = text:match("%s*([ap]m)%s*")
+  -- Matches: "10:30", "10.30pm", "10:30 AM"
+  local h_str, m_str, ampm = text:lower():match("(%d%d?)[%s%p]+(%d%d)%s*([ap]?m?)")
 
   if not h_str then
     return default_time
@@ -49,7 +49,8 @@ function Checklist.get_time(text)
       h24 = 0
     end
   end
-  res = string.format("%02d:%02d", h24, m)
+
+  local res = string.format("%02d:%02d", h24, m)
   if res == nil then
     return default_time
   end

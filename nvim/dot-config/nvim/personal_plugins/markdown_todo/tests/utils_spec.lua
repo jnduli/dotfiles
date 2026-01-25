@@ -12,10 +12,11 @@ describe("custom markdown tests", function()
       { "Appointment at 10.45 am", "10:45" },
       { "Evening plan 9.30 pm", "21:30" },
       { "Late night coding 1.00 am", "01:00" },
-      { "Just some text without time", nil },
+      { "Just some text without time", "24:00" },
       { "Another line at 23.59", "23:59" },
       { "12.00 am party", "00:00" },
       { "12.00 pm lunch", "12:00" },
+      { "lua fix error in personal programming improvement parsing by 12.00", "12:00" },
     }
 
     for _, test_case in ipairs(test_cases) do

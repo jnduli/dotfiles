@@ -128,7 +128,7 @@ config_setup() {
     # tpm setup and tpm plugins
     # mkdir -p ${HOME}/.tmux/plugins/
     # git_clone_with_failure_message https://github.com/tmux-plugins/tpm "${HOME}/.tmux/plugins/tpm"
-    sh -c "${HOME}/.tmux/plugins/tpm/bin/install_plugins"
+    # sh -c "${HOME}/.tmux/plugins/tpm/bin/install_plugins"
 }
 
 other_applications_setup(){
@@ -137,9 +137,6 @@ other_applications_setup(){
     local local_bin="$HOME/.local/bin"
     # set up projects folder
     mkdir -p "$HOME/projects"
-
-    # clone ledger repo
-    git_clone_with_failure_message ssh://rookie@jnduli.co.ke:/home/rookie/git/ledger.git "$HOME/docs/ledger"
 
     # clone personal vimwiki
     git_clone_with_failure_message ssh://rookie@jnduli.co.ke:/home/rookie/git/vimwiki.git "$HOME/vimwiki"
@@ -221,7 +218,6 @@ options () {
                 exit
                 ;;
             s)
-                X_setup
                 config_setup
                 other_applications_setup
                 custom_scripts_setup

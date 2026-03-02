@@ -50,6 +50,7 @@ return {
     opts = {
       start_time = { hour = 5, min = 0 },
       end_time = { hour = 21, min = 0 },
+      done_task_position = "bottom",
     },
   },
 }

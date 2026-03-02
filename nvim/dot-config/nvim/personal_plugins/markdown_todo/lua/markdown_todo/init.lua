@@ -11,6 +11,7 @@ local log = require("plenary.log").new({
 local default_config = {
   start_time = { hour = 5, min = 0 },
   end_time = { hour = 21, min = 0 },
+  done_task_position = "top",
 }
 
 M.config = {}
@@ -46,6 +47,40 @@ M.move_up_checklist_item = function(lnum)
   log.debug("Moving " .. line .. " from: " .. lnum .. " to: " .. up_lnum)
   vim.api.nvim_buf_set_lines(0, lnum, lnum + 1, false, {})
   vim.api.nvim_buf_set_lines(0, up_lnum + 1, up_lnum + 1, false, { line })
+end
+
+M.move_down_checklist_item = function(lnum)
+  if not lnum then
+    lnum = vim.fn.getcurpos()[2] - 1
+  end
+  local total_lines = vim.api.nvim_buf_line_count(0)
+  local down_lnum = lnum + 1
+  local found_done = false
+  while down_lnum < total_lines do
+    local current_line = vim.api.nvim_buf_get_lines(0, down_lnum, down_lnum + 1, false)[1]
+    local checklist = utils.Checklist.from_str(current_line)
+    if checklist == nil or checklist.content == "" then
+      break
+    end
+    if not checklist:is_done() then
+      break
+    end
+    found_done = true
+    down_lnum = down_lnum + 1
+  end
+
+  if not found_done then
+    down_lnum = total_lines
+  end
+
+  if lnum == down_lnum - 1 then -- same line
+    return
+  end
+
+  local line = vim.api.nvim_buf_get_lines(0, lnum, lnum + 1, false)[1]
+  log.debug("Moving " .. line .. " from: " .. lnum .. " to: " .. down_lnum)
+  vim.api.nvim_buf_set_lines(0, lnum, lnum + 1, false, {})
+  vim.api.nvim_buf_set_lines(0, down_lnum, down_lnum, false, { line })
 end
 
 M.highlight_delayed_tasks = function()
@@ -97,8 +132,12 @@ M.toggle_markdown_checklist = function()
         dash_col + string.len(DONE_CHECKLIST) - 1,
         { next_content }
       )
-      if dash_col - 1 == 0 then
-        M.move_up_checklist_item(current_cursor[2] - 1)
+      if dash_col - 1 == 0 and M.config.done_task_position ~= "none" then
+        if M.config.done_task_position == "top" then
+          M.move_up_checklist_item(current_cursor[2] - 1)
+        elseif M.config.done_task_position == "bottom" then
+          M.move_down_checklist_item(current_cursor[2] - 1)
+        end
       end
       vim.fn.setpos(".", current_cursor)
     end)
@@ -248,7 +287,16 @@ function M.setup(user_opts)
   -- Basic check for the top-level table
   vim.validate({
     schedule = { user_opts.schedule, "table", true },
+    done_task_position = { user_opts.done_task_position, "string", true },
   })
+
+  if user_opts.done_task_position then
+    local valid = { top = true, bottom = true, none = true }
+    if not valid[user_opts.done_task_position] then
+      vim.notify("Invalid done_task_position: " .. user_opts.done_task_position .. " (must be 'top', 'bottom', or 'none')", vim.log.levels.ERROR)
+      user_opts.done_task_position = nil
+    end
+  end
 
   -- Check nested values if they exist
   if user_opts.schedule then

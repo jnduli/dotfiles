@@ -89,11 +89,11 @@ M.highlight_delayed_tasks = function()
   vim.api.nvim_buf_clear_namespace(buf, DELAYED_TASK_NAMESPACE_ID, 0, -1)
   local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
   local cur_time = os.date("*t")
-  local compare_time = string.format("%02d:%02d", cur_time.hour, cur_time.min)
+  local compare_minutes = cur_time.hour * 60 + cur_time.min
   for idx, line in ipairs(lines) do
     local checklist_obj = utils.Checklist.from_str(line)
     if checklist_obj and checklist_obj:is_open() then
-      if checklist_obj.time < compare_time then
+      if checklist_obj:day_minutes() < compare_minutes then
         -- Add highlight to the entire line (idx-1 because nvim_buf_add_highlight is 0-indexed)
         vim.api.nvim_buf_add_highlight(buf, DELAYED_TASK_NAMESPACE_ID, DELAYED_HIGHLIGHT_GROUP, idx - 1, 0, -1)
       end
@@ -260,7 +260,7 @@ M.reorder = function()
         ch_end = idx
       end
       if not seen_content[line] then
-        table.insert(orders, { checklist_obj.time, line })
+        table.insert(orders, { checklist_obj:day_minutes(), line })
         seen_content[line] = true
       end
       start = math.min(start, idx)

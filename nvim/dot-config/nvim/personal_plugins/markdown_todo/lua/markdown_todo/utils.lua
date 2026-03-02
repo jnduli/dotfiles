@@ -29,14 +29,12 @@ function Checklist:is_open()
 end
 
 function Checklist:day_minutes()
-  local task_hour = tonumber(self.time:sub(1, 2))
-  local task_min = tonumber(self.time:sub(4, 5))
-  local task_minutes = task_hour * 60 + task_min
+  local task_minutes = self.time.hour * 60 + self.time.minute
   return task_minutes
 end
 
 function Checklist.get_time(text)
-  local default_time = "24:00"
+  local default_time = { hour = 24, minute = 0 }
   -- Matches: "10:30", "10.30pm", "10:30 AM"
   local h_str, m_str, ampm = text:lower():match("(%d%d?)[%s%p]+(%d%d)%s*([ap]?m?)")
 
@@ -57,11 +55,7 @@ function Checklist.get_time(text)
     end
   end
 
-  local res = string.format("%02d:%02d", h24, m)
-  if res == nil then
-    return default_time
-  end
-  return res
+  return { hour = h24, minute = m }
 end
 
 function Checklist.from_str(raw_string)

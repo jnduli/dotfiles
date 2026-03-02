@@ -18,8 +18,9 @@ vim.api.nvim_create_autocmd("Filetype", {
       markdown_todo.move_up_checklist_item,
       { silent = true, desc = "move checklist item to top" }
     )
-    vim.api.nvim_create_user_command("Order", markdown_todo.reorder, {})
-    vim.api.nvim_create_user_command("MissingHours", function(opts)
+    vim.api.nvim_create_user_command("MarkdownTodoOrder", markdown_todo.reorder, {})
+    vim.api.nvim_create_user_command("MarkdownTodoShiftTimes", markdown_todo.readjust_timers, {})
+    vim.api.nvim_create_user_command("MarkdownTodoMissingHours", function(opts)
       local missing_hours = tonumber(opts.args)
       if missing_hours then
         vim.g.missing_hours = missing_hours

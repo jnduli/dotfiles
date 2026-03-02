@@ -12,6 +12,7 @@ local default_config = {
   start_time = { hour = 5, min = 0 },
   end_time = { hour = 21, min = 0 },
   done_task_position = "top",
+  readjust_interval_minutes = 30,
 }
 
 M.config = {}
@@ -97,6 +98,55 @@ M.highlight_delayed_tasks = function()
         vim.api.nvim_buf_add_highlight(buf, DELAYED_TASK_NAMESPACE_ID, DELAYED_HIGHLIGHT_GROUP, idx - 1, 0, -1)
       end
     end
+  end
+end
+
+M.readjust_timers = function()
+  local buf = vim.api.nvim_get_current_buf()
+  local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+  local cur_time = os.date("*t")
+  local current_minutes = cur_time.hour * 60 + cur_time.min
+
+  local overdue_tasks = {}
+  for idx, line in ipairs(lines) do
+    local checklist_obj = utils.Checklist.from_str(line)
+    if checklist_obj and checklist_obj:is_open() then
+      local task_minutes = checklist_obj:day_minutes()
+
+      if task_minutes < current_minutes then
+        table.insert(overdue_tasks, {
+          line_index = idx - 1,
+          original_time = task_minutes,
+          line = line,
+        })
+      end
+    end
+  end
+
+  table.sort(overdue_tasks, function(a, b)
+    return a.original_time < b.original_time
+  end)
+
+  for i, task in ipairs(overdue_tasks) do
+    local interval = M.config.readjust_interval_minutes or 30
+    local new_minutes = current_minutes + (interval * (i - 1))
+    local new_hour = math.floor(new_minutes / 60)
+    local new_min = new_minutes % 60
+    local new_time = string.format("%02d:%02d", new_hour, new_min)
+
+    local new_line = task.line:gsub("%d%d?[:.]%d%d%s*[ap]?m?", new_time)
+    if new_line == task.line then
+      new_line = task.line:gsub("(- %[%])", "%1 " .. new_time, 1)
+    end
+
+    vim.api.nvim_buf_set_lines(buf, task.line_index, task.line_index + 1, false, { new_line })
+    log.debug("Readjusted task from line " .. (task.line_index + 1) .. " to " .. new_time)
+  end
+
+  if #overdue_tasks > 0 then
+    vim.notify("Readjusted " .. #overdue_tasks .. " overdue task(s)", vim.log.levels.INFO)
+  else
+    vim.notify("No overdue tasks to readjust", vim.log.levels.INFO)
   end
 end
 
@@ -288,14 +338,23 @@ function M.setup(user_opts)
   vim.validate({
     schedule = { user_opts.schedule, "table", true },
     done_task_position = { user_opts.done_task_position, "string", true },
+    readjust_interval_minutes = { user_opts.readjust_interval_minutes, "number", true },
   })
 
   if user_opts.done_task_position then
     local valid = { top = true, bottom = true, none = true }
     if not valid[user_opts.done_task_position] then
-      vim.notify("Invalid done_task_position: " .. user_opts.done_task_position .. " (must be 'top', 'bottom', or 'none')", vim.log.levels.ERROR)
+      vim.notify(
+        "Invalid done_task_position: " .. user_opts.done_task_position .. " (must be 'top', 'bottom', or 'none')",
+        vim.log.levels.ERROR
+      )
       user_opts.done_task_position = nil
     end
+  end
+
+  if user_opts.readjust_interval_minutes and user_opts.readjust_interval_minutes <= 0 then
+    vim.notify("Invalid readjust_interval_minutes: " .. user_opts.readjust_interval_minutes .. " (must be > 0)", vim.log.levels.ERROR)
+    user_opts.readjust_interval_minutes = nil
   end
 
   -- Check nested values if they exist

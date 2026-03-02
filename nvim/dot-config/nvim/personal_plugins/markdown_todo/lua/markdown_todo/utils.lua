@@ -28,6 +28,13 @@ function Checklist:is_open()
   return self.status == CHECKLIST_STATUS.OPEN
 end
 
+function Checklist:day_minutes()
+  local task_hour = tonumber(self.time:sub(1, 2))
+  local task_min = tonumber(self.time:sub(4, 5))
+  local task_minutes = task_hour * 60 + task_min
+  return task_minutes
+end
+
 function Checklist.get_time(text)
   local default_time = "24:00"
   -- Matches: "10:30", "10.30pm", "10:30 AM"

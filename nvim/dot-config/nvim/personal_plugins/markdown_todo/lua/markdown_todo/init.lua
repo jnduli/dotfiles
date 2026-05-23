@@ -19,35 +19,77 @@ M.config = {}
 
 local DELAYED_TASK_NAMESPACE_ID = vim.api.nvim_create_namespace("DelayedTaskNamespace")
 local DELAYED_HIGHLIGHT_GROUP = "DelayedTaskHighlight"
-vim.api.nvim_set_hl(0, DELAYED_HIGHLIGHT_GROUP, { bg = "#711D1D", fg = "#FFFFFF" }) -- Red background, white text
 
-vim.api.nvim_set_hl(0, utils.STARS_HIGHLIGHT_GROUP, { fg = "#ffc000", bold = true, default = true })
+local COLORS = {
+  dark = {
+    delayed_bg      = "#711D1D",
+    delayed_fg      = "#FFFFFF",
+    stars           = "#ffc000",
+    status_gradient = {
+      "#FF0000", "#FF3300", "#FF6600", "#FF9900", "#FFCC00", "#FFFF00",
+      "#CCFF00", "#99FF00", "#66FF00", "#33FF00", "#00FF00",
+    },
+  },
+  light = {
+    delayed_bg      = "#FFCCCC",
+    delayed_fg      = "#7A0000",
+    stars           = "#B8860B",
+    status_gradient = {
+      "#FFB3B3", "#FFBBA0", "#FFC880", "#FFD966", "#FFEE66", "#FFFF99",
+      "#EEFF88", "#CCFF99", "#B3FF99", "#99FF88", "#80FF80",
+    },
+  },
+}
+
+local function theme()
+  return COLORS[vim.o.background] or COLORS.dark
+end
+
+local function get_section_boundaries(lnum)
+  local total_lines = vim.api.nvim_buf_line_count(0)
+
+  local function is_checklist(line)
+    return line and line:match("^%s*[-*]%s*")
+  end
+
+  local section_start = lnum
+  for i = lnum - 1, 0, -1 do
+    local line = vim.api.nvim_buf_get_lines(0, i, i + 1, false)[1]
+    if not is_checklist(line) then
+      break
+    end
+    section_start = i
+  end
+
+  local section_end = lnum
+  for i = lnum + 1, total_lines - 1 do
+    local line = vim.api.nvim_buf_get_lines(0, i, i + 1, false)[1]
+    if not is_checklist(line) then
+      break
+    end
+    section_end = i
+  end
+
+  return section_start, section_end
+end
+
+M.get_section_boundaries = get_section_boundaries
 
 M.move_up_checklist_item = function(lnum)
   if not lnum then
     lnum = vim.fn.getcurpos()[2] - 1
   end
-  local up_lnum = lnum - 1
-  while up_lnum > 0 do
-    local current_line = vim.api.nvim_buf_get_lines(0, up_lnum, up_lnum + 1, false)[1]
-    local checklist = utils.Checklist.from_str(current_line)
-    if checklist == nil or checklist.content == "" then
-      break
-    end
-    if checklist:is_done() then
-      break
-    end
-    up_lnum = up_lnum - 1
-  end
+  local section_start, _ = get_section_boundaries(lnum)
+  local up_lnum = section_start
 
-  if lnum == up_lnum + 1 then -- same line
+  if lnum == up_lnum then -- same line
     return
   end
 
   local line = vim.api.nvim_buf_get_lines(0, lnum, lnum + 1, false)[1]
   log.debug("Moving " .. line .. " from: " .. lnum .. " to: " .. up_lnum)
   vim.api.nvim_buf_set_lines(0, lnum, lnum + 1, false, {})
-  vim.api.nvim_buf_set_lines(0, up_lnum + 1, up_lnum + 1, false, { line })
+  vim.api.nvim_buf_set_lines(0, up_lnum, up_lnum, false, { line })
 end
 
 M.move_down_checklist_item = function(lnum)
@@ -55,24 +97,8 @@ M.move_down_checklist_item = function(lnum)
     lnum = vim.fn.getcurpos()[2] - 1
   end
   local total_lines = vim.api.nvim_buf_line_count(0)
-  local down_lnum = lnum + 1
-  local found_done = false
-  while down_lnum < total_lines do
-    local current_line = vim.api.nvim_buf_get_lines(0, down_lnum, down_lnum + 1, false)[1]
-    local checklist = utils.Checklist.from_str(current_line)
-    if checklist == nil or checklist.content == "" then
-      break
-    end
-    if not checklist:is_done() then
-      break
-    end
-    found_done = true
-    down_lnum = down_lnum + 1
-  end
-
-  if not found_done then
-    down_lnum = total_lines
-  end
+  local _, section_end = get_section_boundaries(lnum)
+  local down_lnum = section_end + 1
 
   if lnum == down_lnum - 1 then -- same line
     return
@@ -81,21 +107,61 @@ M.move_down_checklist_item = function(lnum)
   local line = vim.api.nvim_buf_get_lines(0, lnum, lnum + 1, false)[1]
   log.debug("Moving " .. line .. " from: " .. lnum .. " to: " .. down_lnum)
   vim.api.nvim_buf_set_lines(0, lnum, lnum + 1, false, {})
-  vim.api.nvim_buf_set_lines(0, down_lnum, down_lnum, false, { line })
+  vim.api.nvim_buf_set_lines(0, down_lnum - 1, down_lnum - 1, false, { line })
+end
+
+local function get_file_date()
+  local filename = vim.fn.expand("%:t:r")
+  local year, month, day = filename:match("(%d%d%d%d)-(%d%d)-(%d%d)")
+  if year then
+    return { year = tonumber(year), month = tonumber(month), day = tonumber(day) }
+  end
+  return nil
+end
+
+local function file_date_relation(file_date)
+  local today = os.date("*t")
+  local today_ts = os.time({ year = today.year, month = today.month, day = today.day, hour = 0, min = 0, sec = 0 })
+  local file_ts = os.time({ year = file_date.year, month = file_date.month, day = file_date.day, hour = 0, min = 0, sec = 0 })
+  local diff = math.floor((file_ts - today_ts) / 86400)
+  if diff == 0 then
+    return "today"
+  elseif diff > 0 then
+    return "future"
+  else
+    return "past"
+  end
 end
 
 M.highlight_delayed_tasks = function()
   local buf = vim.api.nvim_get_current_buf()
   vim.api.nvim_buf_clear_namespace(buf, DELAYED_TASK_NAMESPACE_ID, 0, -1)
+
+  local file_date = get_file_date()
+  local relation = file_date and file_date_relation(file_date) or "today"
+
+  if relation == "future" then
+    return
+  end
+
   local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
-  local cur_time = os.date("*t")
-  local compare_minutes = cur_time.hour * 60 + cur_time.min
-  for idx, line in ipairs(lines) do
-    local checklist_obj = utils.Checklist.from_str(line)
-    if checklist_obj and checklist_obj:is_open() then
-      if checklist_obj:day_minutes() < compare_minutes then
-        -- Add highlight to the entire line (idx-1 because nvim_buf_add_highlight is 0-indexed)
+
+  if relation == "past" then
+    for idx, line in ipairs(lines) do
+      local checklist_obj = utils.Checklist.from_str(line)
+      if checklist_obj and checklist_obj:is_open() then
         vim.api.nvim_buf_add_highlight(buf, DELAYED_TASK_NAMESPACE_ID, DELAYED_HIGHLIGHT_GROUP, idx - 1, 0, -1)
+      end
+    end
+  else
+    local cur_time = os.date("*t")
+    local compare_minutes = cur_time.hour * 60 + cur_time.min
+    for idx, line in ipairs(lines) do
+      local checklist_obj = utils.Checklist.from_str(line)
+      if checklist_obj and checklist_obj:is_open() then
+        if checklist_obj:day_minutes() < compare_minutes then
+          vim.api.nvim_buf_add_highlight(buf, DELAYED_TASK_NAMESPACE_ID, DELAYED_HIGHLIGHT_GROUP, idx - 1, 0, -1)
+        end
       end
     end
   end
@@ -208,27 +274,21 @@ end
 local STATS_NAMESPACE_ID = vim.api.nvim_create_namespace("StatsVirtualTextNamespace")
 local GLOBAL_TOP_LINE_INDEX = nil
 
-local STATUS_COLORS = {
-  "#FF0000",
-  "#FF3300",
-  "#FF6600",
-  "#FF9900",
-  "#FFCC00",
-  "#FFFF00",
-  "#CCFF00",
-  "#99FF00",
-  "#66FF00",
-  "#33FF00",
-  "#00FF00",
-}
 M.highlight_name = function(idx)
   return string.format("StatsHighlight_%d", idx)
 end
 
 M.create_stats_highlight_groups = function()
-  for idx, color in ipairs(STATUS_COLORS) do
+  for idx, color in ipairs(theme().status_gradient) do
     vim.api.nvim_set_hl(0, M.highlight_name(idx), { fg = "black", bg = color, bold = true })
   end
+end
+
+local function setup_highlights()
+  local t = theme()
+  vim.api.nvim_set_hl(0, DELAYED_HIGHLIGHT_GROUP, { bg = t.delayed_bg, fg = t.delayed_fg })
+  vim.api.nvim_set_hl(0, utils.STARS_HIGHLIGHT_GROUP, { fg = t.stars, bold = true })
+  M.create_stats_highlight_groups()
 end
 
 M.get_stats_highlight = function(ratio)
@@ -374,6 +434,12 @@ function M.setup(user_opts)
   end
 
   M.config = vim.tbl_deep_extend("force", default_config, user_opts or {})
+
+  setup_highlights()
+  vim.api.nvim_create_autocmd("ColorScheme", {
+    group = vim.api.nvim_create_augroup("MarkdownTodoHighlights", { clear = true }),
+    callback = setup_highlights,
+  })
 end
 
 return M
